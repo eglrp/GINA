@@ -44,7 +44,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\PINA\IMUSimulator\IMUSim\ALGLIB\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\LUS2BP\Source\Repos\PINA_IMUSim\ALGLIB\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>AE_THREADING=AE_SERIAL_UNSAFE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -66,35 +66,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\ALGLIB\src\alglibinternal.cpp" />
-    <ClCompile Include="..\ALGLIB\src\alglibmisc.cpp" />
-    <ClCompile Include="..\ALGLIB\src\ap.cpp" />
-    <ClCompile Include="..\ALGLIB\src\dataanalysis.cpp" />
-    <ClCompile Include="..\ALGLIB\src\diffequations.cpp" />
-    <ClCompile Include="..\ALGLIB\src\fasttransforms.cpp" />
-    <ClCompile Include="..\ALGLIB\src\integration.cpp" />
-    <ClCompile Include="..\ALGLIB\src\interpolation.cpp" />
-    <ClCompile Include="..\ALGLIB\src\linalg.cpp" />
-    <ClCompile Include="..\ALGLIB\src\optimization.cpp" />
-    <ClCompile Include="..\ALGLIB\src\solvers.cpp" />
-    <ClCompile Include="..\ALGLIB\src\specialfunctions.cpp" />
-    <ClCompile Include="..\ALGLIB\src\statistics.cpp" />
+    <ClCompile Include="..\..\ALGLIB\src\alglibinternal.cpp" />
+    <ClCompile Include="..\..\ALGLIB\src\alglibmisc.cpp" />
+    <ClCompile Include="..\..\ALGLIB\src\ap.cpp" />
+    <ClCompile Include="..\..\ALGLIB\src\dataanalysis.cpp" />
+    <ClCompile Include="..\..\ALGLIB\src\diffequations.cpp" />
+    <ClCompile Include="..\..\ALGLIB\src\fasttransforms.cpp" />
+    <ClCompile Include="..\..\ALGLIB\src\integration.cpp" />
+    <ClCompile Include="..\..\ALGLIB\src\interpolation.cpp" />
+    <ClCompile Include="..\..\ALGLIB\src\linalg.cpp" />
+    <ClCompile Include="..\..\ALGLIB\src\optimization.cpp" />
+    <ClCompile Include="..\..\ALGLIB\src\solvers.cpp" />
+    <ClCompile Include="..\..\ALGLIB\src\specialfunctions.cpp" />
+    <ClCompile Include="..\..\ALGLIB\src\statistics.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ALGLIB\src\alglibinternal.h" />
-    <ClInclude Include="..\ALGLIB\src\alglibmisc.h" />
-    <ClInclude Include="..\ALGLIB\src\ap.h" />
-    <ClInclude Include="..\ALGLIB\src\dataanalysis.h" />
-    <ClInclude Include="..\ALGLIB\src\diffequations.h" />
-    <ClInclude Include="..\ALGLIB\src\fasttransforms.h" />
-    <ClInclude Include="..\ALGLIB\src\integration.h" />
-    <ClInclude Include="..\ALGLIB\src\interpolation.h" />
-    <ClInclude Include="..\ALGLIB\src\linalg.h" />
-    <ClInclude Include="..\ALGLIB\src\optimization.h" />
-    <ClInclude Include="..\ALGLIB\src\solvers.h" />
-    <ClInclude Include="..\ALGLIB\src\specialfunctions.h" />
-    <ClInclude Include="..\ALGLIB\src\statistics.h" />
+    <ClInclude Include="..\..\ALGLIB\src\alglibinternal.h" />
+    <ClInclude Include="..\..\ALGLIB\src\alglibmisc.h" />
+    <ClInclude Include="..\..\ALGLIB\src\ap.h" />
+    <ClInclude Include="..\..\ALGLIB\src\dataanalysis.h" />
+    <ClInclude Include="..\..\ALGLIB\src\diffequations.h" />
+    <ClInclude Include="..\..\ALGLIB\src\fasttransforms.h" />
+    <ClInclude Include="..\..\ALGLIB\src\integration.h" />
+    <ClInclude Include="..\..\ALGLIB\src\interpolation.h" />
+    <ClInclude Include="..\..\ALGLIB\src\linalg.h" />
+    <ClInclude Include="..\..\ALGLIB\src\optimization.h" />
+    <ClInclude Include="..\..\ALGLIB\src\solvers.h" />
+    <ClInclude Include="..\..\ALGLIB\src\specialfunctions.h" />
+    <ClInclude Include="..\..\ALGLIB\src\statistics.h" />
+    <ClInclude Include="..\..\ALGLIB\src\stdafx.h" />
     <ClInclude Include="..\ALGLIB\src\stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
