@@ -5,7 +5,7 @@
 #include "linalg.h"
 
 using namespace std;
-
+// Test
 int main(int argc, char **argv){
 	alglib::boolean_1d_array b1;
 	b1 = "[true]";
