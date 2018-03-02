@@ -79,7 +79,11 @@
     <ClCompile Include="..\..\ALGLIB\src\solvers.cpp" />
     <ClCompile Include="..\..\ALGLIB\src\specialfunctions.cpp" />
     <ClCompile Include="..\..\ALGLIB\src\statistics.cpp" />
+    <ClCompile Include="ConcreteDataProcess.cpp" />
+    <ClCompile Include="Data.cpp" />
+    <ClCompile Include="Header.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PinaFile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ALGLIB\src\alglibinternal.h" />
@@ -97,6 +101,10 @@
     <ClInclude Include="..\..\ALGLIB\src\statistics.h" />
     <ClInclude Include="..\..\ALGLIB\src\stdafx.h" />
     <ClInclude Include="..\ALGLIB\src\stdafx.h" />
+    <ClInclude Include="ConcreteDataProcess.h" />
+    <ClInclude Include="Data.h" />
+    <ClInclude Include="Header.h" />
+    <ClInclude Include="PinaFile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

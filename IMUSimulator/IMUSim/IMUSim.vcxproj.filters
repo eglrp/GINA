@@ -16,6 +16,9 @@
     <Filter Include="Header Files\ALGLIB">
       <UniqueIdentifier>{a5e6dcf2-43b7-4d28-8ff3-4a770bc8ee78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="pinaParser">
+      <UniqueIdentifier>{66087a2f-ed0b-435b-a34f-ec2245a4f4ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -59,6 +62,18 @@
     </ClCompile>
     <ClCompile Include="..\..\ALGLIB\src\statistics.cpp">
       <Filter>Header Files\ALGLIB</Filter>
+    </ClCompile>
+    <ClCompile Include="ConcreteDataProcess.cpp">
+      <Filter>pinaParser</Filter>
+    </ClCompile>
+    <ClCompile Include="Data.cpp">
+      <Filter>pinaParser</Filter>
+    </ClCompile>
+    <ClCompile Include="Header.cpp">
+      <Filter>pinaParser</Filter>
+    </ClCompile>
+    <ClCompile Include="PinaFile.cpp">
+      <Filter>pinaParser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +121,18 @@
     </ClInclude>
     <ClInclude Include="..\..\ALGLIB\src\stdafx.h">
       <Filter>Header Files\ALGLIB</Filter>
+    </ClInclude>
+    <ClInclude Include="ConcreteDataProcess.h">
+      <Filter>pinaParser</Filter>
+    </ClInclude>
+    <ClInclude Include="Data.h">
+      <Filter>pinaParser</Filter>
+    </ClInclude>
+    <ClInclude Include="Header.h">
+      <Filter>pinaParser</Filter>
+    </ClInclude>
+    <ClInclude Include="PinaFile.h">
+      <Filter>pinaParser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
