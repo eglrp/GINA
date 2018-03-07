@@ -11,6 +11,7 @@ ConcreteDataProcess::~ConcreteDataProcess(){
 void ConcreteDataProcess::copy(PinaFile pina_file){
 	data = pina_file.data;
 	type = pina_file.header.type;
+	position_format = pina_file.header.position_format;
 }
 
 void ConcreteDataProcess::print()
