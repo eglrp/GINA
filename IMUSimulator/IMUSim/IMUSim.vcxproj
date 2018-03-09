@@ -104,7 +104,12 @@
     <ClInclude Include="ConcreteDataProcess.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="Header.h" />
+    <ClInclude Include="InsTkFunctions.h" />
     <ClInclude Include="PinaFile.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="IMUSim.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
