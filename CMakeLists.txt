@@ -88,6 +88,10 @@ set (EXTRA_LIBS ${EXTRA_LIBS} IMUSimulatorLibrary)
 
 add_subdirectory (GNSSsimulator)
 
+
+option( BUILD_EXC1 "HELP: BUILD_EXC1: SWITCH, Default = ON, Build the GNSS Competence Team - 1st exercise" ON )
+add_subdirectory (GNSS_Competence_Team) 
+
 add_subdirectory (PINA)
 
 
