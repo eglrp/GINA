@@ -1,2 +1,3 @@
-# IMUSimulator
-IMU simulator and Trajectory generator
+Precise Integrated Navigation Algorithm
+PINA Project
+
