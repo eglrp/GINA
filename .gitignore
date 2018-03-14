@@ -31,3 +31,4 @@
 *.out
 *.app
 /Build
+/bin/Debug

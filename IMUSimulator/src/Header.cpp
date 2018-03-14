@@ -62,29 +62,33 @@ void Header::hand_out_double_data(string keyword, vector<double> data) {
 		//epoch_time = data[0];
 		//cout << " $epoch$ " << data[0]<< endl;
 		epoch_time = data[0];
-		
+		//copy(data.begin(), data.end(), epoch_time);
 	}
 }
 void Header::hand_out_string_data(string keyword, vector<string>data) {
 	if (keyword == "CREATOR") { 
-		
+		//copy(data.begin(), data.end(), creator);
+		//cout << " $CREATOR$ " << data[0] << endl;
 		creator = data;
 	}
 	if (keyword == "TIME OF CREATION") { 
-		
+		//copy(data[1].begin(), data[1].end(), time_of_creation);
+		//cout << " $TIME OF CREATION$ " << data[0] <<endl;
 		time_of_creation = data[0];
 	}
 	if (keyword == "TIME SYSTEM") { 
-		
+		//copy(data[2].begin(), data[2].end(), time_system);
+		//cout << " $TIME SYSTEM$ " << data[0]<< endl;
 		time_system = data[0];
 	}
 	if (keyword == "POSITION FORMAT") { 
-		
+		//copy(data[3].begin(), data[3].end(), position_format);
+		//cout << " $POSITION FORMAT$ " << data[0]<< endl;
 		position_format  = data[0];
 	}
 	if (keyword == "TYPE") {
 		type = data;
-		
+		//cout << " $TYPE$ " << data[0] << endl;
 		
 	}
 }
