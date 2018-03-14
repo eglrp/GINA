@@ -82,7 +82,7 @@ public:
 		that were stored in the RINEX file.
 		@ Return double [meters]
 	*/
-	double getPseudorangeatEpoch(SatID&, CivilTime&);
+	double getPseudorangeatEpoch(SatID, CivilTime&);
 
 	PseudoRangeContainer getPseudorangeContainer();
 
@@ -91,9 +91,16 @@ private:
 	GPSEphemerisStore ephemerisStore;
 	GPSEphemeris ephemeris;
 	RinexSatID sat;
+	SatID templatesat;
+	//vector<SatID> satIDContainer;
+
 	/* Contains the C1 Pseudorange for every RINEX epoch for each satellite
 	*/
 	PseudoRangeContainer pseudoRangeContainer;
+
+	/*
+	*/
+	void satID_check_isPresent();
 
 
 	

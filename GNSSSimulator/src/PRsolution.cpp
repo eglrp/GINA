@@ -16,7 +16,7 @@ double gnsssimulator::PRsolution::getPRSolution_abs(gpstk::Triple& in_trajpos, g
 	double xdiff = pos_diff.X();
 	double ydiff = pos_diff.Y();
 	double zdiff = pos_diff.Z();
-
+	
 	//Signal Travel Time
 	calculate_signaltt(in_satpos, in_trajpos);
 
@@ -61,7 +61,6 @@ void gnsssimulator::PRsolution::createRinexFile(void)
 	out_stream << ref_head;
 
 #pragma region Data Manipulation
-	// TODO: Finish Data Frame creation and offload to out_stream
 	Triple roverpos, satpos;
 	std::vector<RinexDatum> datumvec;
 	RinexDatum datum;
@@ -90,7 +89,6 @@ void gnsssimulator::PRsolution::createRinexFile(void)
 
 #pragma endregion
 	
-	//ref_head.dump(cout);
 	cout << "[Success] Rinex Created." << endl;
 
 	out_stream.close();

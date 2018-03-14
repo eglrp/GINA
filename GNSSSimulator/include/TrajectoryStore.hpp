@@ -14,7 +14,7 @@ namespace gnsssimulator {
 		gpstk::Position::CoordinateSystem coorSys = gpstk::Position::CoordinateSystem::Unknown;
 
 		TrajectoryData& addPosition(TrajectoryData);
-		TrajectoryData& findPosition(gpstk::GPSWeekSecond);
+		TrajectoryData findPosition(gpstk::GPSWeekSecond);
 		/* Return epochs as a vector from the Trajectoryfile.
 		*/
 		vector<gpstk::GPSWeekSecond> listTime(void); // TODO tudja kilistázni a benne levo idoket.

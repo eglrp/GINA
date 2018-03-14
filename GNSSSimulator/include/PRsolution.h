@@ -14,6 +14,8 @@ namespace gnsssimulator {
 class PRsolution {
 
 public:
+	const int C_light = 299792458;	//Speed of light: 299792458 [m/s]
+
 	PRsolution();
 	~PRsolution();
 
@@ -49,7 +51,6 @@ public:
 	double getSignal_tt();
 
 private:
-	const int C_light = 299792458;	//Speed of light [m/s]
 	double signal_tt;	//Signal Travel Time for the full PseudoRange
 	void calculate_signaltt(Triple&,Triple&);
 

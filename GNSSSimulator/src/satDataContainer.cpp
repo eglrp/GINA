@@ -11,10 +11,10 @@ satDataContainer::~satDataContainer()
 
 
 
+
 void satDataContainer::assemblePseudoRangeContainer(SatID inSat, CivilTime inTime, double inPRange)
 {
 	pseudoRangeContainer[inSat][inTime] = inPRange;
-
 }
 
 void satDataContainer::passEphemerisStore(GPSEphemerisStore &eph)
@@ -44,8 +44,8 @@ std::vector<CivilTime> satDataContainer::getEpochVectorforSat(SatID& querySat)
 
 std::vector<SatID> satDataContainer::getSatIDvectorlist(void)
 {
-	std::vector<SatID> return_vec; // TODO
-	for (auto& it : pseudoRangeContainer) {
+	std::vector<SatID> return_vec; // TODO	Modify to get vector from NAV instead of OBS || Might not needed, contains nav data for all of the satellites for certain epochs
+for (auto& it : pseudoRangeContainer) {
 		return_vec.push_back(it.first);
 	}
 	return return_vec;
@@ -99,7 +99,7 @@ OrbitEph satDataContainer::getSatInfoAtEpoch(SatID& query_sat, CivilTime& query_
 	return ephemeris;
 }
 
-double satDataContainer::getPseudorangeatEpoch(SatID &querysat, CivilTime &querytime)
+double satDataContainer::getPseudorangeatEpoch(SatID querysat, CivilTime &querytime)
 {
 	double return_range;
 	return_range = pseudoRangeContainer.at(querysat).at(querytime);
