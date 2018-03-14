@@ -1,0 +1,7 @@
+alma alma 1 2 3
+körte 3 4 5
+béla 6 7 8
+géza 9 10 11
+alma 1 2 3
+géza géza géza 9 10 11
+géza géza géza 9 10 11
