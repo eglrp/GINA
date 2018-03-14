@@ -50,7 +50,7 @@ int main(int argc, char **argv){
 	//typedef std::numeric_limits< double > dbl;
 	//cout.precision(dbl::max_digits10);
 	string trajectoryFile = "..//..//IMUSimulator//files//example_trajectory.pina";
-	string IMU_inputFile = "example_IMU_Input.pina";
+	string IMU_inputFile = "..//..//IMUSimulator//files//example_IMU_Input.pina";
 
 	PinaFile pinaFile(trajectoryFile);
 	pinaFile.header.print_info();
