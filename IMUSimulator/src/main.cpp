@@ -7,7 +7,7 @@
 #include "Data.h"
 #include "PinaFile.h"
 #include "GPSWeekSecond.hpp"
-
+#include "dummy.h"
 using namespace std;
 
 struct geoparam_struct{
@@ -49,7 +49,7 @@ int main(int argc, char **argv){
 
 	//typedef std::numeric_limits< double > dbl;
 	//cout.precision(dbl::max_digits10);
-	string trajectoryFile = "example_trajectory.pina";
+	string trajectoryFile = "..//..//IMUSimulator//files//example_trajectory.pina";
 	string IMU_inputFile = "example_IMU_Input.pina";
 
 	PinaFile pinaFile(trajectoryFile);
