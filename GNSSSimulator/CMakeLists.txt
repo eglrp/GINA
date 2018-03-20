@@ -16,13 +16,11 @@ file(GLOB GNSSSIM_INCL "include/*.h" "include/*.hpp")
 
   # Add every directory containing a header file
   # to the project(gpstk) include_directories
-  include_directories( ${GNSSSim_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${GPSTK_EXT_INC_DIRS})
+  include_directories( ${GNSSSim_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${GPSTK_EXT_INC_DIRS} )
 
   # append ext include files needed to build library target
 
-#Add GNSSim root directory
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}) 
-#set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+
 
 include_directories (include)
 add_executable(GNSSSimulator ${GNSSSIM_SRC} ${GNSSSIM_INCL} )
