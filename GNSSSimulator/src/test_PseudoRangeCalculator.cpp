@@ -387,11 +387,11 @@ int PseudoRangeCalculator_test7(void) {
 	int returnValue = true;
 	bool outputfail = false;
 
-	string trajFileNamewPath = "..\\TrajectoryTestFiles\\TrajectoryFileExample_Generated_Fullday.txt";
-	string navFileNamewPath("..\\RinexFiles\\brdc2530.17n");
+	string trajFileNamewPath = "..\\..\\GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_Generated_Fullday.txt";
+	string navFileNamewPath("..\\..\\GNSSSimulator\\RinexFiles\\brdc2530.17n");
 
-	ofstream ostrm("..\\TrajectoryTestFiles\\output_RaimSolution_test.txt", std::ios::out);	//Output file
-	ofstream ostrm_sattraj("..\\TrajectoryTestFiles\\output_satTrajectory.txt", std::ios::out);
+	ofstream ostrm("..\\..\\GNSSSimulator\\TrajectoryTestFiles\\output_RaimSolution_test.txt", std::ios::out);	//Output file
+	ofstream ostrm_sattraj("..\\..\\GNSSSimulator\\TrajectoryTestFiles\\output_satTrajectory.txt", std::ios::out);
 
 	PseudoRangeCalculator psdRangeCalc;
 	psdRangeCalc.ProcessTrajectoryFile(trajFileNamewPath.c_str());
