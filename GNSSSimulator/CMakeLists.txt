@@ -25,3 +25,9 @@ file(GLOB GNSSSIM_INCL "include/*.h" "include/*.hpp")
 include_directories (include)
 add_executable(GNSSSimulator ${GNSSSIM_SRC} ${GNSSSIM_INCL} )
 target_link_libraries (GNSSSimulator  ${GPSTK_LIBS})
+
+# Create VS Filters	
+set( GNSS_All_FILES "" )	
+list( APPEND GNSS_All_FILES ${GNSSSIM_SRC})
+list( APPEND GNSS_All_FILES ${GNSSSIM_INCL})					
+assign_source_group(${GNSS_All_FILES})

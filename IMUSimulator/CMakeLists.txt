@@ -35,3 +35,9 @@ add_library(IMUSimulator	STATIC 	${IMU_SRC_FILES}
 add_executable(IMUSimulatorProject ${IMU_SRC_FILES} ${IMU_INC_FILES})
 target_link_libraries (IMUSimulatorProject 	PUBLIC gpstk 
 											PRIVATE ALGLIB)
+	
+# Create VS Filters	
+set( IMU_All_FILES "" )	
+list( APPEND IMU_All_FILES ${IMU_SRC_FILES})
+list( APPEND IMU_All_FILES ${IMU_INC_FILES})					
+assign_source_group(${IMU_All_FILES})

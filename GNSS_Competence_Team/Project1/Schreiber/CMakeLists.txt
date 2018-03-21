@@ -27,3 +27,9 @@ include_directories( ${INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${ALGLIB_CORE_INC_DIRS})
 
 add_executable (Exc1_Schreiber ${SRC_FILES} ${INC_FILES})
 target_link_libraries (Exc1_Schreiber gpstk ALGLIB gpstk)
+
+# Create VS Filters	
+set( All_FILES "" )	
+list( APPEND All_FILES ${SRC_FILES})
+list( APPEND All_FILES ${INC_FILES})					
+assign_source_group(${All_FILES})
