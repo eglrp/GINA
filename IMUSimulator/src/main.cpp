@@ -16,8 +16,8 @@ int main(int argc, char **argv){
 	alglib::complex_1d_array example_alglib_array();
 
 
-	//typedef std::numeric_limits< double > dbl;
-	//cout.precision(dbl::max_digits10);
+	typedef std::numeric_limits< double > dbl;
+    cout.precision(dbl::max_digits10);
 	string trajectoryFile = "..//..//IMUSimulator//files//example_trajectory.pina";
 	string IMU_inputFile = "..//..//IMUSimulator//files//example_IMU_Input.pina";
 
@@ -34,11 +34,21 @@ int main(int argc, char **argv){
 	pinaFile.print_data();
 
 	ConcreteDataProcess CDataProcess;
-	CDataProcess.copy(pinaFile);
+	CDataProcess.copy(IMU_inputFile);
 	CDataProcess.print();
-	double foo[3] = { 0,1,3 };
-	pos2cne(foo);
+
+	double foo_to_cne[3] = { 0,1,3 };
+	pos2cne(foo_to_cne);
+	//In this case, cbn = eye; and I'v got eye -> pos2cbn() OK! 2018.03.21.
+	double foo_to_cbe[3] = { 0,0,0 }; 
+	pos2cbn(foo_to_cbe);
 	//strap..()
+
+	Cbe(pos2cne(foo_to_cne), pos2cbn(foo_to_cbe));
 	getchar();
+
+	strapdown(CDataProcess.data[1]);
+	getchar();
+
 	return 0;
 }

@@ -10,9 +10,6 @@
 using namespace std;
 using namespace alglib;
 
-
-
-
 double WIE_E = 7292115e-11;				//Earth rotation speed [rad/s]
 double SM_AXIS = 6378137; 				//WGS84 Semi-major axis [m]
 double E_SQR = 0.00669437999014;		//First eccentricity squared  1-(b^2/a^2)
@@ -33,6 +30,22 @@ double norm(const Data data) {
 	vector[2] = data.attitude[2];
 	return norm(vector);
 }
+double factorial(const int n) {
+	unsigned long long factorial = 1;
+	if (n < 0) {
+		cout << "Error negative factorial!" << endl;
+	}
+	if (n == 0) {
+		cout << "\n" << "factorial(" << n << ")=" << factorial << endl;
+		return factorial;
+	}
+	for (int i = 1; i <= n; ++i)
+	{
+		factorial *= i;
+	}
+	cout << "\n" << "factorial(" << n << ")=" << factorial << endl;
+	return factorial;
+}
 
 double* add(const double a[],const double b[]) {
 	double c[3];
@@ -43,7 +56,7 @@ double* add(const double a[],const double b[]) {
 	return c;
 }
 real_2d_array add(const real_2d_array A, const real_2d_array B) {
-	real_2d_array C;
+	real_2d_array C("[[0,0,0],[0,0,0],[0,0,0]]");
 	for (int rows = 0;rows < A.rows();++rows) {
 		for (int cols = 0;cols < A.cols();++cols) {
 			C[rows][cols] = A[rows][cols]+B[rows][cols];
@@ -52,11 +65,12 @@ real_2d_array add(const real_2d_array A, const real_2d_array B) {
 	return C;
 }
 real_2d_array add(const real_2d_array A, const real_2d_array B, const real_2d_array C) {
-	real_2d_array D;
-
+	real_2d_array D("[[0,0,0],[0,0,0],[0,0,0]]");
+	real_2d_array A_p_B("[[0,0,0],[0,0,0],[0,0,0]]");
+	A_p_B = add(A, B);
 	for (int rows = 0;rows < A.rows();++rows) {
 		for (int cols = 0;cols < A.cols();++cols) {
-			D[rows][cols] = add(A, B)[rows][cols] + C[rows][cols];
+			D[rows][cols] = A_p_B[rows][cols] + C[rows][cols];
 		}
 	}
 	return D;
@@ -69,7 +83,6 @@ double* cross(double* a, double* b) {
 	c[2] = a[0] * b[1] - a[1] * b[0];
 	return c;
 }
-
 double* matrix_vector_product(real_2d_array M, double* v){
 	double res[3];
 	
@@ -83,34 +96,8 @@ double* matrix_vector_product(real_2d_array M, double* v){
 	return res;
 }
 
-double factorial(unsigned int n){
-	unsigned long long factorial = 1;
-	if (n < 0) {
-		cout << "Error negative factorial!" << endl;
-	}
-	if (n = 0) {
-		cout << "\n" << "factorial(" << n << ")=" << factorial << endl;
-		return factorial;
-	}
-	for (int i = 1; i <= n; ++i)
-	{
-		factorial *= i;
-	}
-	cout<<"\n"<< "factorial(" << n << ")=" << factorial << endl;
-	return factorial;
-}
-
-/*
-void multiply_sclr(double scalar,double vector[3]) {
-	int vector_length = sizeof(vector) / sizeof(double);
-	for (int i = 0;i < vector_length;++i) {
-		vector[i] = scalar*vector[i];
-	}
-}
-*/
-
 double* multiply_sclr(const double scalar, const double vector[3]) {
-	double* res;
+	double res[3];
 	int vector_length = sizeof(vector) / sizeof(double);
 	for (int i = 0;i < vector_length;++i) {
 		res[i] = scalar*vector[i];
@@ -122,11 +109,12 @@ real_2d_array pos2cne(const double position[3]) {
 	double cosL = cos(position[1]);
 	double sinl = sin(position[0]);
 	double cosl = cos(position[0]);
+
 	double data[9] = { -sinL*cosl, -sinl, -cosL*cosl, -sinL*cosl, cosl, -cosL*sinl, cosl, 0, sinL };
 	alglib::real_2d_array Cne;
 	Cne.setcontent(3, 3, data);
 
-	cout << "\n Cne.rows =" << Cne.rows() << " Cne.cols" << Cne.cols() << "\n" << endl;
+	cout << "\n Cne.rows =" << Cne.rows() << " Cne.cols = " << Cne.cols() << "\n" << endl;
 	
 	cout << Cne[0][0] << " " << Cne[0][1] << " " << Cne[0][2] << " " << endl;
 	cout << Cne[1][0] << " " << Cne[1][1] << " " << Cne[1][2] << " " << endl;
@@ -134,13 +122,58 @@ real_2d_array pos2cne(const double position[3]) {
 
 	return Cne;
 }
-
 real_2d_array pos2cne(const Data data) {
 	double position[3];
 	position[0] = data.position[0];
 	position[1] = data.position[1];
 	position[2] = data.position[2];
 	return pos2cne(position);
+}
+real_2d_array pos2cbn(const double attitude[3]) {
+
+	double roll = attitude[0];
+	double pitch = attitude[1];
+	double yaw = attitude[2];
+	
+	double C_11 = cos(yaw)*cos(roll)-sin(yaw)*sin(pitch)*sin(roll);
+	double C_12 = -sin(yaw)*cos(pitch);
+	double C_13 = cos(yaw)*sin(roll)+sin(yaw)*sin(pitch)*cos(roll);
+
+	double C_21 = sin(yaw)*cos(roll)+cos(yaw)*sin(pitch)*sin(roll);
+	double C_22 = cos(yaw)*cos(pitch);
+	double C_23 = sin(yaw)*sin(roll)-cos(yaw)*sin(pitch)*cos(roll);
+
+	double C_31 = -cos(pitch)*sin(roll);
+	double C_32 = sin(pitch);
+	double C_33 = cos(pitch)*cos(roll);
+
+	real_2d_array Cbn;
+	double data[9] = { C_11 , C_12 , C_13 , C_21 , C_22 , C_23 , C_31 , C_32 , C_33 };
+	Cbn.setcontent(3, 3, data);
+
+	cout << "\n Cbn.rows =" << Cbn.rows() << " Cbn.cols = " << Cbn.cols() << "\n" << endl;
+	cout << Cbn[0][0] << " " << Cbn[0][1] << " " << Cbn[0][2] << " " << endl;
+	cout << Cbn[1][0] << " " << Cbn[1][1] << " " << Cbn[1][2] << " " << endl;
+	cout << Cbn[2][0] << " " << Cbn[2][1] << " " << Cbn[2][2] << " " << endl;
+	return Cbn;
+}
+real_2d_array pos2cbn(const Data IMU_data) {
+	double attitude[3]; 
+	attitude[0] = IMU_data.attitude[0];
+	attitude[1] = IMU_data.attitude[1];
+	attitude[2] = IMU_data.attitude[2];
+	return pos2cbn(attitude);
+}
+real_2d_array Cbe(const real_2d_array Cne, const real_2d_array Cbn) {
+	//Cbe=Cne*Cbn
+	real_2d_array Cbe("[[0,0,0],[0,0,0],[0,0,0]]");
+	
+	rmatrixgemm(3, 3, 3, 1, Cne,0,0,0, Cbn, 0,0,0, 0,Cbe, 0,0);
+	cout << "\n Cbe.rows =" << Cbe.rows() << " Cbe.cols = " << Cbe.cols() << "\n" << endl;
+	cout << Cbe[0][0] << " " << Cbe[0][1] << " " << Cbe[0][2] << " " << endl;
+	cout << Cbe[1][0] << " " << Cbe[1][1] << " " << Cbe[1][2] << " " << endl;
+	cout << Cbe[2][0] << " " << Cbe[2][1] << " " << Cbe[2][2] << " " << endl;
+	return Cbe;
 }
 
 struct geoparam_struct {
@@ -173,13 +206,6 @@ geoparam_struct geoparam(const Data data) {
 
 	return geoparam(position);
 }
-
-
-double* skew_data(double* rot) {
-double data[9] = { 0,-rot[2],rot[1] ,rot[2],0,-rot[0],-rot[1],rot[0],0 };
-return data;
-}
-
 /*Just for test... 2018.03.08 - The test was succeeded!*/
 void geoparam_test(ConcreteDataProcess CDP) {
 
@@ -208,6 +234,11 @@ void geoparam_test(ConcreteDataProcess CDP) {
 	cout << "Data were wrote to files, for the test of geoparam()!" << endl;
 }
 
+double* skew_data(double* rot) {
+double data[9] = { 0,-rot[2],rot[1] ,rot[2],0,-rot[0],-rot[1],rot[0],0 };
+return data;
+}
+
 real_2d_array update_attitude(const double angular_velocity [3], const double dt, const real_2d_array C_be) {
 
 	double*  rot;
@@ -223,15 +254,15 @@ real_2d_array update_attitude(const double angular_velocity [3], const double dt
 	double sr_a = 1 - (pow(rot_norm,2) / factorial(3)) + (pow(rot_norm, 4)/factorial(5));
 	double sr_b = (1 /2) - (pow(rot_norm, 2) / factorial(4)) + (pow(rot_norm, 4) / factorial(6));
 
-	const real_2d_array eye("[1,0,0],[0,1,0],[0,0,1]");
-
-	real_2d_array sr_a_mul_skew_rot;
-	//sr_a*rot^
+	const real_2d_array eye("[[1,0,0],[0,1,0],[0,0,1]]");
+	real_2d_array sr_a_mul_skew_rot("[[0,0,0],[0,0,0],[0,0,0]]");
+	//sr_a*skew(rot)
 	rmatrixgemm(3, 3, 3, sr_a, skew_rot, 0, 0, 0, eye, 0, 0, 0, 0, sr_a_mul_skew_rot, 0, 0);
-	real_2d_array sr_b_m_skew_rot_m_skew_rot;
+	real_2d_array sr_b_m_skew_rot_m_skew_rot("[[0,0,0],[0,0,0],[0,0,0]]");
 	//sr_b*skew(rot)*skew(rot)
 	rmatrixgemm(3, 3, 3, sr_b,skew_rot, 0, 0, 0, skew_rot, 0, 0, 0, 0, sr_b_m_skew_rot_m_skew_rot, 0, 0);
-	real_2d_array  mx_a = add(eye, sr_a_mul_skew_rot, sr_b_m_skew_rot_m_skew_rot);
+	real_2d_array  mx_a("[[0,0,0],[0,0,0],[0,0,0]]");
+	mx_a = add(eye, sr_a_mul_skew_rot, sr_b_m_skew_rot_m_skew_rot);
 	//rot = -([0;0;WIE_E])*dt;
 	double wie_e[3] = {0,0,1};
 	rot = multiply_sclr(-1*WIE_E*dt,wie_e);
@@ -251,13 +282,12 @@ real_2d_array update_attitude(const double angular_velocity [3], const double dt
 	real_2d_array  mx_b = add(eye, sr_a_mul_skew_rot, sr_b_m_skew_rot_m_skew_rot);
 
 	//Cbe_new = mx_b*Cbe*mx_a;
-	real_2d_array C_be_m_mx_a; 
+	real_2d_array C_be_m_mx_a("[[0,0,0],[0,0,0],[0,0,0]]");
 	rmatrixgemm(3, 3, 3, 1,mx_a, 0, 0, 0, C_be, 0, 0, 0, 0, C_be_m_mx_a, 0, 0);
-	real_2d_array C_be_new;
+	real_2d_array C_be_new("[[0,0,0],[0,0,0],[0,0,0]]");
 	rmatrixgemm(3, 3, 3, 1, mx_b, 0, 0, 0, C_be_m_mx_a, 0, 0, 0, 0, C_be_new, 0, 0);
 	return C_be_new;
 	}
-
 double* update_velocity(const double velocity[3], const double acceleration[3], const double dt, const real_2d_array C_be,const double ge[3]) {
 	double* Ve_new;
 	double* vel_inc1;
@@ -281,5 +311,40 @@ double* update_velocity(const double velocity[3], const double acceleration[3], 
 	Ve_new =add(start_velocity, add(vel_inc1, vel_inc2));
 	return Ve_new;
 }
+double* update_position(const double* velocity,const double* position,double dt){
+	double new_position[3];
+	//ecef_new = ecef + Ve*dt
+	int length = sizeof(new_position) / sizeof(double);
+		for (int i = 0;i < length;++i) {
+			new_position[i] = position[i] + multiply_sclr(dt, velocity)[i];
+		}
+	return new_position;
+}
 
+Data strapdown(const Data IMU_data) {
 
+	cout << "START STRAPDOWN!" << endl;
+	Data trajectory;
+
+	double ge[3]; 
+	const double* angular_velocity;
+	const double dt = IMU_data.epoch_time;
+	
+	double g_abs = geoparam(IMU_data).gravity;
+	int length = sizeof(ge) / sizeof(double);
+	for (int i = 0;i < length;++i) {
+		ge[i]=-1*pos2cne(IMU_data)[i][2]*g_abs;
+	}
+	cout<<"g_abs ="<< g_abs<<endl;
+	cout << "ge = " << ge[0] << " " << ge[1] << " " << ge[2] << endl;
+	/*
+	angular_velocity = IMU_data.angular_velocity;
+	real_2d_array C_be;
+	real_2d_array C_be_new;
+
+	C_be = Cbe(pos2cne(IMU_data), pos2cbn(IMU_data));
+	C_be_new = update_attitude(angular_velocity,dt,C_be);
+	update_velocity(IMU_data.start_velocity,IMU_data.acceleration,dt,C_be,ge);*/
+	cout << "END STRAPDOWN!" << endl;
+	return trajectory;
+}
