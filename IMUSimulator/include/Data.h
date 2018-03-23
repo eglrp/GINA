@@ -13,6 +13,9 @@ public:
 	double attitude[3];
 
 	static string start_of_data;
+	void load_position(double* new_positioton);
+	void load_attitude(double * new_attitude);
+
 
 	Data();
 	Data(vector<double> one_row, vector<string> type);

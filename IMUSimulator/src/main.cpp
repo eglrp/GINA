@@ -19,8 +19,8 @@ int main(int argc, char **argv){
 	typedef std::numeric_limits< double > dbl;
     cout.precision(dbl::max_digits10);
 	string trajectoryFile = "..//..//IMUSimulator//files//example_trajectory.pina";
-	string IMU_inputFile = "..//..//IMUSimulator//files//example_IMU_Input.pina";
-
+	string IMU_inputFile = "..//..//IMUSimulator//files//steady_state_IMU_Input.pina";
+/*
 	PinaFile pinaFile(trajectoryFile);
 	pinaFile.header.print_info();
 	pinaFile.print_data();
@@ -28,15 +28,18 @@ int main(int argc, char **argv){
 	pinaFile.clear();
 	pinaFile.header.print_info();
 	pinaFile.print_data();
-
+*/
+	PinaFile pinaFile;
 	pinaFile.open(IMU_inputFile);
 	pinaFile.header.print_info();
 	pinaFile.print_data();
 
 	ConcreteDataProcess CDataProcess;
-	CDataProcess.copy(IMU_inputFile);
-	CDataProcess.print();
+	CDataProcess.copy(pinaFile);
+	CDataProcess.print_start_values();
+	CDataProcess.print_data();
 
+	/*
 	double foo_to_cne[3] = { 0,1,3 };
 	pos2cne(foo_to_cne);
 	//In this case, cbn = eye; and I'v got eye -> pos2cbn() OK! 2018.03.21.
@@ -46,8 +49,8 @@ int main(int argc, char **argv){
 
 	Cbe(pos2cne(foo_to_cne), pos2cbn(foo_to_cbe));
 	getchar();
-
-	strapdown(CDataProcess.data[1]);
+	*/
+	strapdown(CDataProcess);
 	getchar();
 
 	return 0;

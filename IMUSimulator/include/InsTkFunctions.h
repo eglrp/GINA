@@ -1,4 +1,5 @@
-﻿#include "stdafx.h"
+﻿#pragma once  // midnen headerbe tedd bele! 
+#include "stdafx.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -7,6 +8,9 @@
 #include "Data.h"
 #include "PinaFile.h"
 #include <iostream>
+#include <algorithm>
+
+
 using namespace std;
 using namespace alglib;
 
@@ -55,6 +59,9 @@ double* add(const double a[],const double b[]) {
 	}
 	return c;
 }
+
+
+
 real_2d_array add(const real_2d_array A, const real_2d_array B) {
 	real_2d_array C("[[0,0,0],[0,0,0],[0,0,0]]");
 	for (int rows = 0;rows < A.rows();++rows) {
@@ -76,7 +83,7 @@ real_2d_array add(const real_2d_array A, const real_2d_array B, const real_2d_ar
 	return D;
 }
 
-double* cross(double* a, double* b) {
+double* cross(double a[], double b[]) {
 	double c[3];
 	c[0] = a[1] * b[2] - a[2] * b[1];
 	c[1] = a[2] * b[0] - a[0] * b[2];
@@ -199,6 +206,7 @@ geoparam_struct geoparam(const double position[3]) {
 	return parameters;
 }
 geoparam_struct geoparam(const Data data) {
+    data.type;
 	double position[3];
 	position[0] = data.position[0];
 	position[1] = data.position[1];
@@ -206,7 +214,7 @@ geoparam_struct geoparam(const Data data) {
 
 	return geoparam(position);
 }
-/*Just for test... 2018.03.08 - The test was succeeded!*/
+/*Just for test. 2018.03.08 - The test was succeeded!*/
 void geoparam_test(ConcreteDataProcess CDP) {
 
 	int number_of_test = CDP.data.size();
@@ -288,16 +296,13 @@ real_2d_array update_attitude(const double angular_velocity [3], const double dt
 	rmatrixgemm(3, 3, 3, 1, mx_b, 0, 0, 0, C_be_m_mx_a, 0, 0, 0, 0, C_be_new, 0, 0);
 	return C_be_new;
 	}
-double* update_velocity(const double velocity[3], const double acceleration[3], const double dt, const real_2d_array C_be,const double ge[3]) {
+double* update_velocity(double velocity[], const double acceleration[3], const double dt, const real_2d_array C_be,const double ge[3]) {
+	
+	cout << " START update_velocity()-----------------------------------------------------------" << endl;
 	double* Ve_new;
 	double* vel_inc1;
 	double* vel_inc2;
-
-	double start_velocity[3];
-	for (int i = 0; i<sizeof(velocity) / sizeof(double); i++) {
-		start_velocity[i] = velocity[i];
-	}
-
+	
 	double*  vel;
 	//vel_inc1 = Cbe*a*dt;
 	vel = multiply_sclr(dt, acceleration);
@@ -305,10 +310,14 @@ double* update_velocity(const double velocity[3], const double acceleration[3], 
 
 	//vel_inc2 = (-ge + 2 * cross(Ve, [0;0;WIE_E]))*dt;
 	double wie_e[3] = { 0,0,WIE_E };
-	vel_inc2 = add(multiply_sclr(-1,ge),multiply_sclr(2*dt, cross(start_velocity, wie_e)));
-
+	vel_inc2 = add(multiply_sclr(-1,ge),multiply_sclr(2*dt, cross(velocity, wie_e)));
+	for (int i = 0;sizeof(velocity) / sizeof(double);++i) {
+		cout<<"vel_inc2 = " << vel_inc2[i];
+	}
 	//Ve_new = Ve + vel_inc1 + vel_inc2;
-	Ve_new =add(start_velocity, add(vel_inc1, vel_inc2));
+	Ve_new =add(velocity, add(vel_inc1, vel_inc2));
+
+	cout << "END update_velocity()--------------------------------------------------------------" << endl;
 	return Ve_new;
 }
 double* update_position(const double* velocity,const double* position,double dt){
@@ -320,31 +329,69 @@ double* update_position(const double* velocity,const double* position,double dt)
 		}
 	return new_position;
 }
-
-Data strapdown(const Data IMU_data) {
-
+ConcreteDataProcess strapdown(ConcreteDataProcess CDP_IMU_Data) {
 	cout << "START STRAPDOWN!" << endl;
-	Data trajectory;
+	ConcreteDataProcess trajectory;
+	trajectory.type = Header::trajectory_type;
+	Data new_data;
 
 	double ge[3]; 
-	const double* angular_velocity;
-	const double dt = IMU_data.epoch_time;
+	double* angular_velocity;
 	
-	double g_abs = geoparam(IMU_data).gravity;
+	double* acceleration;
+
+	double* velocity;
+	double* new_velocity;
+
+	double* attitude;
+	double* new_attitude;
+	
+	double dt;
+
+	angular_velocity = CDP_IMU_Data.data[0].angular_velocity;
+	acceleration = CDP_IMU_Data.data[0].acceleration;
+	cout << acceleration[0] << " " << acceleration[1] << " " << acceleration[2] << endl;
+
+	velocity = CDP_IMU_Data.start_velocity;
+	cout << velocity[0] << " " << velocity[1] << " " << velocity[2] << endl;
+
+	attitude = CDP_IMU_Data.start_attitude;
+
+	dt = CDP_IMU_Data.epoch_time;
+
+	//ge=-Cne(:,3)*g
+	real_2d_array C_ne("[[0,0,0],[0,0,0],[0,0,0]]"); 
+	C_ne = pos2cne(CDP_IMU_Data.start_position);
+
+	double g_abs = geoparam(CDP_IMU_Data.start_position).gravity;
 	int length = sizeof(ge) / sizeof(double);
 	for (int i = 0;i < length;++i) {
-		ge[i]=-1*pos2cne(IMU_data)[i][2]*g_abs;
+		ge[i]=-1*C_ne[i][2]*g_abs;
 	}
 	cout<<"g_abs ="<< g_abs<<endl;
 	cout << "ge = " << ge[0] << " " << ge[1] << " " << ge[2] << endl;
-	/*
-	angular_velocity = IMU_data.angular_velocity;
-	real_2d_array C_be;
-	real_2d_array C_be_new;
 
-	C_be = Cbe(pos2cne(IMU_data), pos2cbn(IMU_data));
+	real_2d_array C_be;
+	real_2d_array C_bn("[[0,0,0],[0,0,0],[0,0,0]]");
+	C_bn = pos2cbn(CDP_IMU_Data.start_attitude);
+	// C_be = C_ne * C_bn
+	C_be = Cbe(C_ne, C_bn);
+	//update C_be matrix
+	real_2d_array C_be_new("[[0,0,0],[0,0,0],[0,0,0]]");
 	C_be_new = update_attitude(angular_velocity,dt,C_be);
-	update_velocity(IMU_data.start_velocity,IMU_data.acceleration,dt,C_be,ge);*/
+	//update velocity
+	new_velocity = update_velocity(velocity,acceleration, dt, C_be, ge);
+	cout <<"new_ volocity" << endl;
+	for (int i = 0;i < length;++i) {
+		cout<< new_velocity[i] <<" ";
+	};cout << endl;
+	//position = velocoty * dt 
+	new_data.load_position(multiply_sclr(dt, new_velocity)); // hibás, Cnb  mátrixvól lehet megkapni 
+	//attitude = angular_velocity *dt
+	new_data.load_attitude(multiply_sclr(dt,angular_velocity));
+	trajectory.data.push_back(new_data);
 	cout << "END STRAPDOWN!" << endl;
+	trajectory.print_data();
+
 	return trajectory;
 }
