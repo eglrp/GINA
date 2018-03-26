@@ -16,8 +16,8 @@ int main(int argc, char **argv){
 	alglib::complex_1d_array example_alglib_array();
 
 
-	typedef std::numeric_limits< double > dbl;
-    cout.precision(dbl::max_digits10);
+	//typedef std::numeric_limits< double > dbl;
+   // cout.precision(dbl::max_digits10);
 	string trajectoryFile = "..//..//IMUSimulator//files//example_trajectory.pina";
 	string IMU_inputFile = "..//..//IMUSimulator//files//steady_state_IMU_Input.pina";
 /*

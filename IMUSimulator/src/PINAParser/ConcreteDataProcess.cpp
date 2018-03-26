@@ -26,8 +26,7 @@ void ConcreteDataProcess::copy(PinaFile pina_file){
 		start_velocity[i] = pina_file.header.start_velocity[i];
 		start_attitude[i] = pina_file.header.start_attitude[i];
 	}
-	epoch_time = pina_file.epoch_time;
-	
+	epoch_time = pina_file.header.epoch_time;
 }
 
 void ConcreteDataProcess::print_data()

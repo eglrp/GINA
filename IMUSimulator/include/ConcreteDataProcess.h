@@ -10,7 +10,6 @@ public:
 	vector<string> type;	// IMU_DATA, trajectory
 	string position_format; // LLH,ECEF
 
-
 	vector<Data> data;		
 	
 	double start_time[2];
