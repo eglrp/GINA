@@ -17,9 +17,10 @@ int main(int argc, char **argv){
 
 
 	//typedef std::numeric_limits< double > dbl;
-	// cout.precision(dbl::max_digits10);
+	//cout.precision(dbl::max_digits10);
 	string trajectoryFile = "..//..//IMUSimulator//files//example_trajectory.pina";
 	string IMU_inputFile = "..//..//IMUSimulator//files//steady_state_IMU_Input.pina";
+	//string IMU_inputFile = "..//..//IMUSimulator//files//example_IMU_Input.pina";
 /*
 	PinaFile pinaFile(trajectoryFile);
 	pinaFile.header.print_info();
@@ -50,7 +51,7 @@ int main(int argc, char **argv){
 	Cbe(pos2cne(foo_to_cne), pos2cbn(foo_to_cbe));
 	getchar();
 	*/
-	strapdown(CDataProcess);
+	strapdown(CDataProcess).print_data();
 	getchar();
 
 	return 0;
