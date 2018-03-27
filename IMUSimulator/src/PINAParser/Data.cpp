@@ -13,7 +13,7 @@ void Data::load_position(double* new_position)
 
 void Data::load_attitude(double* new_attitude)
 {
-	int length = sizeof(new_attitude) / sizeof(double);
+	int length = sizeof(attitude) / sizeof(double);
 	for (int i = 0;i < length;++i) {
 		attitude[i] = new_attitude[i];
 	}

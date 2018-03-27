@@ -17,7 +17,7 @@ int main(int argc, char **argv){
 
 
 	//typedef std::numeric_limits< double > dbl;
-   // cout.precision(dbl::max_digits10);
+	// cout.precision(dbl::max_digits10);
 	string trajectoryFile = "..//..//IMUSimulator//files//example_trajectory.pina";
 	string IMU_inputFile = "..//..//IMUSimulator//files//steady_state_IMU_Input.pina";
 /*
