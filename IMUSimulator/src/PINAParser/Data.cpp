@@ -19,6 +19,17 @@ void Data::load_attitude(double* new_attitude)
 	}
 }
 
+void Data::fprint(string file_name) {
+	
+	ofstream file;
+	//file.open(file_name);
+	//file.close();
+
+	file.open(file_name, ios::app);
+	file << position[0] << "\t\t" << position[1] << "\t\t" << position[2];
+	file << "\t\t" << attitude[0] << "\t\t" << attitude[1] << "\t\t" << attitude[2] << endl;
+	file.close();
+}
 
 Data::Data()
 {

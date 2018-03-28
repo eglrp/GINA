@@ -42,7 +42,7 @@ geoparam_struct geoparam(const Data data);
 real_2d_array update_attitude(const double angular_velocity[3], const double dt, const real_2d_array C_be);
 void update_velocity(double velocity[3], const double acceleration[3], const double dt, const real_2d_array C_be, const double ge[3], double Ve_new[3]);
 double* update_position(const double* velocity, const double* position, double dt);
-void attitude_from_matrix(const real_2d_array C_nb, double attitude[3]);
+void attitude_from_matrix(const real_2d_array C_nb, double attitude[3],string type);
 
 /*Strapdown function*/
 ConcreteDataProcess strapdown(ConcreteDataProcess CDP_IMU_Data);
