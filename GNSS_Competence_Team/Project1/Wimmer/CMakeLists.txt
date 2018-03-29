@@ -21,11 +21,12 @@ set( SRC_FILES "" )
 set( INC_FILES "" )
 list( APPEND SRC_FILES ${SRC} )
 list( APPEND INC_FILES ${INCL} )
+list( APPEND INC_FILES ${EIGEN_INC_FILES} )
 
 
-include_directories( ${INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${ALGLIB_CORE_INC_DIRS} )
-
+include_directories( ${INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${ALGLIB_CORE_INC_DIRS} ${EIGEN_CORE_INC_DIRS} )
 add_executable (Exc1_Wimmer ${SRC_FILES} ${INC_FILES})
+
 target_link_libraries (Exc1_Wimmer gpstk ALGLIB gpstk)
 
 # Create VS Filters	

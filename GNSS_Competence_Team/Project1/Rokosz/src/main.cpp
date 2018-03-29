@@ -9,6 +9,7 @@
 #include "BasicFramework.hpp"
 #include "PRSolution.hpp"
 
+#include <Eigen/Dense>
 using namespace std;
 
 int main(int argc, char **argv) {
