@@ -31,9 +31,6 @@ void Data::fprint(string file_name) {
 	file.close();
 }
 
-Data::Data()
-{
-}
 
 Data::Data(vector<double> one_row,vector<string> type)
 {
@@ -58,6 +55,9 @@ Data::Data(vector<double> one_row,vector<string> type)
 		attitude[1] = one_row[6];
 		attitude[2] = one_row[7];
 	}
+}
+Data::Data()
+{
 }
 
 Data::~Data()

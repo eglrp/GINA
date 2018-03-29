@@ -18,9 +18,6 @@ public:
 
 	void fprint(string file_name);
 	
-
-
-
 	Data();
 	Data(vector<double> one_row, vector<string> type);
 	~Data();

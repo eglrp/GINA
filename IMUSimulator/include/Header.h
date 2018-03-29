@@ -18,7 +18,6 @@ public:
 	~Header();
 
 	vector<string> type;
-
 	vector<string> creator;
 	string time_of_creation;
 
@@ -36,6 +35,7 @@ public:
 
 	string double_type_header_data[6];
 	string string_type_header_data[5];
+
 	//Functions to the constructor
 	void hand_out_double_data(string keyword, vector<double> data_d);
 	void hand_out_string_data(string keyword, vector<string> data_s);
@@ -44,6 +44,7 @@ public:
 	string turncate_comment(string line);
 	string find_data(string line, string expression);
 	void load_file(string file_name, string  double_type_header_data[], string string_type_header_data[]);
+	
 	//Other functions;
 	void print_info();
 	void clear();

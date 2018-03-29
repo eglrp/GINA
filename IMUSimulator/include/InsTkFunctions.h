@@ -47,6 +47,5 @@ void attitude_from_matrix(const real_2d_array C_nb, double attitude[3],string ty
 /*Strapdown function*/
 ConcreteDataProcess strapdown(ConcreteDataProcess CDP_IMU_Data);
 
-
 /*Just for test. 2018.03.08 - The test was succeeded!*/
 void geoparam_test(ConcreteDataProcess CDP);
