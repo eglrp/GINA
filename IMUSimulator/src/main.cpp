@@ -9,10 +9,15 @@
 #include "GPSWeekSecond.hpp"
 #include "dummy.h"
 #include "InsTkFunctions.h"
+
+#include <Eigen/Dense>
+
+
 using namespace std;
 
 int main(int argc, char **argv){
 	
+	Eigen::MatrixXd m(2, 2);
 	alglib::complex_1d_array example_alglib_array();
 
 

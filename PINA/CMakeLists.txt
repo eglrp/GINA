@@ -12,7 +12,7 @@ list( APPEND PINA_CORE_INC_DIRS ${IMU_CORE_INC_DIRS} )
 
 target_include_directories(PINA PUBLIC ${PINA_CORE_INC_DIRS} ${ALGLIB_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS})
 
-target_link_libraries (PINA gpstk IMUSimulator ALGLIB gpstk)
+target_link_libraries (PINA gpstk IMUSimulator ALGLIB)
 
 # add the install targets
 install (TARGETS PINA DESTINATION bin)
