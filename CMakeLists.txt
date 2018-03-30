@@ -1,5 +1,7 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.91.0)
 project (PINA)
+
+set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # Function to set the filter in visual studio
 function(assign_source_group)
@@ -27,8 +29,8 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 # configure a header file to pass some of the CMake settings
 # to the source code
 configure_file (
-  "${PROJECT_SOURCE_DIR}/TutorialConfig.h.in"
-  "${PROJECT_BINARY_DIR}/TutorialConfig.h"
+  "${PROJECT_SOURCE_DIR}/PINAConfig.h.in"
+  "${PROJECT_BINARY_DIR}/PINAConfig.h"
   )
 
 # add the binary tree to the search path for include files
@@ -93,6 +95,62 @@ add_subdirectory (GPSTk-master)
 set (EXTRA_LIBS ${EXTRA_LIBS} gpstk)
 set (GPSTK_LIBS ${GPSTK_LIBS} gpstk)
 
+# Set header files and include directories to use eigen lib
+##############################################################
+
+
+ 
+#set( Eigen3_DIR "" )
+#SET ( "$ENV{Eigen3_DIR}"  C:/Users/LUS2BP/Source/Repos/PINA/Eigen/eigen-3.3.4")
+#set (EIGEN3_INCLUDE_DIR "C:/Users/LUS2BP/Source/Repos/PINA/Eigen/eigen-3.3.4")
+ # C:/Users/LUS2BP/Source/Repos/PINA/Eigen/eigen-3.3.4
+
+
+#SET( EIGEN3_INCLUDE_DIR "$ENV{EIGEN3_INCLUDE_DIR}" )
+#set(EIGEN3_INCLUDE_DIR "C:/Users/LUS2BP/Source/Repos/PINA/Eigen/eigen-3.3.4/cmake")
+#IF( NOT EIGEN3_INCLUDE_DIR )
+#    MESSAGE( FATAL_ERROR "Please point the environment variable EIGEN3_INCLUDE_DIR to the include directory of your Eigen3 installation.")
+#ENDIF()
+#INCLUDE_DIRECTORIES ( "${EIGEN3_INCLUDE_DIR}" )
+
+#set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
+#find_package(Eigen3 REQUIRED)
+#include_directories(${EIGEN3_INCLUDE_DIR})
+  
+  
+######################
+
+#find_package(Eigen3 QUIET)
+#if(NOT Eigen_FOUND)
+#  include(${CMAKE_SOURCE_DIR}/FindEigen3.cmake)
+#  set(Eigen_INCLUDE_DIR ${EIGEN3_INCLUDE_DIR})
+#endif()
+#include_directories(${Eigen_INCLUDE_DIR})
+
+
+###################
+#message("Eigen3_DIR = ${Eigen3_DIR}")
+#set(Eigen3_DIR "C:/Users/LUS2BP/Source/Repos/PINA/Eigen/Build/eigen-3.3.4")
+message("Eigen3_DIR = ${Eigen3_DIR}")
+#find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+
+set( EIGEN_CORE_INC_DIRS_temp "" )
+set( EIGEN_INC_FILES "" )
+
+set( EIGEN_CORE_INC_DIRS "${PROJECT_SOURCE_DIR}/Eigen/eigen-3.3.4" )
+
+file( GLOB_RECURSE EIGEN_CORE_INC_DIRS_temp "Eigen/eigen-3.3.4/Eigen/src/*.h" "Eigen/eigen_334/Eigen/src/*.hpp" )
+
+foreach( _headerFile ${EIGEN_CORE_INC_DIRS_temp} )
+    get_filename_component( _dir ${_headerFile} PATH )
+    list( APPEND EIGEN_CORE_INC_DIRS_temp ${_dir} )
+endforeach()
+
+#list( APPEND EIGEN_INC_FILES ${EIGEN_CORE_INC_DIRS_temp} )
+
+#add_subdirectory(Eigen)
+message("Eigen3_DIR = ${Eigen3_DIR}")
+
 ###############################################################
 
 #IMUSimulator & IMUSimulatorLibrary
@@ -101,6 +159,7 @@ add_subdirectory (IMUSimulator)
 set (EXTRA_LIBS ${EXTRA_LIBS} IMUSimulatorLibrary)
 
 add_subdirectory (GNSSsimulator)
+
 
 
 option( BUILD_EXC1 "HELP: BUILD_EXC1: SWITCH, Default = ON, Build the GNSS Competence Team - 1st exercise" ON )
