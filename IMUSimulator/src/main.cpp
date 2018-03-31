@@ -7,7 +7,6 @@
 #include "Data.h"
 #include "PinaFile.h"
 #include "GPSWeekSecond.hpp"
-#include "dummy.h"
 #include "InsTkFunctions.h"
 
 #include <Eigen/Dense>

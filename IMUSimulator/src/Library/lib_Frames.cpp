@@ -30,6 +30,19 @@ namespace IMUSimulator {
 
 		}
 
+		void transform_ecef2llh(double& x, double& y, double& z, double& lat, double& lon, double& height) {
+
+			Eigen::Vector3d ecef;
+			Eigen::Vector3d llh;
+			ecef << x,y,z;
+
+			llh = transform_ecef2llh(ecef);
+
+			lat = llh[0];
+			lon = llh[1];
+			height = llh[2];
+		}
+
 		Eigen::Vector3d transform_llh2ecef(Eigen::Vector3d& llh) {
 
 			Eigen::Vector3d ecef;
@@ -49,6 +62,19 @@ namespace IMUSimulator {
 
 			return ecef;
 
+		}
+
+		void transform_llh2ecef(double& lat, double& lon, double& height, double& x, double& y, double& z) {
+			
+			Eigen::Vector3d ecef;
+			Eigen::Vector3d llh;
+			llh << lat, lon, height;
+
+			ecef = transform_llh2ecef(llh);
+
+			x = ecef[0];
+			y = ecef[1];
+			z = ecef[2];
 		}
 
 		Eigen::Matrix3d pos2Cne(double& lat, double& lon) {
