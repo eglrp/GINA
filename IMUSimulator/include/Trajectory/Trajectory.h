@@ -13,19 +13,26 @@ namespace IMUSimulator {
 		Unknown = 1
 	};
 
-	typedef struct trajectory_imu_s {
+	typedef struct Position_IMU_s {
 		double ecef[3];
 		double llh[3];
 		double wn;
 		double tow;
-	}Trajectory_IMU;
+	}Position_IMU;
+
+	std::ostream& operator<<(std::ostream& os, const Position_IMU&);
 
 	class Trajectory {
 		
-		std::vector<Trajectory_IMU> traj_data;
-		Trajectory(void);
+		public:
+			std::vector<Position_IMU> traj_data;
+			Trajectory(void);
 	
-		void add_position(CoordiateFrame, double[], TimeFrame, double, double);
+			void add_position(CoordiateFrame, double[], TimeFrame, double, double);
+			void add_position(CoordiateFrame, TimeFrame, Position_IMU);
+			void printf(std::ostream&);
+
+			friend std::ostream& operator<<(std::ostream&, Trajectory&);
 	};
 
 

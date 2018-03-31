@@ -15,11 +15,13 @@
 #include "geoparam_wgs84.h"
 #include "lib_Frames.h"
 
+#include "Trajectory.h"
+
 using namespace std;
 
 int main(int argc, char **argv){
 	
-	double llh_array[3] = { 0,0,0 };
+	/*double llh_array[3] = { 0,0,0 };
 	double Rn, Re, g, sL, cL, WIE_E;
 
 	IMUSimulator::WGS84Ellipsoid myellip(llh_array, IMUSimulator::LLH_Frame);
@@ -44,12 +46,51 @@ int main(int argc, char **argv){
 	IMUSimulator::strapdown_ecef str_e(ecef);
 
 
-	for (int i = 0;i<20;i++) {
+
+	for (int i = 0;i<2;i++) {
 		std:cout << endl;
 		std::cout << str_e << endl;
 		str_e.update(acc, w, 0.1);
+	}*/
+	
+	//Set precision
+	typedef std::numeric_limits< double > dbl;
+	std::cout.precision(dbl::max_digits10); 
+
+	IMUSimulator::Trajectory traj;
+	IMUSimulator::Position_IMU position;
+
+	double temp[3] = { 0.0, 0.0, 6300000.0 };
+	double wn, tow;
+	wn = 1956;
+	tow = 1;
+
+	position.ecef[0] = temp[0];
+	position.ecef[1] = temp[1];
+	position.ecef[2] = temp[2];
+	position.wn = wn;
+	position.tow = tow;
+
+
+
+	for (size_t i = 0; i < 5; i++){
+
+		position.ecef[2] +=1;
+		position.tow += 1.0;
+		
+		std::cout << position << std::endl;
+		traj.add_position(IMUSimulator::ECEF_Frame, IMUSimulator::GPSTime, position);
 	}
 	
+	std::cout << traj;
+
+
+
+
+	
+
+	
+
 
 
 	/*Eigen::MatrixXd m(2, 2);
