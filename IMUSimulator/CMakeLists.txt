@@ -47,3 +47,8 @@ set( IMU_All_FILES "" )
 list( APPEND IMU_All_FILES ${IMU_SRC_FILES})
 list( APPEND IMU_All_FILES ${IMU_INC_FILES})					
 assign_source_group(${IMU_All_FILES})
+
+
+if(IMUSimulator_Tests)
+	add_subdirectory(tests)
+endif()

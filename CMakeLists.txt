@@ -37,6 +37,9 @@ configure_file (
 # so that we will find TutorialConfig.h
 include_directories ("${PROJECT_BINARY_DIR}")
 
+
+
+
 ##########
 # ALGLIB #
 ##########
@@ -90,50 +93,12 @@ set( GPSTK_EXT_INC_DIRS "" )
 
   list( REMOVE_DUPLICATES GPSTK_EXT_INC_DIRS )
 
-
 add_subdirectory (GPSTk-master)
 set (EXTRA_LIBS ${EXTRA_LIBS} gpstk)
 set (GPSTK_LIBS ${GPSTK_LIBS} gpstk)
 
 # Set header files and include directories to use eigen lib
 ##############################################################
-
-
- 
-#set( Eigen3_DIR "" )
-#SET ( "$ENV{Eigen3_DIR}"  C:/Users/LUS2BP/Source/Repos/PINA/Eigen/eigen-3.3.4")
-#set (EIGEN3_INCLUDE_DIR "C:/Users/LUS2BP/Source/Repos/PINA/Eigen/eigen-3.3.4")
- # C:/Users/LUS2BP/Source/Repos/PINA/Eigen/eigen-3.3.4
-
-
-#SET( EIGEN3_INCLUDE_DIR "$ENV{EIGEN3_INCLUDE_DIR}" )
-#set(EIGEN3_INCLUDE_DIR "C:/Users/LUS2BP/Source/Repos/PINA/Eigen/eigen-3.3.4/cmake")
-#IF( NOT EIGEN3_INCLUDE_DIR )
-#    MESSAGE( FATAL_ERROR "Please point the environment variable EIGEN3_INCLUDE_DIR to the include directory of your Eigen3 installation.")
-#ENDIF()
-#INCLUDE_DIRECTORIES ( "${EIGEN3_INCLUDE_DIR}" )
-
-#set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
-#find_package(Eigen3 REQUIRED)
-#include_directories(${EIGEN3_INCLUDE_DIR})
-  
-  
-######################
-
-#find_package(Eigen3 QUIET)
-#if(NOT Eigen_FOUND)
-#  include(${CMAKE_SOURCE_DIR}/FindEigen3.cmake)
-#  set(Eigen_INCLUDE_DIR ${EIGEN3_INCLUDE_DIR})
-#endif()
-#include_directories(${Eigen_INCLUDE_DIR})
-
-
-###################
-#message("Eigen3_DIR = ${Eigen3_DIR}")
-#set(Eigen3_DIR "C:/Users/LUS2BP/Source/Repos/PINA/Eigen/Build/eigen-3.3.4")
-message("Eigen3_DIR = ${Eigen3_DIR}")
-#find_package (Eigen3 3.3 REQUIRED NO_MODULE)
-
 set( EIGEN_CORE_INC_DIRS_temp "" )
 set( EIGEN_INC_FILES "" )
 
@@ -146,23 +111,18 @@ foreach( _headerFile ${EIGEN_CORE_INC_DIRS_temp} )
     list( APPEND EIGEN_CORE_INC_DIRS_temp ${_dir} )
 endforeach()
 
-#list( APPEND EIGEN_INC_FILES ${EIGEN_CORE_INC_DIRS_temp} )
-
-#add_subdirectory(Eigen)
-message("Eigen3_DIR = ${Eigen3_DIR}")
-
-###############################################################
-
 #IMUSimulator & IMUSimulatorLibrary
-#include_directories ("${PROJECT_SOURCE_DIR}/IMUSimulator/include")
+##############################################################
+option( IMUSimulator_Tests "HELP: IMUSimulatorTest: Default = OFF, Create tests projects of the IMUSimulator." OFF )
 add_subdirectory (IMUSimulator)
 set (EXTRA_LIBS ${EXTRA_LIBS} IMUSimulatorLibrary)
 
 add_subdirectory (GNSSsimulator)
 
 
-
-option( BUILD_EXC1 "HELP: BUILD_EXC1: SWITCH, Default = ON, Build the GNSS Competence Team - 1st exercise" ON )
+# GNSS Competence Team's Projects
+##############################################################
+option( GNSS_Competence_Team_Project_1 "HELP: BUILD_EXC1: SWITCH, Default = ON, Build the GNSS Competence Team - 1st exercise" OFF )
 add_subdirectory (GNSS_Competence_Team) 
 
 add_subdirectory (PINA)

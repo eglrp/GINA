@@ -14,18 +14,18 @@ namespace IMUSimulator {
 			Eigen::Vector3d llh;
 			gpstk::WGS84Ellipsoid wgs84;
 			gpstk::Position Coordinates(ecef[0],
-				ecef[1],
-				ecef[2],
-				gpstk::Position::CoordinateSystem::Cartesian,
-				&wgs84,
-				gpstk::ReferenceFrame::WGS84);
+										ecef[1],
+										ecef[2],
+										gpstk::Position::CoordinateSystem::Cartesian,
+										&wgs84,
+										gpstk::ReferenceFrame::WGS84);
 
 			Coordinates.asGeodetic();
 
 			llh[0] = Coordinates.getGeodeticLatitude();
 			llh[1] = Coordinates.getLongitude();
 			llh[2] = Coordinates.getHeight();
-
+			
 			return llh;
 
 		}
