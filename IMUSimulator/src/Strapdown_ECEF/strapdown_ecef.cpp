@@ -1,4 +1,5 @@
 #include "strapdown_ECEF.h"
+#include "std_IMUSimulator.h"
 
 #include "Position.hpp"
 #include "WGS84Ellipsoid.hpp"
@@ -69,7 +70,7 @@ namespace IMUSimulator {
 		double sr_a, sr_b, rot_norm;
 		Eigen::Matrix3d eye = Eigen::Matrix3d::Identity();
 		Eigen::Matrix3d	mx_a, mx_b,
-						rot_skew, Cbe_new;
+						rot_skew;
 		Eigen::Vector3d	vel_inc1, vel_inc2;
 
 		Eigen::Vector3d ecef_new, Ve_new;
@@ -97,6 +98,9 @@ namespace IMUSimulator {
 		mx_b = eye + sr_a*rot_skew + sr_b*rot_skew*rot_skew;
 
 		Cbe = mx_b*Cbe*mx_a;
+
+		/*Update Cnb matrix. navigation to body*/
+		Cnb = Cne.transpose()*Cbe;
 
 		/*Update Velocity*/
 		vel_inc1 = Cbe * a *dt;

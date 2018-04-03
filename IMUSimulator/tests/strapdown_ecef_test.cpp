@@ -28,12 +28,12 @@ int main(int argc, char **argv) {
 	IMUSimulator::WGS84Ellipsoid myellip(llh_array, IMUSimulator::LLH_Frame);
 	myellip.getParams(Rn, Re, g, sL, cL, WIE_E);
 
-	std::cout << Rn << "   " <<
-		Re << "   " <<
-		g << "   " <<
-		sL << "   " <<
-		cL << "   " <<
-		WIE_E << std::endl;
+	std::cout <<	Rn		<< "   " <<
+					Re		<< "   " <<
+					g		<< "   " <<
+					sL		<< "   " <<
+					cL		<< "   " <<
+					WIE_E	<< std::endl;
 
 	Eigen::Vector3d acc;
 	acc << 0, 0, -g;

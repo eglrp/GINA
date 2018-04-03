@@ -8,14 +8,10 @@
 #include <algorithm>
 #include <ctime>
 
-
+#include "std_IMUSimulator.h"
 
 namespace IMUSimulator {
 
-	enum CoordiateFrame {
-		ECEF_Frame = 0,
-		LLH_Frame = 1
-	};
 
 	class WGS84Ellipsoid {
 

@@ -86,9 +86,9 @@ namespace IMUSimulator {
 			double sl = std::sin(lon);
 			double cl = std::cos(lon);
 
-			Cne << -sL*cl, -sl, -cL*cl,
-				-sL*sl, cl, -cL*sl,
-				cL, 0, -sL;
+			Cne <<  -sL*cl, -sl, -cL*cl,
+					-sL*sl,  cl, -cL*sl,
+					 cL,     0,  -sL;
 
 			return Cne;
 		}
@@ -101,5 +101,16 @@ namespace IMUSimulator {
 			return m;
 		}
 
+		Eigen::Vector3d dcm2euler(Eigen::Matrix3d dcm) {
+
+			Eigen::Vector3d eul;
+			double pitch = std::asin(-dcm(2, 0));						// pitch is assumed to be[-pi pi].singular at pi.use ad - hoc methods to remedy this deficiency
+			double roll = std::atan2(dcm(2, 1), dcm(2, 2));
+			double heading = std::atan2(dcm(1, 0), dcm(0, 0));
+
+			eul << roll, pitch, heading;
+
+			return eul;
+		}
 	}
 }

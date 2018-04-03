@@ -1,6 +1,8 @@
 #pragma once
 
 #include "geoparam_wgs84.h"
+#include "std_IMUSimulator.h"
+
 #include <Eigen/Dense>
 
 namespace IMUSimulator {
@@ -17,6 +19,7 @@ namespace IMUSimulator {
 			WGS84Ellipsoid wgs84;
 			Eigen::Matrix3d Cne;
 			Eigen::Matrix3d Cbe;
+			Eigen::Matrix3d Cnb;
 			Eigen::Vector3d Ve;
 
 			/*Constructor*/
