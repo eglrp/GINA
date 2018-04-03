@@ -26,7 +26,6 @@ namespace IMUSimulator {
 
 		/*Set new params*/
 		this->setParams(Cbe_new, Ve_new, ecef_new);
-		this->wgs84.setWGS84Params();
 	}
 
 	strapdown_ecef::strapdown_ecef(Eigen::Vector3d& Ve_new, Eigen::Vector3d& ecef_new) {
@@ -34,28 +33,55 @@ namespace IMUSimulator {
 		/*Calculate default Cbe from Cne*/
 		Eigen::Vector3d llh_new;
 
-		llh_new = this->transform_ecef2llh(ecef_new);
-		this->Cne = this->pos2Cne(llh_new[0], llh_new[1]);
+		llh_new = transform_ecef2llh(ecef_new);
+		Cne = pos2Cne(llh_new[0], llh_new[1]);
 		Eigen::Matrix3d Cbe_new;
-		Cbe_new = this->Cne;
+		Cbe_new = Cne;
 
 		/*Set new params*/
 		this->setParams(Cbe_new, Ve_new, ecef_new);
-		this->wgs84.setWGS84Params();
+		//this->wgs84.setWGS84Params();
+	}
+
+	
+	strapdown_ecef::strapdown_ecef(Eigen::Vector3d& rollpitchyaw, Eigen::Vector3d& Vb, Eigen::Vector3d& ecef_new) {
+
+		Eigen::Matrix3d Cbn = IMUSimulator::Lib::euler2dcm2(rollpitchyaw);
+		Eigen::Vector3d Ve_new;
+		Cnb = Cbn.transpose();
+
+		Eigen::Vector3d llh_new = transform_ecef2llh(ecef_new);
+		Cne = pos2Cne(llh_new[0], llh_new[1]);
+
+		Cbe = Cne * Cbn;
+		Ve_new = Cbe*Vb;
+
+		/*Set new params*/
+		this->setParams(Cbe, Ve_new, ecef_new);
+		//this->wgs84.setWGS84Params();
 	}
 
 	strapdown_ecef::strapdown_ecef(Eigen::Matrix3d& Cbe_new, Eigen::Vector3d& Ve_new, Eigen::Vector3d& ecef_new) {
 
 		/*Set new params*/
 		this->setParams(Cbe_new, Ve_new, ecef_new);
-		this->wgs84.setWGS84Params();
+		//this->wgs84.setWGS84Params();
 	}
 
 	/*Update step*/
+
+	void strapdown_ecef::update(Eigen::Vector3d& rollpitchyaw, Eigen::Vector3d& Ve, Eigen::Vector3d& ecef, Eigen::Vector3d&a, Eigen::Vector3d& w, double dt) {
+		
+		Eigen::Matrix3d Cbn = IMUSimulator::Lib::euler2dcm2(rollpitchyaw);
+
+		Cnb = Cbn.transpose();
+		Cbe = Cne * Cbn;			
+		update(Cbe, Ve, ecef, a, w, dt);
+	}
+
 	void strapdown_ecef::update(Eigen::Matrix3d& Cbe, Eigen::Vector3d& Ve, Eigen::Vector3d& ecef, Eigen::Vector3d&a, Eigen::Vector3d& w, double dt) {
 		
 		this->setParams(Cbe, Ve, ecef);
-		this->update_gravitiy(llh);
 		this->update(a, w, dt);
 	}
 	
@@ -150,6 +176,10 @@ namespace IMUSimulator {
 		
 		os << "Cbe: " << std::endl << str_e.Cbe << std::endl;
 		os << "Cne: " << std::endl << str_e.Cne << std::endl;
+		os << "Cnb: " << std::endl << str_e.Cnb << std::endl;
+
+		Eigen::Vector3d local_angle = IMUSimulator::Lib::dcm2euler(str_e.Cnb);
+		os << "Roll pitch yaw: " << std::endl << local_angle << std::endl;
 		
 		return os;
 	}

@@ -12,6 +12,7 @@ namespace IMUSimulator {
 		Eigen::Vector3d transform_ecef2llh(Eigen::Vector3d& ecef) {
 
 			Eigen::Vector3d llh;
+
 			gpstk::WGS84Ellipsoid wgs84;
 			gpstk::Position Coordinates(ecef[0],
 										ecef[1],
@@ -22,12 +23,11 @@ namespace IMUSimulator {
 
 			Coordinates.asGeodetic();
 
-			llh[0] = Coordinates.getGeodeticLatitude();
-			llh[1] = Coordinates.getLongitude();
-			llh[2] = Coordinates.getHeight();
-			
-			return llh;
+			llh[0] = Coordinates.geocentricLatitude();
+			llh[1] = Coordinates.longitude();
+			llh[2] = Coordinates.height();
 
+			return llh;
 		}
 
 		void transform_ecef2llh(double& x, double& y, double& z, double& lat, double& lon, double& height) {
@@ -46,6 +46,7 @@ namespace IMUSimulator {
 		Eigen::Vector3d transform_llh2ecef(Eigen::Vector3d& llh) {
 
 			Eigen::Vector3d ecef;
+
 			gpstk::WGS84Ellipsoid wgs84;
 			gpstk::Position Coordinates(llh[0],
 										llh[1],
@@ -61,7 +62,6 @@ namespace IMUSimulator {
 			ecef[2] = Coordinates.getZ();
 
 			return ecef;
-
 		}
 
 		void transform_llh2ecef(double& lat, double& lon, double& height, double& x, double& y, double& z) {
@@ -111,6 +111,28 @@ namespace IMUSimulator {
 			eul << roll, pitch, heading;
 
 			return eul;
+		}
+
+		Eigen::Matrix3d IMUSimulator::Lib::euler2dcm2(Eigen::Vector3d eul) {
+				
+			double cr = cos(eul(0)); double sr = sin(eul(0));	//roll
+			double cp = cos(eul(1)); double sp = sin(eul(1));	//pitch
+			double ch = cos(eul(2)); double sh = sin(eul(2));	//heading
+			Eigen::Matrix3d	dcm = Eigen::Matrix3d::Zero();
+
+			dcm(0, 0) = cp*ch;
+			dcm(0, 1) = (sp*sr*ch) - (cr*sh);
+			dcm(0, 2) = (cr*sp*ch) + (sh*sr);
+
+			dcm(1, 0) = cp*sh;
+			dcm(1, 1) = (sr*sp*sh) + (cr*ch);
+			dcm(1, 2) = (cr*sp*sh) - (sr*ch);
+
+			dcm(2, 0) = -sp;
+			dcm(2, 1) = sr*cp;
+			dcm(2, 2) = cr*cp;
+
+			return dcm;
 		}
 	}
 }

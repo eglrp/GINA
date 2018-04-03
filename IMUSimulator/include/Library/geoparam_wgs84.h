@@ -31,10 +31,13 @@ namespace IMUSimulator {
 			WGS84Ellipsoid(void);
 			WGS84Ellipsoid(double[], CoordiateFrame);
 
-			void setWGS84Params(void);
+			
 			void setCoordinates(double[], CoordiateFrame);
 			void getParams(double&, double&, double&, double&, double&, double&);
 			void get_Gravity_and_WIE_E(double&, double&);
+
+	private:
+		void setWGS84Params(void);
 
 	};
 

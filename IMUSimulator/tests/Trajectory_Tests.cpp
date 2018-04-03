@@ -40,12 +40,12 @@ int main(int argc, char **argv) {
 	position.tow = tow;
 
 	for (size_t i = 0; i < 5; i++) {
+
 		position.ecef[2] += 1;
 		position.tow += 1.0;
 
 		//std::cout << position << std::endl;
 		traj.add_position(IMUSimulator::ECEF_Frame, IMUSimulator::GPSTime, position);
-
 	}
 
 	std::cout << traj;

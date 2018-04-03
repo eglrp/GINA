@@ -26,7 +26,9 @@ namespace IMUSimulator {
 			strapdown_ecef(Eigen::Vector3d&);
 			strapdown_ecef(Eigen::Vector3d&, Eigen::Vector3d&);
 			strapdown_ecef(Eigen::Matrix3d&, Eigen::Vector3d&, Eigen::Vector3d&);
+			strapdown_ecef(Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&);
 
+			void update(Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, double);
 			void update(Eigen::Matrix3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, double);
 			void update(Eigen::Vector3d&, Eigen::Vector3d&, double);
 

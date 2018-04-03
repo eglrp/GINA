@@ -47,9 +47,9 @@ int main(int argc, char **argv){
 	ecef = IMUSimulator::Lib::transform_llh2ecef(llh);
 	IMUSimulator::strapdown_ecef str_e(ecef);
 
+	IMUSimulator::Trajectory traj;
 
-
-	for (int i = 0; i < 200; i++) {
+	for (int i = 0; i < 2000; i++) {
 		std:cout << endl;
 		std::cout << str_e << endl;
 		str_e.update(acc, w, 0.1);
@@ -62,6 +62,8 @@ int main(int argc, char **argv){
 		Cnb = str_e.Cne.transpose()*str_e.Cbe;
 		local_angle = IMUSimulator::Lib::dcm2euler(Cnb);
 		std::cout << "Roll, pitch, yaw: " << local_angle << std::endl;
+
+		//traj.add_position(IMUSimulator::ECEF_Frame, IMUSimulator::GPSTime, str_e );
 
 	}
 
