@@ -32,7 +32,6 @@ END OF HEADER
 # roll in 62-74 carrier position		[rad]
 # pitch in 75-87 carrier position		[rad]
 # yaw in 88-100 carrier position		[rad]
-
 # The attitude values are optional. If they are missing, we read them as zeros.
 
 # Observation Data start right after the START OF DATA flag.
