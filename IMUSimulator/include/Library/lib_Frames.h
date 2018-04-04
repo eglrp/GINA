@@ -14,7 +14,7 @@ namespace IMUSimulator{
 		Eigen::Matrix3d skew(Eigen::Vector3d&);
 
 		Eigen::Vector3d dcm2euler(Eigen::Matrix3d dcm);
-		Eigen::Matrix3d euler2dcm2(Eigen::Vector3d);
+		Eigen::Matrix3d euler2dcm(Eigen::Vector3d);
 
 	}
 }

@@ -15,6 +15,7 @@
 #include "geoparam_wgs84.h"
 #include "lib_Frames.h"
 
+#include "IMUSignalGenerator.h"
 #include "IMUStore.h"
 
 using namespace std;
@@ -49,7 +50,7 @@ int main(int argc, char **argv) {
 
 		meas.a[2] += 0.1;
 		meas.tow += 1.0;
-
+		
 		//std::cout << position << std::endl;
 		imuStore.add_measure(IMUSimulator::GPSTime, meas);
 	}

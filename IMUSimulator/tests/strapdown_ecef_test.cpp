@@ -15,6 +15,7 @@
 #include "geoparam_wgs84.h"
 #include "lib_Frames.h"
 
+#include "IMUSignalGenerator.h"
 #include "Trajectory.h"
 
 using namespace std;
@@ -28,6 +29,7 @@ int main(int argc, char **argv) {
 	double Rn, Re, g, sL, cL, WIE_E;
 
 	IMUSimulator::Trajectory traj;
+	IMUSimulator::IMUSignalGenerator imuGenerator;
 
 	IMUSimulator::WGS84Ellipsoid myellip(llh_array, IMUSimulator::LLH_Frame);
 	myellip.getParams(Rn, Re, g, sL, cL, WIE_E);

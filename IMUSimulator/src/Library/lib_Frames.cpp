@@ -113,7 +113,7 @@ namespace IMUSimulator {
 			return eul;
 		}
 
-		Eigen::Matrix3d IMUSimulator::Lib::euler2dcm2(Eigen::Vector3d eul) {
+		Eigen::Matrix3d euler2dcm(Eigen::Vector3d eul) {
 				
 			double cr = cos(eul(0)); double sr = sin(eul(0));	//roll
 			double cp = cos(eul(1)); double sp = sin(eul(1));	//pitch

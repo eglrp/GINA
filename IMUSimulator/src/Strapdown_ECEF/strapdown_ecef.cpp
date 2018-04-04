@@ -40,15 +40,14 @@ namespace IMUSimulator {
 
 		/*Set new params*/
 		this->setParams(Cbe_new, Ve_new, ecef_new);
-		//this->wgs84.setWGS84Params();
 	}
 
 	
 	strapdown_ecef::strapdown_ecef(Eigen::Vector3d& rollpitchyaw, Eigen::Vector3d& Vb, Eigen::Vector3d& ecef_new) {
 
-		Eigen::Matrix3d Cbn = IMUSimulator::Lib::euler2dcm2(rollpitchyaw);
+		Cnb = IMUSimulator::Lib::euler2dcm(rollpitchyaw);
 		Eigen::Vector3d Ve_new;
-		Cnb = Cbn.transpose();
+		Eigen::Matrix3d Cbn = Cnb.transpose();  // TODO - Maybe euler2dcm2 give Cbn and not Cnb
 
 		Eigen::Vector3d llh_new = transform_ecef2llh(ecef_new);
 		Cne = pos2Cne(llh_new[0], llh_new[1]);
@@ -58,7 +57,6 @@ namespace IMUSimulator {
 
 		/*Set new params*/
 		this->setParams(Cbe, Ve_new, ecef_new);
-		//this->wgs84.setWGS84Params();
 	}
 
 	strapdown_ecef::strapdown_ecef(Eigen::Matrix3d& Cbe_new, Eigen::Vector3d& Ve_new, Eigen::Vector3d& ecef_new) {
@@ -69,10 +67,9 @@ namespace IMUSimulator {
 	}
 
 	/*Update step*/
-
 	void strapdown_ecef::update(Eigen::Vector3d& rollpitchyaw, Eigen::Vector3d& Ve, Eigen::Vector3d& ecef, Eigen::Vector3d&a, Eigen::Vector3d& w, double dt) {
 		
-		Eigen::Matrix3d Cbn = IMUSimulator::Lib::euler2dcm2(rollpitchyaw);
+		Eigen::Matrix3d Cbn = IMUSimulator::Lib::euler2dcm(rollpitchyaw);
 
 		Cnb = Cbn.transpose();
 		Cbe = Cne * Cbn;			
@@ -85,6 +82,15 @@ namespace IMUSimulator {
 		this->update(a, w, dt);
 	}
 	
+	void strapdown_ecef::update(Measure_IMU& meas, double dt) {
+	
+		Eigen::Vector3d a, w;
+		a << meas.a[0], meas.a[1], meas.a[2];
+		w << meas.w[0], meas.w[1], meas.w[2];
+
+		update(a, w, dt);
+	}
+
 	void strapdown_ecef::update(Eigen::Vector3d& a, Eigen::Vector3d& w, double dt) {
 
 		this->update_gravitiy(llh);
@@ -104,7 +110,7 @@ namespace IMUSimulator {
 		this->Cne = this->pos2Cne(this->llh[0], this->llh[1]);
 
 		gn << 0, 0, g;
-		ge = - Cne * gn;
+		ge =  - Cne * gn; //TODO sahll there be  a "-" ??
 
 		/*Update attitude*/
 
@@ -135,7 +141,6 @@ namespace IMUSimulator {
 
 		//Update_pos
 		ecef = ecef + Ve*dt;
-
 	}
 
 	void strapdown_ecef::setParams(Eigen::Matrix3d& Cbe, Eigen::Vector3d& Ve, Eigen::Vector3d& ecef_new ) {
@@ -148,6 +153,15 @@ namespace IMUSimulator {
 		this->ecef[2] = ecef_new[2];
 
 		this->llh = this->transform_ecef2llh(ecef_new );
+	}
+
+	Eigen::Vector3d strapdown_ecef::getLLH(void){
+		return llh;
+	}
+
+	Eigen::Vector3d strapdown_ecef::getVbody(void) {
+	
+		return Cbe.transpose() * Ve;
 	}
 
 	void strapdown_ecef::update_gravitiy(Eigen::Vector3d llh) {

@@ -30,9 +30,13 @@ namespace IMUSimulator {
 
 			void update(Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, double);
 			void update(Eigen::Matrix3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, double);
+			void strapdown_ecef::update(Measure_IMU&, double);
 			void update(Eigen::Vector3d&, Eigen::Vector3d&, double);
 
 			void setParams(Eigen::Matrix3d&, Eigen::Vector3d&, Eigen::Vector3d&);
+
+			Eigen::Vector3d getLLH(void);
+			Eigen::Vector3d getVbody(void);
 
 			void update_gravitiy(Eigen::Vector3d);
 
