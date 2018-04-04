@@ -18,9 +18,15 @@ namespace IMUSimulator {
 		double ecef[3];
 		double llh[3];
 		double rollpitchyaw[3];
-		double wn;
+		int wn;
 		double tow;
-
 	}Position_IMU;
+
+	typedef struct Measure_IMU_s {
+		double a[3];
+		double w[3];
+		int wn;
+		double tow;
+	}Measure_IMU;
 
 }

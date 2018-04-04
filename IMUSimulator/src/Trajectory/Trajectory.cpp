@@ -8,7 +8,7 @@ namespace IMUSimulator {
 	Trajectory::Trajectory(void) {
 	
 	}
-	void Trajectory::add_position(double x, double y, double z, double lat, double lon, double h, double wn, double tow, double roll, double pitch, double yaw) {
+	void Trajectory::add_position(double x, double y, double z, double lat, double lon, double h, int wn, double tow, double roll, double pitch, double yaw) {
 
 		node.rollpitchyaw[0] = roll;
 		node.rollpitchyaw[1] = pitch;
@@ -28,7 +28,7 @@ namespace IMUSimulator {
 		this->add_position();
 	}
 
-	void Trajectory::add_position(CoordiateFrame coorframe, double coor[], TimeFrame timeframe, double wn, double tow, double roll, double pitch, double yaw) {
+	void Trajectory::add_position(CoordiateFrame coorframe, double coor[], TimeFrame timeframe, int wn, double tow, double roll, double pitch, double yaw) {
 
 		node.rollpitchyaw[0] = roll;
 		node.rollpitchyaw[1] = pitch;
@@ -36,7 +36,7 @@ namespace IMUSimulator {
 		this->add_position(coorframe, coor, timeframe, wn, tow);
 	}
 
-	void Trajectory::add_position(CoordiateFrame coorframe, double coor[], TimeFrame timeframe, double wn, double tow) {
+	void Trajectory::add_position(CoordiateFrame coorframe, double coor[], TimeFrame timeframe, int wn, double tow) {
 
 		// Here we don't care about the type of the coordinates. The next add_position will decide. We just have to fill both type off coordinates with the inputs.
 		node.ecef[0] = coor[0];
@@ -53,8 +53,6 @@ namespace IMUSimulator {
 
 	void Trajectory::add_position(CoordiateFrame coorframe, TimeFrame timeframe, Position_IMU pos) {
 
-		
-
 		node.ecef[0] = pos.ecef[0];
 		node.ecef[1] = pos.ecef[1];
 		node.ecef[2] = pos.ecef[2];
@@ -65,7 +63,7 @@ namespace IMUSimulator {
 		node.tow = pos.tow;
 		node.wn = pos.wn;
 
-		transoform2missingCoordinateFrame(coorframe, timeframe);
+		transform2missingCoordinateFrame(coorframe, timeframe);
 
 		node.rollpitchyaw[0] = pos.rollpitchyaw[0];
 		node.rollpitchyaw[1] = pos.rollpitchyaw[1];
@@ -87,7 +85,7 @@ namespace IMUSimulator {
 
 	void Trajectory::add_position(CoordiateFrame coorframe, TimeFrame timeframe) {
 	
-		transoform2missingCoordinateFrame(coorframe, timeframe);
+		transform2missingCoordinateFrame(coorframe, timeframe);
 
 		this->add_position();
 	}
@@ -150,11 +148,11 @@ namespace IMUSimulator {
 		node.rollpitchyaw[1] = 0.0;
 		node.rollpitchyaw[2] = 0.0;
 
-		node.tow = 0;
+		node.tow = 0.0;
 		node.wn = 0;
 	}
 
-	void Trajectory::transoform2missingCoordinateFrame(CoordiateFrame coorframe, TimeFrame timeframe) {
+	void Trajectory::transform2missingCoordinateFrame(CoordiateFrame coorframe, TimeFrame timeframe) {
 
 		if (coorframe == ECEF_Frame) {
 

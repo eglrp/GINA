@@ -1,15 +1,22 @@
 
-# trajectory_tests
-add_executable(trajectory_tests Trajectory_Tests.cpp)
-target_link_libraries (trajectory_tests 	PUBLIC gpstk 
+# trajectory_test
+add_executable(test_trajectory Trajectory_test.cpp)
+target_link_libraries (test_trajectory 	PUBLIC gpstk 
+										PRIVATE ALGLIB
+										IMUSimulator)
+											
+# strapdown_ecef_test
+add_executable(test_strapdown_ecef strapdown_ecef_test.cpp)
+target_link_libraries (test_strapdown_ecef 	PUBLIC gpstk 
 											PRIVATE ALGLIB
 											IMUSimulator)
 											
-# strapdown_ecef_test
-add_executable(strapdown_ecef_test strapdown_ecef_test.cpp)
-target_link_libraries (strapdown_ecef_test 	PUBLIC gpstk 
-											PRIVATE ALGLIB
-											IMUSimulator)
+											
+# IMUStore_test
+add_executable(test_IMUStore IMUStore_test.cpp)
+target_link_libraries (test_IMUStore 	PUBLIC gpstk 
+										PRIVATE ALGLIB
+										IMUSimulator)
 											
 											
 											
