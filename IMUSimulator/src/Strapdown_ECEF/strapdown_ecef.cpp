@@ -116,7 +116,7 @@ namespace IMUSimulator {
 
 		/*Body rotation*/
 		Eigen::Vector3d rot = w * dt;
-		rot_skew = this->skew(rot);
+		rot_skew = skew(rot);
 		rot_norm = rot.norm();
 
 		sr_a = 1 - (pow(rot_norm,2)  / 6) + (pow(rot_norm,4) / 120);
@@ -124,13 +124,14 @@ namespace IMUSimulator {
 		mx_a = eye + sr_a*rot_skew + sr_b*rot_skew*rot_skew;
 		
 		/*Earth rotation*/
+		rot_skew = skew(rot_Earth_n);
 		rot_norm = rot_Earth_n.norm();
 		sr_a = 1 - (pow(rot_norm, 2) / 6) + (pow(rot_norm, 4) / 120);
 		sr_b = (1 / 2) - (pow(rot_norm, 2) / 24) + (pow(rot_norm, 4) / 720);
 		mx_b = eye + sr_a*rot_skew + sr_b*rot_skew*rot_skew;
 
 		Cbe = mx_b*Cbe*mx_a;
-
+		
 		/*Update Cnb matrix. navigation to body*/
 		Cnb = Cne.transpose()*Cbe;
 

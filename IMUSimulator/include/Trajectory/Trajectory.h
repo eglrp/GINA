@@ -26,10 +26,11 @@ namespace IMUSimulator {
 			void updateTime(TimeFrame, int, double);
 
 			friend std::ostream& operator<<(std::ostream&, Trajectory&);
+			friend std::ostream& operator<<(std::ostream&, Trajectory&);
 			friend std::ostream& operator<<(std::ostream&, const Position_IMU&);
 
 			friend Trajectory& operator<<(Trajectory&, strapdown_ecef&);
-			
+
 		private:
 			void printf(std::ostream&);
 			void clearNode(void);

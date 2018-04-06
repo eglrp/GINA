@@ -59,7 +59,7 @@ int main(int argc, char **argv){
 
 	double dt = 0.1;
 	double time = 0.0;
-	double time_max = 1.0;
+	double time_max = 100.0;
 
 	for (time = 0; time < time_max; time+=dt) {
 
@@ -92,12 +92,18 @@ int main(int argc, char **argv){
 		imuStore.add_measure(IMUSimulator::GPSTime, meas);
 
 		str_e.update(meas, dt);
-		std::cout << str_e << endl;
+		//std::cout << str_e << endl;
 		traj << str_e;
+		traj.updateTime(IMUSimulator::GPSTime, meas.wn, meas.tow);
 	}
 
+	IMUSimulator::Position_IMU last_traj_elements = traj.traj_data.back();
+	
 	//std::cout << imuStore << endl;
-	std::cout << traj << endl;
+	//std::cout << traj << endl;
+	std::cout << last_traj_elements;
+
+	/*Read and Parse*/
 
 	//typedef std::numeric_limits< double > dbl;
 	//cout.precision(dbl::max_digits10);
