@@ -1,4 +1,6 @@
 # apps/CMakeLists.txt
 
-add_subdirectory(apps)
-add_subdirectory(tests)
+if( BUILD_EXT_EXAMPLE )
+	add_subdirectory(apps)
+	add_subdirectory(tests)
+endif()

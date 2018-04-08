@@ -66,7 +66,7 @@ set (EXTRA_LIBS ${EXTRA_LIBS} ALGLIB)
 
 #add_subdirectory (GPSTk-master)
 file( GLOB_RECURSE GPSTK_CORE_INC_FILES "GPSTk-master/core/lib/*.hpp" )
-file( GLOB_RECURSE GPSTK_EXT_INC_FILES "ext/lib/*.h" "ext/lib/*.hpp" )
+file( GLOB_RECURSE GPSTK_EXT_INC_FILES "GPSTk-master/ext/lib/*.h" "GPSTk-master/ext/lib/*.hpp" )
   
 #----------------------------------------
 # Define /core library include directories
@@ -94,7 +94,7 @@ set( GPSTK_EXT_INC_DIRS "" )
   list( REMOVE_DUPLICATES GPSTK_EXT_INC_DIRS )
 
 add_subdirectory (GPSTk-master)
-set (EXTRA_LIBS ${EXTRA_LIBS} gpstk)
+set (EXTRA_LIBS ${EXTRA_LIBS} gpstk_extra)
 set (GPSTK_LIBS ${GPSTK_LIBS} gpstk)
 
 # Set header files and include directories to use eigen lib

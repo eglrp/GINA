@@ -1,7 +1,7 @@
 # tests/CMakeLists.txt
 
 
-if( BUILD_EXT )
+if( BUILD_EXT_EXAMPLE )
 	# A program to help app testing
 	add_executable(df_diff df_diff.cpp)
 	target_link_libraries(df_diff gpstk)

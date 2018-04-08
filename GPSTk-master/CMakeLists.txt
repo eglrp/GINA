@@ -31,7 +31,8 @@ set( EXPORT_TARGETS_FILENAME "GPSTKTargets" )
 
 option( DEBUG_SWITCH "HELP: DEBUG_SWITCH: Default = OFF, print some CMake variable values to stdout." OFF )
 option( DEBUG_VERBOSE "HELP: DEBUG_VERBOSE: Default = OFF, print all CMake variable values." OFF )
-option( BUILD_EXT "HELP: BUILD_EXT: SWITCH, Default = OFF, Build the ext library, in addition to the core library.Examples will be built." OFF )
+option( BUILD_EXT "HELP: BUILD_EXT: SWITCH, Default = ON, Build the ext library, in addition to the core library.Examples will not be built." ON )
+option( BUILD_EXT_EXAMPLE "HELP: BUILD_EXT_EXAMPLE: SWITCH, Default = OFF, Build the ext library, in addition to the core library.Examples will be built." OFF )
 option( TEST_SWITCH "HELP: TEST_SWITCH: SWITCH, Default = OFF, Turn on test mode." OFF )
 option( BUILD_PYTHON "HELP: BUILD_PYTHON: SWITCH, Default = OFF, Turn on processing of python extension package." OFF )
 
@@ -144,9 +145,13 @@ endif( )
 
 add_subdirectory( core )
 
+
+
 if( BUILD_EXT )
    add_subdirectory( ext )
-   add_subdirectory( examples )
+   if( BUILD_EXT_EXAMPLE )
+	add_subdirectory( examples )
+endif()
    if( BUILD_PYTHON )
        add_subdirectory( swig )
    endif()
