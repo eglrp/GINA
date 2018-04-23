@@ -10,7 +10,7 @@
 
 const int ProcessRinex = 1;
 const int ProcessTrajectory = 1;
-const int Solution_to_RINEX = 1;
+const int gSolution_to_RINEX = 1;
 const int Run_Tests = 1;
 
 using namespace gpstk;

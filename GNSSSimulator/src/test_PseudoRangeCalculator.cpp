@@ -387,6 +387,8 @@ int PseudoRangeCalculator_test7(void) {
 	int returnValue = true;
 	bool outputfail = false;
 
+	gnsssim_utils gnsssimUtils;
+
 	string trajFileNamewPath = "..\\..\\GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_Generated_Fullday.txt";
 	string navFileNamewPath("..\\..\\GNSSSimulator\\RinexFiles\\brdc2530.17n");
 
@@ -464,9 +466,9 @@ int PseudoRangeCalculator_test7(void) {
 		tropDelays.clear();
 
 		///Psdrangecalc model and error config
-		psdRangeCalc.setTropModel(&zeroTrop);				//&neillTrop,&zeroTrop,nullptr
-		psdRangeCalc.setIonoModel(nullptr);
-		psdRangeCalc.setNormalDIstError(0.0,5.0);
+		psdRangeCalc.setTropModel(&neillTrop);				//&neillTrop,&zeroTrop,nullptr
+		psdRangeCalc.setIonoModel(&ionoModel);
+		psdRangeCalc.setNormalDIstError(0.0,2.0);
 		/// Error config end
 
 		for (int i = 1; i <= 32; i++) {
@@ -474,6 +476,11 @@ int PseudoRangeCalculator_test7(void) {
 			//if (psdRangeCalc.calcPseudoRangeTrop(time_it.convertToCommonTime(), testId, psdrange,&neillTrop)) {
 			//if (psdRangeCalc.calcPseudoRangeTropIono(time_it.convertToCommonTime(), testId, psdrange, &neillTrop,&ionoModel)) {
 			if (psdRangeCalc.calcPseudoRange(time_it.convertToCommonTime(), testId, psdrange)) {
+				/*if (testId.id == 30)
+				{
+					psdrange += 15.0;
+				}
+				*/
 				psdrangeVec.push_back(psdrange);
 				SatID tempid(testId);
 				satIdVec.push_back(tempid);
@@ -508,8 +515,9 @@ int PseudoRangeCalculator_test7(void) {
 				<< " " << std::setprecision(20) << RaimSolver.Solution[2] << endl;
 		cout << "Size of sat vector:" << satIdVec.size() << endl;
 		cout << "Number of good satelite are used in the solution: " << RaimSolver.Nsvs << endl;
-
 		
+		
+
 		Position calculated_roverPos(RaimSolver.Solution[0], RaimSolver.Solution[1], RaimSolver.Solution[2]);
 
 		/*WGS84Ellipsoid* wgs84ellmodel;
@@ -519,11 +527,19 @@ int PseudoRangeCalculator_test7(void) {
 		Position diff;
 
 		diff = roverPos - calculated_roverPos;
-		cout << std::setprecision(7) <<
+		/*cout << std::setprecision(7) <<
 			"Position difference: " << diff.getX() << " " << diff.getY() << " " << diff.getZ() << " Abs: " <<
 			sqrt(pow(diff.getX(), 2) + pow(diff.getY(), 2) + pow(diff.getZ(), 2)) << endl;
+		*/
 		ostrm << "Rover " << roverPos.asECEF()[0] << " " << roverPos.asECEF()[1] << " " << roverPos.asECEF()[2] << endl;
+		
+		//// Rinex Observation Output generation
+		
+		psdRangeCalc.obsContainer[time_it] = make_pair(satIdVec, psdrangeVec);
+		
 	}
+	gnsssimUtils.prepareRinexObsFile(psdRangeCalc.obsContainer);
+	gnsssimUtils.createRinexObsFile();
 	ostrm.close();
 
 	return true;

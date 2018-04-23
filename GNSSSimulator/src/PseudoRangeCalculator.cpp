@@ -4,6 +4,7 @@
 
 PseudoRangeCalculator::PseudoRangeCalculator()
 {
+	obsContainer.clear();
 }
 
 PseudoRangeCalculator::~PseudoRangeCalculator()

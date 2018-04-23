@@ -1,5 +1,6 @@
 #pragma once
 #include "PseudoRangeCalculator.h"
+#include "utils.h"
 #include "PRSolution2.hpp"
 #include "PRSolution.hpp"
 #include "IonoModel.hpp"

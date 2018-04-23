@@ -31,6 +31,8 @@ public:
 	PseudoRangeCalculator();
 	~PseudoRangeCalculator();
 
+	map < CommonTime, pair<vector<SatID>, vector<double>>> obsContainer;
+
 	void ProcessTrajectoryFile(const char*);
 	void ProcessEphemerisFile(const char*);
 	bool getIonoVals(vector<double>& );
@@ -72,6 +74,8 @@ private:
 	bool isNormalDistSet = false;
 	TropModel* trpmdl;
 	IonoModel* ionomdl;
+
+	
 
 
 };
