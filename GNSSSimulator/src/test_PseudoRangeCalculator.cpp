@@ -390,6 +390,7 @@ int PseudoRangeCalculator_test7(void) {
 	gnsssim_utils gnsssimUtils;
 
 	string trajFileNamewPath = "..\\..\\GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_Generated_Fullday.txt";
+	//string trajFileNamewPath = "C:\\Local WorkSpace\\00_VMPS\\LocalRepo\\Main\\Results\\20180424T100258\\trajectory.txt";
 	string navFileNamewPath("..\\..\\GNSSSimulator\\RinexFiles\\brdc2530.17n");
 
 	ofstream ostrm("..\\..\\GNSSSimulator\\TrajectoryTestFiles\\output_RaimSolution_test.txt", std::ios::out);	//Output file
@@ -466,9 +467,9 @@ int PseudoRangeCalculator_test7(void) {
 		tropDelays.clear();
 
 		///Psdrangecalc model and error config
-		psdRangeCalc.setTropModel(&neillTrop);				//&neillTrop,&zeroTrop,nullptr
-		psdRangeCalc.setIonoModel(&ionoModel);
-		psdRangeCalc.setNormalDIstError(0.0,2.0);
+		psdRangeCalc.setTropModel(&zeroTrop);				//&neillTrop,&zeroTrop,nullptr
+		psdRangeCalc.setIonoModel(nullptr);
+		psdRangeCalc.setNormalDIstError(0.0,0.0);
 		/// Error config end
 
 		for (int i = 1; i <= 32; i++) {
@@ -476,11 +477,6 @@ int PseudoRangeCalculator_test7(void) {
 			//if (psdRangeCalc.calcPseudoRangeTrop(time_it.convertToCommonTime(), testId, psdrange,&neillTrop)) {
 			//if (psdRangeCalc.calcPseudoRangeTropIono(time_it.convertToCommonTime(), testId, psdrange, &neillTrop,&ionoModel)) {
 			if (psdRangeCalc.calcPseudoRange(time_it.convertToCommonTime(), testId, psdrange)) {
-				/*if (testId.id == 30)
-				{
-					psdrange += 15.0;
-				}
-				*/
 				psdrangeVec.push_back(psdrange);
 				SatID tempid(testId);
 				satIdVec.push_back(tempid);
@@ -508,15 +504,15 @@ int PseudoRangeCalculator_test7(void) {
 		
 
 		cout << RaimSolver.RAIMCompute(civtime, satIdVec, psdrangeVec, psdRangeCalc.bceStore, tropModelPtr) << endl;
-		cout << std::setprecision(12) << RaimSolver.Solution[0] << " " <<
+		/*cout << std::setprecision(12) << RaimSolver.Solution[0] << " " <<
 			std::setprecision(12) << RaimSolver.Solution[1] << "  " <<
-			std::setprecision(12) << RaimSolver.Solution[2] << endl;
+			std::setprecision(12) << RaimSolver.Solution[2] << endl;*/
 		ostrm << std::setprecision(20) << RaimSolver.Solution[0] << " " << std::setprecision(20) << RaimSolver.Solution[1]
 				<< " " << std::setprecision(20) << RaimSolver.Solution[2] << endl;
-		cout << "Size of sat vector:" << satIdVec.size() << endl;
+		/*cout << "Size of sat vector:" << satIdVec.size() << endl;
 		cout << "Number of good satelite are used in the solution: " << RaimSolver.Nsvs << endl;
 		
-		
+		*/
 
 		Position calculated_roverPos(RaimSolver.Solution[0], RaimSolver.Solution[1], RaimSolver.Solution[2]);
 
@@ -539,7 +535,8 @@ int PseudoRangeCalculator_test7(void) {
 		
 	}
 	gnsssimUtils.prepareRinexObsFile(psdRangeCalc.obsContainer);
-	gnsssimUtils.createRinexObsFile();
+	//gnsssimUtils.createRinexObsFile();
+	gnsssimUtils.createRinexObsFile1();
 	ostrm.close();
 
 	return true;

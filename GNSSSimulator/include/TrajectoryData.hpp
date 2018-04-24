@@ -70,6 +70,8 @@ namespace gnsssimulator
 	
 		
 	private:
+		TrajectoryStream* strm;
+
 		void TrajectoryData::getPosition(const std::string& currentLine)
 			throw(gpstk::StringUtils::StringException, gpstk::FFStreamError);
 

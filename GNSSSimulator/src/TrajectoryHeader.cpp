@@ -6,15 +6,18 @@
 namespace gnsssimulator {
 
 	
-
+	
 
 	const string TrajectoryHeader::positionFormatTypeLLH = "LLH";
 	const string TrajectoryHeader::positionFormatTypeECEF = "ECEF";
-	const string TrajectoryHeader::startofHeader = "GNSS Trajectory File";
+	const string TrajectoryHeader::startofHeaderGnssSim = "GNSS Trajectory File";
+	const string TrajectoryHeader::startofHeaderPina = "START OF HEADER";
+	const string TrajectoryHeader::startofHeaderCsSim = "Trajectory Header CSSIM";
 	const string TrajectoryHeader::endOfHeader = "END OF HEADER";
 	const string TrajectoryHeader::positionTypeLLHString = "Position LLH";
 	const string TrajectoryHeader::positionTypeECEFString = "Position ECEF";
 	const string TrajectoryHeader::endofHeaderString = "END OF HEADER";
+
 
 	void TrajectoryHeader::reallyGetRecord(gpstk::FFStream& ffs)
 		throw(exception,
@@ -34,9 +37,23 @@ namespace gnsssimulator {
 			if (firstLineisRead == false){
 				strm.formattedGetLine(line);
 				gpstk::StringUtils::stripTrailing(line);
-				if (line != startofHeader) {
+				if (line != startofHeaderGnssSim) {
 					valid = false;
 				}
+				if (line == startofHeaderGnssSim)
+					formatSpec = isFormatGNSSSIM;
+				else if (line == startofHeaderCsSim)
+				{
+					formatSpec = isFormatCSSIM;
+					isHeaderEnd = true;
+					strm.headerRead = true;
+					strm.header = *this;
+					coorSys = gpstk::Position::CoordinateSystem::Cartesian;
+					isPosFormatSet = true;
+				}
+				else if (line == startofHeaderPina)
+					formatSpec = isFormatPINA;
+
 				firstLineisRead = true;
 				continue;
 			}
@@ -44,6 +61,7 @@ namespace gnsssimulator {
 			strm.formattedGetLine(line);
 			gpstk::StringUtils::stripTrailing(line);
 
+			
 			if (line.length() == 0) continue;
 
 			if ( !isPosFormatSet && line == positionTypeLLHString) {
@@ -68,7 +86,7 @@ namespace gnsssimulator {
 
 		string line;
 
-		line = startofHeader;
+		line = startofHeaderGnssSim;
 		strm << line << endl;
 		strm.lineNumber++;
 
