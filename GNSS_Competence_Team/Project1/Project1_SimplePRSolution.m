@@ -43,7 +43,7 @@ figure;
 hold on;
 title('Solution values during the iteration');
 xlabel('Iteration number');
-ylabel('Iterated value (');
+ylabel('Iterated value');
 %% Iterate navigation solutions
 % No SV clock error, No Iono/Tropo/Group and signal travel time errors
 % Just rcv clock error
