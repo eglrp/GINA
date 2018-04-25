@@ -44,12 +44,15 @@ namespace gnsssimulator {
 					formatSpec = isFormatGNSSSIM;
 				else if (line == startofHeaderCsSim)
 				{
+					valid = true;
 					formatSpec = isFormatCSSIM;
 					isHeaderEnd = true;
-					strm.headerRead = true;
-					strm.header = *this;
 					coorSys = gpstk::Position::CoordinateSystem::Cartesian;
 					isPosFormatSet = true;
+					strm.headerRead = true;
+					strm.header = *this;
+					firstLineisRead = true;
+					break;
 				}
 				else if (line == startofHeaderPina)
 					formatSpec = isFormatPINA;
