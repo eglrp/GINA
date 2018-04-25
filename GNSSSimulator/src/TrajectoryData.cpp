@@ -135,7 +135,7 @@ namespace gnsssimulator
 				double coor3 = asDouble(currentLine.substr(39, 10));
 
 				this->pos = gpstk::Position(coor1, coor2, coor3, coorSys, NULL);
-				this->pos = this->pos.transformTo(this->coorSys);
+				//this->pos = this->pos.transformTo(this->coorSys);
 			}
 		}
 		catch (gpstk::GeometryException &e)

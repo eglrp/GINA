@@ -43,7 +43,7 @@ void PseudoRangeCalculator::ProcessEphemerisFile(const char* fileNamewPath) {
 	inavstrm.open(fileNamewPath, ios::in);
 
 	if ( !inavstrm.is_open()) {
-		cout << "Warning : could not open navigation Rinex file. ";
+		cout << "Warning : could not open file ";
 		return;
 	}
 
