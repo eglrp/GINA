@@ -38,6 +38,7 @@ namespace gnsssimulator
 			gpstk::StringUtils::StringException) {
 
 		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+		this->strm = &strm;
 
 		if (!strm.headerRead)
 			strm >> strm.header;
@@ -81,9 +82,25 @@ namespace gnsssimulator
 	{
 		try
 		{
-			gpsTime.week = asInt(currentLine.substr(0, 4));
-			gpsTime.sow = asDouble(currentLine.substr(6, 7));
-		
+			
+			if ((this->strm)->header.formatSpec == (this->strm)->header.isFormatGNSSSIM)
+			{
+				gpsTime.week = asInt(currentLine.substr(0, 4));
+				gpsTime.sow = asDouble(currentLine.substr(6, 7));
+
+			}// TODO: Implement Pina format
+			else if ((this->strm)->header.formatSpec == (this->strm)->header.isFormatPINA)
+			{
+				gpsTime.week = asInt(currentLine.substr(0, 4));
+				gpsTime.sow = asDouble(currentLine.substr(6, 7));
+
+			}
+			else if ((this->strm)->header.formatSpec == (this->strm)->header.isFormatCSSIM)
+			{
+				gpsTime.week = asInt(currentLine.substr(0, 4));
+				gpsTime.sow = asDouble(currentLine.substr(5, 9));
+
+			}
 		}
 		catch (std::exception &e)
 		{
@@ -98,13 +115,28 @@ namespace gnsssimulator
 	{
 		try
 		{
-			double coor1 = asDouble(currentLine.substr(15, 13));
-			double coor2 = asDouble(currentLine.substr(28, 13));
-			double coor3 = asDouble(currentLine.substr(41, 13));
+			if ((this->strm)->header.formatSpec == (this->strm)->header.isFormatGNSSSIM)
+			{
+				double coor1 = asDouble(currentLine.substr(15, 13));
+				double coor2 = asDouble(currentLine.substr(28, 13));
+				double coor3 = asDouble(currentLine.substr(41, 13));
 
-			this->pos = gpstk::Position(	coor1,	coor2,	coor3, 	coorSys,  NULL );
-			this->pos = this->pos.transformTo(this->coorSys);
+				this->pos = gpstk::Position(coor1, coor2, coor3, coorSys, NULL);
+				this->pos = this->pos.transformTo(this->coorSys);
+			}//TODO: Implement Pina data
+			if ((this->strm)->header.formatSpec == (this->strm)->header.isFormatPINA)
+			{
 
+			}
+			if ((this->strm)->header.formatSpec == (this->strm)->header.isFormatCSSIM)
+			{
+				double coor1 = asDouble(currentLine.substr(16, 10));
+				double coor2 = asDouble(currentLine.substr(28, 10));
+				double coor3 = asDouble(currentLine.substr(39, 10));
+
+				this->pos = gpstk::Position(coor1, coor2, coor3, coorSys, NULL);
+				this->pos = this->pos.transformTo(this->coorSys);
+			}
 		}
 		catch (gpstk::GeometryException &e)
 		{

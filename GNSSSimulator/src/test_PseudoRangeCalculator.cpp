@@ -275,7 +275,8 @@ int PseudoRangeCalculator_test6(void) {
 	int returnValue = true;
 
 	string trajFileNamewPath = "..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_long.txt";
-	string navFileNamewPath("..\\SimulatorTest\\TestFiles\\RINEX_nav\\brdc2530.17n");
+	//string navFileNamewPath("..\\SimulatorTest\\TestFiles\\RINEX_nav\\brdc2530.17n");
+	string navFileNamewPath("..\\SimulatorTest\\TestFiles\\RINEX_nav\\brdc3130.17n");//cssim traj
 
 	ofstream ostrm("..\\Simulator\\TrajectoryTestFiles\\output_RaimSolution_test.txt", std::ios::out);	//Output file
 	ofstream ostrm_sattraj("..\\Simulator\\TrajectoryTestFiles\\output_satTrajectory.txt", std::ios::out);
@@ -389,8 +390,10 @@ int PseudoRangeCalculator_test7(void) {
 
 	gnsssim_utils gnsssimUtils;
 
-	string trajFileNamewPath = "..\\..\\GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_Generated_Fullday.txt";
-	string navFileNamewPath("..\\..\\GNSSSimulator\\RinexFiles\\brdc2530.17n");
+	//string trajFileNamewPath = "..\\..\\GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_Generated_Fullday.txt";
+	string trajFileNamewPath = "C:\\Local WorkSpace\\00_VMPS\\LocalRepo\\Main\\Results\\20180424T100258\\trajectory.txt";
+	//string navFileNamewPath("..\\..\\GNSSSimulator\\RinexFiles\\brdc2530.17n");
+	string navFileNamewPath("..\\..\\GNSSSimulator\\RinexFiles\\brdc3130.17n");//CSsim traj
 
 	ofstream ostrm("..\\..\\GNSSSimulator\\TrajectoryTestFiles\\output_RaimSolution_test.txt", std::ios::out);	//Output file
 	ofstream ostrm_sattraj("..\\..\\GNSSSimulator\\TrajectoryTestFiles\\output_satTrajectory.txt", std::ios::out);
@@ -403,18 +406,18 @@ int PseudoRangeCalculator_test7(void) {
 	TrajectoryStream trajFileIn(trajFileNamewPath.c_str()); //("..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
 	TrajectoryHeader trajHeader;
 	TrajectoryData trajData;
-	TrajectoryStore test_trajStore;
+	TrajectoryStore test_trajStore = psdRangeCalc.trajStore;
 
 	trajFileIn >> trajHeader;
 
-	while (trajFileIn >> trajData) {
+	/*while (trajFileIn >> trajData) {
 		try {
 			test_trajStore.addPosition(trajData);
 		}
 		catch (...) {
 			cout << "Reading Trajectory data was not successfull " << endl;
 		}
-	}
+	}*/
 	vector<GPSWeekSecond> traj_time = test_trajStore.listTime();
 
 	CommonTime comTime = traj_time[0].convertToCommonTime();
@@ -466,9 +469,9 @@ int PseudoRangeCalculator_test7(void) {
 		tropDelays.clear();
 
 		///Psdrangecalc model and error config
-		psdRangeCalc.setTropModel(&neillTrop);				//&neillTrop,&zeroTrop,nullptr
-		psdRangeCalc.setIonoModel(&ionoModel);
-		psdRangeCalc.setNormalDIstError(0.0,2.0);
+		psdRangeCalc.setTropModel(&zeroTrop);				//&neillTrop,&zeroTrop,nullptr
+		psdRangeCalc.setIonoModel(nullptr);
+		psdRangeCalc.setNormalDIstError(0.0,0.0);
 		/// Error config end
 
 		for (int i = 1; i <= 32; i++) {
@@ -476,11 +479,6 @@ int PseudoRangeCalculator_test7(void) {
 			//if (psdRangeCalc.calcPseudoRangeTrop(time_it.convertToCommonTime(), testId, psdrange,&neillTrop)) {
 			//if (psdRangeCalc.calcPseudoRangeTropIono(time_it.convertToCommonTime(), testId, psdrange, &neillTrop,&ionoModel)) {
 			if (psdRangeCalc.calcPseudoRange(time_it.convertToCommonTime(), testId, psdrange)) {
-				/*if (testId.id == 30)
-				{
-					psdrange += 15.0;
-				}
-				*/
 				psdrangeVec.push_back(psdrange);
 				SatID tempid(testId);
 				satIdVec.push_back(tempid);
@@ -527,10 +525,10 @@ int PseudoRangeCalculator_test7(void) {
 		Position diff;
 
 		diff = roverPos - calculated_roverPos;
-		/*cout << std::setprecision(7) <<
+		cout << std::setprecision(7) <<
 			"Position difference: " << diff.getX() << " " << diff.getY() << " " << diff.getZ() << " Abs: " <<
 			sqrt(pow(diff.getX(), 2) + pow(diff.getY(), 2) + pow(diff.getZ(), 2)) << endl;
-		*/
+		
 		ostrm << "Rover " << roverPos.asECEF()[0] << " " << roverPos.asECEF()[1] << " " << roverPos.asECEF()[2] << endl;
 		
 		//// Rinex Observation Output generation
@@ -539,7 +537,8 @@ int PseudoRangeCalculator_test7(void) {
 		
 	}
 	gnsssimUtils.prepareRinexObsFile(psdRangeCalc.obsContainer);
-	gnsssimUtils.createRinexObsFile();
+	//gnsssimUtils.createRinexObsFile();
+	gnsssimUtils.createRinexObsFile1();
 	ostrm.close();
 
 	return true;

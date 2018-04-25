@@ -33,6 +33,12 @@ namespace gnsssimulator {
 		/// This function dumps the contents of the header.
 		virtual void dump(std::ostream& s) const;
 
+		enum FormatSpec {
+			isFormatPINA = 1,
+			isFormatCSSIM = 2,
+			isFormatGNSSSIM = 3
+		} formatSpec;
+
 		bool TrajectoryHeader::isPosFormatSet;
 		bool TrajectoryHeader::isHeaderEnd;
 		bool TrajectoryHeader::firstLineisRead;
@@ -43,7 +49,9 @@ namespace gnsssimulator {
 
 		static const string TrajectoryHeader::positionFormatTypeLLH;
 		static const string TrajectoryHeader::positionFormatTypeECEF;
-		static const string TrajectoryHeader::startofHeader;
+		static const string TrajectoryHeader::startofHeaderGnssSim;
+		static const string TrajectoryHeader::startofHeaderPina;
+		static const string TrajectoryHeader::startofHeaderCsSim;
 		static const string TrajectoryHeader::endOfHeader;
 		static const string TrajectoryHeader::positionTypeLLHString;
 		static const string TrajectoryHeader::positionTypeECEFString;
