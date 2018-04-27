@@ -65,6 +65,11 @@ using namespace gpstk;
 
 int main(void)
 {
+
+	gpstk::Matrix<double> A1T(2, 2);
+	gpstk::Matrix<double> A1;
+	A1T = gpstk::transpose(A1);
+
 	int argc = 3;
 	string argv[4]; 
 	argv[0] = "GNSS Competence Team Project";
