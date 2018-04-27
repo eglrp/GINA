@@ -3,21 +3,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "linalg.h"
-#include "alglibinternal.h"
-
 #include "GPSWeekSecond.hpp"
 #include "BasicFramework.hpp"
 #include "SatID.hpp"
 #include "CommonTime.hpp"
 #include "Xvt.hpp"
 #include "XvtStore.hpp"
+#include "MatrixOperators.hpp"
+
 
 #include "PRSolution.hpp"
 
-#include <Eigen/Dense>
+#include "main.h"
 using namespace std;
 using namespace gpstk;
+using gpstk::transpose;
 
 Position rover(0.0, 0.0, 6400.0, Position::Geodetic, 0, ReferenceFrame::WGS84);
 Position pos1(6400.0, -6400.0, 22000.0, Position::Geodetic, 0, ReferenceFrame::WGS84);
@@ -28,10 +28,11 @@ Position pos4(6400.0, 6400.0, 25000.0, Position::Geodetic, 0, ReferenceFrame::WG
 gpstk::PRSolution solution;
 gpstk::Xvt xvt;
 vector<Position> xvtStore;
-Xvt basicSolution;
+Position basicSolution(0, 0, 0, Position::Geodetic, 0, ReferenceFrame::WGS84);
+
 
 int main(int argc, char **argv) {
-	
+
 	xvtStore.clear();
 
 	xvtStore.push_back(pos1);
@@ -40,7 +41,7 @@ int main(int argc, char **argv) {
 	xvtStore.push_back(pos4);
 
 	basicLSQSolution();
-	
+
 	return 0;
 }
 
@@ -48,13 +49,15 @@ int main(int argc, char **argv) {
 Position basicLSQSolution() {
 
 	float convLimit = 3e-3;
+	int numSats = xvtStore.size();
 
 	double x[4] = { 0,0,0,0 };
 	vector<double> prObservations;
 	vector<double> geometricDistance;
-	
+	Matrix<double> designMatrix(numSats + 1, numSats + 1);
 
-	int numSats = xvtStore.size();
+
+
 
 	for (int i = 0; i < numSats;i++)
 	{
@@ -69,8 +72,22 @@ Position basicLSQSolution() {
 	{
 		for (int i = 0;i < numSats;i++)
 		{
-			//geometricDistance[i] = sqrt()
+			geometricDistance[i] = sqrt((basicSolution.X - xvtStore.at(i).X) ^ 2 + (basicSolution.Y - xvtStore.at(i).Y) ^ 2 + (basicSolution.Z - xvtStore.at(i).Z) ^ 2);
+			for (int j = 0;j < 3;j++)
+			{
+				double rho = sqrt((basicSolution.X - xvtStore.at(i).X) ^ 2 + (basicSolution.Y - xvtStore.at(i).Y) ^ 2 + (basicSolution.Z - xvtStore.at(i).Z) ^ 2);
+				double aij = (basicSolution[j] - xvtStore.at(i)[j] / rho);
+				designMatrix(i, j) = aij;
+			}
+			designMatrix(i, 4) = 1.0;
 		}
+
+		Matrix<double> tempMat;
+
+		tempMat = util_transpose(designMatrix);
+		
+		double determinant = det(tempMat);
+
 	}
 
 
@@ -90,3 +107,13 @@ Position gpstkSolution() {
 	return Position();
 }
 
+template <class T, class BaseClass>
+Matrix<T> util_transpose(const ConstMatrixBase<T, BaseClass>& m)
+{
+	Matrix<T> temp(m.cols(), m.rows());
+	size_t i, j;
+	for (i = 0; i < m.rows(); i++)
+		for (j = 0; j < m.cols(); j++)
+			temp(j, i) = m(i, j);
+	return temp;
+}
