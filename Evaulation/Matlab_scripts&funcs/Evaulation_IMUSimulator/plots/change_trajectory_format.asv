@@ -1,0 +1,32 @@
+function new_t_data = change_trajectory_format(t_data)
+wgs84 = wgs84Ellipsoid('meters');
+new_t_data = t_data;
+disp(t_data)
+
+%LLH -> ECF
+if strcmp('LLH',t_data.format) == 1
+      
+
+     coordinate = [t_data.lat(i) t_data.lon(i) t_data.h(i)]
+     lla2ecef([t_data.lat t_data.lon t_data.h])
+
+    field = ['lat'; 'lon'; 'h'];
+    new_t_data = rmfield(new_t_data,field);
+    new_t_data.format = 'ECEF';
+end
+
+%ECEF -> LLH
+if strcmp('ECEF',t_data.format) == 1
+
+    [ new_t_data.lat,...
+      new_t_data.lon,...
+      new_t_data.h ] = ecef2geodetic(wgs84,t_data.x,t_data.y,t_data.z);
+
+    field = ['x'; 'y'; 'z'];
+    new_t_data = rmfield(new_t_data,field);
+    new_t_data.format = 'LLH';
+end
+end
+
+
+

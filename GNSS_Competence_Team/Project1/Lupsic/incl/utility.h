@@ -43,3 +43,5 @@ void setSimpleNaviagtionCalculator(CommonTime, vector<SatID>, vector<double>);
 int get_satPos(int, double, int, double*);
 
 int get_satClock(int, double, int, double&);
+
+int get_satRelCorr(int, double, int, double&);

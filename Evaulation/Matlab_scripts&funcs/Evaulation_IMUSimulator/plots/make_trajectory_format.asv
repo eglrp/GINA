@@ -1,0 +1,24 @@
+function  t_data = make_trajectory_format(data,format)
+if strcmp('LLH',format) == 1
+    t_data.time = [data(:,1) data(:,2)]
+    t_data.long = data(:,1);
+    t_data.lat  = data(:,2);
+    t_data.high = data(:,3);
+
+    t_data.roll  = data(:,4);
+    t_data.pitch = data(:,5);
+    t_data.yaw   = data(:,6);
+end
+
+if strcmp('ECEF',format) == 1
+    t_data.time = [data(:,1) data(:,2)]
+    t_data.x = data(:,1);
+    t_data.y  = data(:,2);
+    t_data.z = data(:,3);
+
+    t_data.roll  = data(:,4);
+    t_data.pitch = data(:,5);
+    t_data.yaw   = data(:,6);
+end
+
+end 
