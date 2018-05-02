@@ -2,6 +2,8 @@
 
 #include <Eigen/Dense>
 
+void get_Result(double[]);
+
 void print_Result(void);
 
 void set_time(int, double);

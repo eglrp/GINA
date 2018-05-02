@@ -128,8 +128,8 @@ int main(void)
 		}
 
 		// Let's process one line of observation data
-		// while (roffs >> rod) // if you would you like to read all the line use this.
-		roffs >> rod;
+		while (roffs >> rod) // if you would you like to read all the line use this.
+		//roffs >> rod;
 		{
 			   // Apply editing criteria
 			if (rod.epochFlag == 0 || rod.epochFlag == 1)  // Begin usable data
