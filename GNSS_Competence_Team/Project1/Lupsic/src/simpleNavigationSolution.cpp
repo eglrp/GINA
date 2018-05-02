@@ -76,7 +76,7 @@ static double updatePosition(void) {
 
 	satId[0];
 	double temp_satPos[3], temp_iter_satPos[3];
-	double temp_satClock;
+	double temp_satClock, temp_satRelCorr;
 	double time_of_transmission, time_of_arrival;
 	double travelTime, travelTime_old;
 	double temp_dist;
@@ -111,7 +111,9 @@ static double updatePosition(void) {
 		temp_iter_satPos[1] = temp_satPos[1];
 		temp_iter_satPos[2] = temp_satPos[2];
 
-		for (int iter = 0; iter < 6; iter++) {
+		time_of_arrival = ToW;
+		time_of_transmission = ToW;
+		for (int iter = 0; iter < 2; iter++) {
 
 			temp_dist = calculateDistance(roverPos, temp_iter_satPos);
 
@@ -123,17 +125,21 @@ static double updatePosition(void) {
 			else {
 
 				travelTime_old = travelTime;
-				travelTime = temp_dist / c_mps;
-			}
+				travelTime = temp_dist / c_mps; 
 
-			time_of_arrival = ToW;
-			time_of_transmission = time_of_arrival - travelTime; // TODO we shall check week rollover
-			correctwSagnacEffect(time_of_transmission - time_of_arrival, temp_satPos, temp_iter_satPos);
+			get_satPos(WN, time_of_transmission, satId[i], temp_satPos);
 
-			get_satPos(WN, time_of_transmission, satId[i], temp_iter_satPos);
+			
+			time_of_transmission = time_of_arrival - travelTime;							// TODO we shall check week rollover
+			get_satRelCorr(WN, time_of_transmission, satId[i], temp_satRelCorr);
+			get_satClock(WN, time_of_transmission, satId[i], temp_satClock);
+			get_satPos(WN, time_of_transmission, satId[i], temp_satPos);
+			
 
 			if ( (travelTime - travelTime_old) * c_mps < 0.01) break;
 		}
+
+		correctwSagnacEffect(time_of_transmission - time_of_arrival, temp_satPos, temp_iter_satPos);
 
 		temp_satPos[0] = temp_iter_satPos[0];
 		temp_satPos[1] = temp_iter_satPos[1];
@@ -144,7 +150,8 @@ static double updatePosition(void) {
 
 		// Correct the PR with clock correction
 		get_satClock(WN, time_of_transmission, satId[i], temp_satClock);
-		PRObservations(i) += temp_satClock * c_mps;
+		get_satRelCorr(WN, time_of_transmission, satId[i], temp_satRelCorr);
+		PRObservations(i) += (temp_satClock + temp_satRelCorr) * c_mps;
 
 		// Set up design matrix
 		rho = calculateDistance(roverPos, temp_satPos);

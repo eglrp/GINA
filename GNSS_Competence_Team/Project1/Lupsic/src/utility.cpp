@@ -98,3 +98,30 @@ int get_satClock(int wn, double tow, int satId, double &clockbias) {
 	}
 
 }
+
+int get_satRelCorr(int wn, double tow, int satId, double &relcorr) {
+
+	SatID id;
+	id.id = satId;
+	id.system = SatID::SatelliteSystem::systemGPS;
+
+	GPSWeekSecond gpstime;
+	gpstime.week = wn;
+	gpstime.sow = tow;
+
+	Xvt xvt;
+
+	try {
+
+		xvt = bcestore.getXvt(id, gpstime);
+		relcorr = xvt.relcorr;
+
+		return 1;
+	}
+	catch (Exception& e) {
+
+		//cerr << e << endl;
+
+		return 0;
+	}
+}
