@@ -63,15 +63,15 @@ void simpleLS::calculateSolution(CommonTime time, vector<SatID>& prnVec, vector<
 		solution[0] += x[0];
 		solution[1] += x[1];
 		solution[2] += x[2];
-		solution[3] += x[3];
+		solution[3] = x[3];
 
 
 		//cout << "Iteration convergence: " << endl << getNorm(x) << endl;
 		//cout << covMatrix.format(CleanFmt)<<endl;
 		cout.precision(17);
 		cout << "Norm: " << fixed << getNorm(x) << "  Limit:  " << fixed << convergenceLimitLS << "  Verdict: " << (getNorm(x) > convergenceLimitLS) << endl;
-
-	} while (getNorm(x) > convergenceLimitLS);
+		cout << " Clock:   " << x[3] << endl;
+	} while (getNorm(x) < convergenceLimitLS); //Todo x(1:3), clock error nem számít normába
 	
 
 	//Convergence reached
