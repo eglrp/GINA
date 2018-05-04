@@ -5,7 +5,7 @@
 
 
 #define MAXSATNUMBER 15
-#define CONVERGENCE_LIMIT 1E-3
+#define CONVERGENCE_LIMIT 1E-5
 
 using namespace Eigen;
 
@@ -22,11 +22,19 @@ static const double c_mps = 299792458;
 static double roverPos[4] = {0, 0, 0, 0};
 //static Matrix3d designMatrix;
 
+void get_Result(double sol[]) {
+
+	sol[0] = roverPos[0];
+	sol[1] = roverPos[1];
+	sol[2] = roverPos[2];
+	sol[3] = roverPos[3];
+}
+
 void print_Result(void) {
 
-	cout << "X: " << roverPos[0] << endl;
-	cout << "Y: " << roverPos[1] << endl;
-	cout << "Z: " << roverPos[2] << endl;
+	cout << "" << roverPos[0] << " ";
+	cout << " " << roverPos[1] << " ";
+	cout << " " << roverPos[2] << "	";
 	cout << "Clock bias: " << roverPos[3] << endl;
 }
 
@@ -78,7 +86,7 @@ static double updatePosition(void) {
 	double temp_satPos[3], temp_iter_satPos[3];
 	double temp_satClock, temp_satRelCorr;
 	double time_of_transmission, time_of_arrival;
-	double travelTime, travelTime_old;
+	double travelTime = 0.0, travelTime_old = 0.0;
 	double temp_dist;
 
 	MatrixXd covMatrix = MatrixXd::Zero(4,4);
@@ -117,15 +125,8 @@ static double updatePosition(void) {
 
 			temp_dist = calculateDistance(roverPos, temp_iter_satPos);
 
-			if (iter == 0) {
-
-				travelTime_old = 0.0;
-				travelTime = 0.082;
-			}
-			else {
-
-				travelTime_old = travelTime;
-				travelTime = temp_dist / c_mps; 
+			travelTime_old = travelTime;
+			travelTime = temp_dist / c_mps;
 
 			get_satPos(WN, time_of_transmission, satId[i], temp_satPos);
 
