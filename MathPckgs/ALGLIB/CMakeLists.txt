@@ -40,7 +40,7 @@ install( FILES ${ALGLIB_INCL} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}" )
 # Set Properties #
 ##################
 #####################################################################################################################################
-set_property(DIRECTORY "${PROJECT_SOURCE_DIR}/ALGLIB" PROPERTY ALGLIB_CORE_INC_DIRS ${ALGLIB_CORE_INC_DIRS})
+set_property(DIRECTORY "${CURRENT_DIRECTORY}" PROPERTY ALGLIB_CORE_INC_DIRS ${ALGLIB_CORE_INC_DIRS})
 
 
 
