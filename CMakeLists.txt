@@ -45,17 +45,8 @@ include_directories ("${PROJECT_BINARY_DIR}")
 ##########
 #################################################################
 
-file(GLOB_RECURSE ALGLIB_INCL "ALGLIB/src/*.h")
-set( ALGLIB_CORE_INC_DIRS "" )
-
-foreach( _headerFile ${ALGLIB_INCL} )
-    get_filename_component( _dir ${_headerFile} PATH )
-    list( APPEND ALGLIB_CORE_INC_DIRS ${_dir} )
-endforeach()
-
-list( REMOVE_DUPLICATES ALGLIB_CORE_INC_DIRS )
-
 add_subdirectory (ALGLIB)
+get_property(ALGLIB_CORE_INC_DIRS DIRECTORY "C:/Users/LUS2BP/Source/Repos/PINA/ALGLIB" PROPERTY ALGLIB_CORE_INC_DIRS)
 set (EXTRA_LIBS ${EXTRA_LIBS} ALGLIB)
 
 
@@ -97,20 +88,11 @@ add_subdirectory (GPSTk-master)
 set (EXTRA_LIBS ${EXTRA_LIBS} gpstk_extra)
 set (GPSTK_LIBS ${GPSTK_LIBS} gpstk)
 
-# Set header files and include directories to use eigen lib
+#Eigen Lib
 ##############################################################
-set( EIGEN_CORE_INC_DIRS_temp "" )
-set( EIGEN_INC_FILES "" )
-
-set( EIGEN_CORE_INC_DIRS "${PROJECT_SOURCE_DIR}/Eigen/eigen-3.3.4" )
-
-file( GLOB_RECURSE EIGEN_CORE_INC_DIRS_temp "Eigen/eigen-3.3.4/Eigen/src/*.h" "Eigen/eigen_334/Eigen/src/*.hpp" )
-
-foreach( _headerFile ${EIGEN_CORE_INC_DIRS_temp} )
-    get_filename_component( _dir ${_headerFile} PATH )
-    list( APPEND EIGEN_CORE_INC_DIRS_temp ${_dir} )
-endforeach()
-
+add_subdirectory (Eigen)
+get_property(EIGEN_CORE_INC_DIRS DIRECTORY "${PROJECT_SOURCE_DIR}/Eigen" PROPERTY EIGEN_CORE_INC_DIRS)
+ 
 #IMUSimulator & IMUSimulatorLibrary
 ##############################################################
 option( IMUSimulator_Tests "HELP: IMUSimulatorTest: Default = OFF, Create tests projects of the IMUSimulator." OFF )
@@ -118,7 +100,6 @@ add_subdirectory (IMUSimulator)
 set (EXTRA_LIBS ${EXTRA_LIBS} IMUSimulatorLibrary)
 
 add_subdirectory (GNSSsimulator)
-
 
 # GNSS Competence Team's Projects
 ##############################################################

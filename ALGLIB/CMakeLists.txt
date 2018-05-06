@@ -9,8 +9,18 @@ set( EXPORT_TARGETS_FILENAME "ALGLIBTargets" )
 
 
 file(GLOB_RECURSE ALGLIB_SOURCES "src/*.cpp")
-#file(GLOB_RECURSE ALGLIB_INCL "src/*.h")
+file(GLOB_RECURSE ALGLIB_INCL "src/*.h")
 
+set( ALGLIB_CORE_INC_DIRS "" )
+
+foreach( _headerFile ${ALGLIB_INCL} )
+    get_filename_component( _dir ${_headerFile} PATH )
+    list( APPEND ALGLIB_CORE_INC_DIRS ${_dir} )
+endforeach()
+
+list( REMOVE_DUPLICATES ALGLIB_CORE_INC_DIRS )
+
+#message("Property read from root ALGLIB_CORE_INC_DIRS. From sub: " ${ALGLIB_CORE_INC_DIRS})
 
 # Add every directory containing a header file
 # to the project(ALGLIB) include_directories
@@ -25,3 +35,16 @@ install( TARGETS ALGLIB DESTINATION "${CMAKE_INSTALL_LIBDIR}" EXPORT "${EXPORT_T
 
 # ALGLIB header file install target
 install( FILES ${ALGLIB_INCL} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}" )
+
+##################
+# Set Properties #
+##################
+#####################################################################################################################################
+set_property(DIRECTORY "${PROJECT_SOURCE_DIR}/ALGLIB" PROPERTY ALGLIB_CORE_INC_DIRS ${ALGLIB_CORE_INC_DIRS})
+
+
+
+
+
+
+
