@@ -1,0 +1,3 @@
+GNSS Trajectory File
+Position ECEF
+END OF HEADER

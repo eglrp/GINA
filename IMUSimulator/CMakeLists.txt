@@ -20,7 +20,7 @@ list( REMOVE_DUPLICATES IMU_CORE_INC_DIRS )
 
 # Add every directory containing a header file
 # to the project(IMUSimulator) include_directories
-include_directories( ${IMU_CORE_INC_DIRS} ${ALGLIB_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${EIGEN_CORE_INC_DIRS})
+include_directories( ${IMU_CORE_INC_DIRS} ${ALGLIB_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${EIGEN_CORE_INC_DIRS} ${GNSSSIM_INCLUDE_DIRS})
 
 
 # define src and include files needed to build library target
@@ -52,3 +52,20 @@ assign_source_group(${IMU_All_FILES})
 if(IMUSimulator_Tests)
 	add_subdirectory(tests)
 endif()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

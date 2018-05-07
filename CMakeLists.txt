@@ -56,7 +56,7 @@ add_subdirectory (MathPckgs)
 	############
 	#################################################################
 	get_property(EIGEN_CORE_INC_DIRS DIRECTORY "${PROJECT_SOURCE_DIR}/MathPckgs/Eigen" PROPERTY EIGEN_CORE_INC_DIRS)
-	message("Property for root directory root read from EIGEN_CORE_INC_DIRS: " ${EIGEN_CORE_INC_DIRS})
+	#message("Property for root directory root read from EIGEN_CORE_INC_DIRS: " ${EIGEN_CORE_INC_DIRS})
 
 #########
 # GPSTK #
@@ -96,15 +96,24 @@ add_subdirectory (GPSTk-master)
 set (EXTRA_LIBS ${EXTRA_LIBS} gpstk_extra)
 set (GPSTK_LIBS ${GPSTK_LIBS} gpstk)
 
+#PINAPArser
+##############################################################
+option( PINAParser "HELP: Build Pina Parser: SWITCH, Default = ON, Build the PINAPArser" ON )
+add_subdirectory (PINAPArser) 
+get_property(PINAPARSER_CORE_INC_DIRS DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/PINAParser" PROPERTY PINAPARSER_CORE_INC_DIRS)
+# message("Property for root directory root read from GNSSSIM_INCLUDE_DIRS: " ${GNSSSIM_INCLUDE_DIRS})
 
+#GNSSsimulator
+##############################################################
+add_subdirectory (GNSSsimulator)
+get_property(GNSSSIM_INCLUDE_DIRS DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/GNSSSimulator" PROPERTY GNSSSIM_INCLUDE_DIRS)
+# message("Property for root directory root read from GNSSSIM_INCLUDE_DIRS: " ${GNSSSIM_INCLUDE_DIRS})
  
 #IMUSimulator & IMUSimulatorLibrary
 ##############################################################
 option( IMUSimulator_Tests "HELP: IMUSimulatorTest: Default = OFF, Create tests projects of the IMUSimulator." OFF )
 add_subdirectory (IMUSimulator)
 set (EXTRA_LIBS ${EXTRA_LIBS} IMUSimulatorLibrary)
-
-add_subdirectory (GNSSsimulator)
 
 # GNSS Competence Team's Projects
 ##############################################################

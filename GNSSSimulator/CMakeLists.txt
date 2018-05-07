@@ -1,4 +1,4 @@
-file(GLOB GNSSSIM_SRC src/*.cpp)
+file(GLOB GNSSSIM_SRC "src/*.cpp")
 file(GLOB GNSSSIM_INCL "include/*.h" "include/*.hpp")
 
 
@@ -31,3 +31,22 @@ set( GNSS_All_FILES "" )
 list( APPEND GNSS_All_FILES ${GNSSSIM_SRC})
 list( APPEND GNSS_All_FILES ${GNSSSIM_INCL})					
 assign_source_group(${GNSS_All_FILES})
+
+##################
+# Set Properties #
+##################
+#####################################################################################################################################
+set( GNSSSIM_INCLUDE_DIRS "" )
+set_property(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" PROPERTY GNSSSIM_INCLUDE_DIRS ${GNSSSim_INC_DIRS})
+
+
+
+
+
+
+
+
+
+
+
+

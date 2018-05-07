@@ -19,6 +19,17 @@
 #include "IMUSignalGenerator.h"
 #include "IMUStore.h"
 
+//Own includes
+#include "trajectoryReader.h"
+#include "satDataContainer.h"
+#include "TrajectoryBase.hpp"
+#include "TrajectoryData.hpp"
+#include "TrajectoryHeader.hpp"
+#include "TrajectoryStream.hpp"
+#include "TrajectoryStore.hpp"
+#include "PRsolution.h"
+#include "utils.h"
+
 using namespace std;
 
 int main(int argc, char **argv){
