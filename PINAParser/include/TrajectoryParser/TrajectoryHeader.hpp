@@ -60,6 +60,7 @@ namespace PINASimulator {
 
 		//TrajectoryStream strm;
 
+		static const int TrajectoryHeader::numberofLineinHeader;
 		static const string TrajectoryHeader::startofHeaderPinaTag;
 		static const string TrajectoryHeader::secondLineOfPINATrajectoryTag;
 		static const string TrajectoryHeader::creatorOfFileTag;
@@ -99,6 +100,8 @@ namespace PINASimulator {
 				gpstk::StringUtils::StringException);
 
 	private:
+
+		// Read methods
 		bool hasStartofHeaderFound(string&, gpstk::FFStream&);
 		bool hasCreatorFound(string&);
 		bool hasTimeofCreationFound(string&);
@@ -111,6 +114,23 @@ namespace PINASimulator {
 		bool hasStartAttitudeFound(string&);
 		bool hasEpochIntervalFound(string&);
 		bool hasEndofHeaderFound(string&, gpstk::FFStream&);
+
+		// Write methods
+		bool writeStartofHeader(gpstk::FFStream&) const;
+		bool writeCreatorFound(gpstk::FFStream&) const;
+		bool writeTimeofCreationFound(gpstk::FFStream&) const;
+		bool writeTimeSystemFound(gpstk::FFStream&) const;
+		bool writeStartTimeFound(gpstk::FFStream&) const;
+		bool writeEndTimeFound(gpstk::FFStream&) const;
+		bool writeCoordinateSystemFound(gpstk::FFStream&) const;
+		bool writeStartPositionFound(gpstk::FFStream&) const;
+		bool writeStartVelocityFound(gpstk::FFStream&) const;
+		bool writeStartAttitudeFound(gpstk::FFStream&) const;
+		bool writeEpochIntervalFound(gpstk::FFStream&) const;
+		bool writeEndofHeaderFound(gpstk::FFStream&) const;
+		bool writeEmptyLine(gpstk::FFStream&) const;
+
+		
 
 	}; // End of class 'Rinex3NavHeader'
 

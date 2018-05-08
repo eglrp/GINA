@@ -4,6 +4,7 @@
 
 namespace PINASimulator {
 
+	const int TrajectoryHeader::numberofLineinHeader = 21;
 	const string TrajectoryHeader::startofHeaderPinaTag = "START OF HEADER";
 	const string TrajectoryHeader::secondLineOfPINATrajectoryTag = "TYPE PINA TRAJECTORY";
 	const string TrajectoryHeader::creatorOfFileTag = "CREATOR";
@@ -58,10 +59,50 @@ namespace PINASimulator {
 			else continue;
 
 		}
+
+		writeStartofHeader(ffs);
+
 	}
 
 	void TrajectoryHeader::reallyPutRecord(gpstk::FFStream& ffs) const
 		throw(exception, gpstk::FFStreamError, gpstk::StringUtils::StringException) {
+		
+		const TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+
+		while (strm.lineNumber < numberofLineinHeader) {
+
+			writeStartofHeader(ffs);
+			writeCreatorFound(ffs);
+			writeTimeofCreationFound(ffs);
+			writeTimeSystemFound(ffs);
+			writeStartTimeFound(ffs);
+			writeEndTimeFound(ffs);
+			writeCoordinateSystemFound(ffs);
+			writeStartPositionFound(ffs);
+			writeStartVelocityFound(ffs);
+			writeStartAttitudeFound(ffs);
+			writeEpochIntervalFound(ffs);
+			writeEndofHeaderFound(ffs);
+
+			writeEmptyLine(ffs);
+		}
+		
+
+		return;
+	}
+		/*writeCreatorFound(strm);
+		writeTimeofCreationFound(strm);
+		writeTimeSystemFound(strm);
+		writeStartTimeFound(strm);
+		writeEndTimeFound(strm);
+		writeCoordinateSystemFound(strm);
+		writeStartPositionFound(strm);
+		writeStartVelocityFound(strm);
+		writeStartAttitudeFound(strm);
+		writeEpochIntervalFound(strm);
+		writeEndofHeaderFound(strm);*/
+
+		/*
 		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
 
 		string line;
@@ -171,7 +212,7 @@ namespace PINASimulator {
 		strm << startVelocityTag << " " << startVelocity[0] << " " << startVelocity[1] << " " << startVelocity[2] << endl;
 		strm.lineNumber++;
 
-		// Write startin velocity 
+		// Write startin attitude 
 		strm << startAttitudeTag << " " << startAttitude[0] << " " << startAttitude[1] << " " << startAttitude[2] << endl;
 		strm.lineNumber++;
 
@@ -180,17 +221,17 @@ namespace PINASimulator {
 		strm.lineNumber++;
 
 		// Write end of header tag
-		line = endOfHeaderTag;
-		strm << line << std::endl;
+		strm << endOfHeaderTag << std::endl;
 		strm.lineNumber++;
+		*/
 
-		return;
-	}
+	
 
 	void TrajectoryHeader::dump(ostream& s) const {
 
 	}
 
+	/*Read methods*/
 	bool TrajectoryHeader::hasStartofHeaderFound(string& line, gpstk::FFStream& ffs) {
 
 		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
@@ -519,6 +560,239 @@ namespace PINASimulator {
 		}
 	}
 
+	/*Write methods*/
+	bool TrajectoryHeader::writeStartofHeader( gpstk::FFStream& ffs) const {
+	
+		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+		if (strm.lineNumber == 0) {
+
+			strm << startofHeaderPinaTag << endl;
+			strm.lineNumber++;
+			return true;
+		}
+		else if (strm.lineNumber == 1){
+
+			strm << secondLineOfPINATrajectoryTag << endl;
+			strm.lineNumber++;
+			return true;
+		}
+		else {
+
+			return false;
+		}
+		return false;
+	}
+
+	bool TrajectoryHeader::writeCreatorFound(gpstk::FFStream& ffs) const {
+		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+
+		if (strm.lineNumber == 4) {
+			strm << creatorOfFileTag << " " << Creator << endl;
+			strm.lineNumber++;
+			return true;
+		}
+		
+		return false;
+	}
+
+	bool TrajectoryHeader::writeTimeofCreationFound(gpstk::FFStream& ffs) const {
+		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+
+		if (strm.lineNumber == 5) {
+			strm << timeofCreationTag << " " << timeOfCreation << endl;
+			strm.lineNumber++;
+
+			return true;
+		}
+
+		return false;
+	}
+
+	bool TrajectoryHeader::writeTimeSystemFound(gpstk::FFStream& ffs) const {
+		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+
+		if (strm.lineNumber == 8) {
+
+			if (timeSys.getTimeSystem() == gpstk::TimeSystem::Systems::GPS) {
+				strm << timeSystemDefinitionTag << " " << "GPS" << endl;
+			}
+			else if (timeSys.getTimeSystem() == gpstk::TimeSystem::Systems::GAL) {
+				strm << timeSystemDefinitionTag << " " << "GAL" << endl;
+			}
+			else {
+				strm << timeSystemDefinitionTag << " " << timeSys.getTimeSystem() << endl;
+			}
+			strm.lineNumber++;
+
+			return true;
+		}
+
+		return false;
+	}
+
+	bool TrajectoryHeader::writeStartTimeFound(gpstk::FFStream& ffs) const {
+		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+
+		if (strm.lineNumber == 9) {
+
+			if (timeSys.getTimeSystem() == gpstk::TimeSystem::Systems::GPS) {
+				gpstk::GPSWeekSecond startGPSTime(startTime);
+				strm << startTimeTag << " " << startGPSTime.week << " " << startGPSTime.sow << endl;
+			}
+			else if (timeSys.getTimeSystem() == gpstk::TimeSystem::Systems::GAL) {
+				gpstk::GALWeekSecond startGALTime(startTime);
+				strm << startTimeTag << " " << startGALTime.week << " " << startGALTime.sow << endl;
+			}
+			else {
+				strm << startTimeTag << " " << timeSystemDefinitionTag << " " << timeSys.getTimeSystem() << endl;
+			}
+			strm.lineNumber++;
+
+
+			return true;
+		}
+
+		return false;
+	}
+
+	bool TrajectoryHeader::writeEndTimeFound(gpstk::FFStream& ffs) const {
+		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+
+		if (strm.lineNumber == 10) {
+
+			if (timeSys.getTimeSystem() == gpstk::TimeSystem::Systems::GPS) {
+				gpstk::GPSWeekSecond startGPSTime(endTime);
+				strm << endTimeTag << " " << startGPSTime.week << " " << startGPSTime.sow << endl;
+			}
+			else if (timeSys.getTimeSystem() == gpstk::TimeSystem::Systems::GAL) {
+				gpstk::GALWeekSecond startGALTime(endTime);
+				strm << endTimeTag << " " << startGALTime.week << " " << startGALTime.sow << endl;
+			}
+			else {
+				strm << endTimeTag << " " << timeSystemDefinitionTag << " " << timeSys.getTimeSystem() << endl;
+			}
+			strm.lineNumber++;
+
+			return true;
+		}
+
+		return false;
+	}
+
+	bool TrajectoryHeader::writeCoordinateSystemFound(gpstk::FFStream& ffs) const {
+		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+
+		if (strm.lineNumber == 12) {
+
+			if (coorSys == gpstk::Position::CoordinateSystem::Cartesian) {
+				strm << positionTypeECEFTag << endl;
+				strm.lineNumber++;
+			}
+			else if (coorSys == gpstk::Position::CoordinateSystem::Geodetic) {
+				strm << positionTypeLLHTag << endl;
+				strm.lineNumber++;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	bool TrajectoryHeader::writeStartPositionFound(gpstk::FFStream& ffs) const {
+		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+
+		if (strm.lineNumber == 14) {
+
+			if (coorSys == gpstk::Position::CoordinateSystem::Cartesian) {
+				strm << startPositionTag << " " << Coordinate.getX() << " " << Coordinate.getY() << " " << Coordinate.getZ() << endl;
+				strm.lineNumber++;
+			}
+			else if (coorSys == gpstk::Position::CoordinateSystem::Geodetic) {
+				strm << startPositionTag << " " << Coordinate.getGeodeticLatitude() << " " << Coordinate.getLongitude() << " " << Coordinate.getHeight() << endl;
+				strm.lineNumber++;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	bool TrajectoryHeader::writeStartVelocityFound(gpstk::FFStream& ffs) const {
+		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+
+		if (strm.lineNumber == 15) {
+			strm << startVelocityTag << " " << startVelocity[0] << " " << startVelocity[1] << " " << startVelocity[2] << endl;
+			strm.lineNumber++;
+
+			return true;
+		}
+
+		return false;
+	}
+
+	bool TrajectoryHeader::writeStartAttitudeFound(gpstk::FFStream& ffs) const {
+		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+
+		if (strm.lineNumber == 16) {
+			strm << startAttitudeTag << " " << startAttitude[0] << " " << startAttitude[1] << " " << startAttitude[2] << endl;
+			strm.lineNumber++;
+
+			return true;
+		}
+
+		return false;
+	}
+
+	bool TrajectoryHeader::writeEpochIntervalFound(gpstk::FFStream& ffs) const {
+		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+
+		if (strm.lineNumber == 18) {
+			strm << EpochIntervalTag << " " << epochInterval << std::endl;
+			strm.lineNumber++;
+			return true;
+		}
+
+		return false;
+	}
+
+	bool TrajectoryHeader::writeEndofHeaderFound(gpstk::FFStream& ffs) const {
+		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+		if (strm.lineNumber == 20) {
+
+			// Write end of header tag
+			strm << endOfHeaderTag << std::endl;
+			strm.lineNumber++;
+			return true;
+		}
+
+		return false;
+	}
+
+	bool TrajectoryHeader::writeEmptyLine(gpstk::FFStream& ffs) const {
+		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+	
+		// Empty line
+		if (strm.lineNumber == 2  || 
+			strm.lineNumber == 3  || 
+			strm.lineNumber == 6  || 
+			strm.lineNumber == 7  ||
+			strm.lineNumber == 11 ||
+			strm.lineNumber == 13 ||
+			strm.lineNumber == 17 ||
+			strm.lineNumber == 19 ||
+			strm.lineNumber > 20)
+
+		{
+			strm << endl;
+			strm.lineNumber++;
+
+			return true;
+		}
+
+		return false;		
+	}
 
 
 }
