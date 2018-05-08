@@ -25,10 +25,19 @@ int main(int argc, char **argv) {
 	PINASimulator::TrajectoryStream trajFileIn("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\PINAParser\\files\\example_trajectory.pina");
 	PINASimulator::TrajectoryStream trajFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\PINAParser\\files\\example_trajectory.pina_out.pina", std::ios::out);
 	PINASimulator::TrajectoryHeader trajHeader;
+	PINASimulator::TrajectoryData trajData;
 
 	trajFileIn >> trajHeader;
-
 	trajFileOut << trajHeader;
+
+	trajFileIn >> trajData;
+	trajFileOut << trajData;
+
+	trajFileIn >> trajData;
+	trajFileOut << trajData;
+
+	trajFileIn >> trajData;
+	trajFileOut << trajData;
 
 	trajFileIn.close();
 	trajFileOut.close();

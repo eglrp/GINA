@@ -10,6 +10,7 @@
 #include "TrajectoryBase.hpp"
 #include "TrajectoryStream.hpp"
 #include "Position.hpp"
+#include "TrajectoryHeader.hpp"
 
 namespace PINASimulator
 {
@@ -63,22 +64,25 @@ namespace PINASimulator
 		
 
 		TrajectoryData& operator+=(gpstk::Position&);
+		TrajectoryData& operator=(gpstk::Position&);
 
 		gpstk::Position::CoordinateSystem coorSys = gpstk::Position::CoordinateSystem::Unknown;
+		gpstk::TimeSystem timeSys = gpstk::TimeSystem::Systems::Unknown;
 		gpstk::Position pos;
-		gpstk::GPSWeekSecond gpsTime;
+		gpstk::CommonTime time;
+
+		double attitude[3];
+		
+
+		
 	
+		static const string TrajectoryData::startofDataTag;
 		
 	private:
 		TrajectoryStream* strm;
 
-		void TrajectoryData::getPosition(const std::string& currentLine)
+		void TrajectoryData::parseLine(std::string& currentLine) 
 			throw(gpstk::StringUtils::StringException, gpstk::FFStreamError);
-
-		void TrajectoryData::getTime(const std::string& currentLine)
-			throw(gpstk::StringUtils::StringException, gpstk::FFStreamError);
-
-		
 
 	};  // class RinexNavData
 

@@ -90,143 +90,7 @@ namespace PINASimulator {
 
 		return;
 	}
-		/*writeCreatorFound(strm);
-		writeTimeofCreationFound(strm);
-		writeTimeSystemFound(strm);
-		writeStartTimeFound(strm);
-		writeEndTimeFound(strm);
-		writeCoordinateSystemFound(strm);
-		writeStartPositionFound(strm);
-		writeStartVelocityFound(strm);
-		writeStartAttitudeFound(strm);
-		writeEpochIntervalFound(strm);
-		writeEndofHeaderFound(strm);*/
-
-		/*
-		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
-
-		string line;
-
-		// Write PINA header tag
-		line = startofHeaderPinaTag;
-		strm << line << endl;
-		strm.lineNumber++;
-
-		line = secondLineOfPINATrajectoryTag;
-		strm << line << endl;
-		strm.lineNumber++;
-
-		// Empty line
-		strm << endl;
-		strm.lineNumber++;
-
-		// Empty line
-		strm << endl;
-		strm.lineNumber++;
-
-		// Write Creator
-		strm << creatorOfFileTag << " " << Creator << endl;
-		strm.lineNumber++;
-
-		// Write time of creation 
-		strm << timeofCreationTag << " " << timeOfCreation << endl;
-		strm.lineNumber++;
-
-		// Empty line
-		strm  << endl;
-		strm.lineNumber++;
-
-		// Empty line
-		strm << endl;
-		strm.lineNumber++;
-
-		// Write time system definition
-		if (timeSys.getTimeSystem() == gpstk::TimeSystem::Systems::GPS) {
-			strm << timeSystemDefinitionTag << " " << "GPS" << endl;
-		}
-		else if (timeSys.getTimeSystem() == gpstk::TimeSystem::Systems::GAL) {
-			strm << timeSystemDefinitionTag << " " << "GAL" << endl;
-		}
-		else {
-			strm << timeSystemDefinitionTag << " " << timeSys.getTimeSystem() << endl;
-		}
-		strm.lineNumber++;
-
-		// Write start time 
-		if (timeSys.getTimeSystem() == gpstk::TimeSystem::Systems::GPS) {
-			gpstk::GPSWeekSecond startGPSTime(startTime);
-			strm << startTimeTag << " " <<startGPSTime.week << " " << startGPSTime.sow << endl;
-		}
-		else if (timeSys.getTimeSystem() == gpstk::TimeSystem::Systems::GAL) {
-			gpstk::GALWeekSecond startGALTime(startTime);
-			strm << startTimeTag << " " << startGALTime.week << " " << startGALTime.sow << endl;
-		}
-		else {
-			strm << startTimeTag << " " << timeSystemDefinitionTag << " " << timeSys.getTimeSystem() << endl;
-		}
-		strm.lineNumber++;
-
-		// Write end time 
-		if (timeSys.getTimeSystem() == gpstk::TimeSystem::Systems::GPS) {
-			gpstk::GPSWeekSecond startGPSTime(endTime);
-			strm << endTimeTag << " " <<startGPSTime.week << " " << startGPSTime.sow << endl;
-		}
-		else if (timeSys.getTimeSystem() == gpstk::TimeSystem::Systems::GAL) {
-			gpstk::GALWeekSecond startGALTime(endTime);
-			strm << endTimeTag << " " << startGALTime.week << " " << startGALTime.sow << endl;
-		}
-		else {
-			strm << endTimeTag << " " << timeSystemDefinitionTag << " " << timeSys.getTimeSystem() << endl;
-		}
-		strm.lineNumber++;
-
-		// Empty line
-		strm << endl;
-		strm.lineNumber++;
-
-		// Write coordinate system definition 
-		if (coorSys == gpstk::Position::CoordinateSystem::Cartesian) {
-			strm << positionTypeECEFTag << endl;
-			strm.lineNumber++;
-		}
-		else if (coorSys == gpstk::Position::CoordinateSystem::Geodetic) {
-			strm << positionTypeLLHTag << endl;
-			strm.lineNumber++;
-		}
-
-		// Empty line
-		strm << endl;
-		strm.lineNumber++;
-
-		// Write start position
-		if (coorSys == gpstk::Position::CoordinateSystem::Cartesian) {
-			strm << startPositionTag << " " << Coordinate.getX() << " " << Coordinate.getY() << " " << Coordinate.getZ() << endl;
-			strm.lineNumber++;
-		}
-		else if (coorSys == gpstk::Position::CoordinateSystem::Geodetic) {
-			strm << startPositionTag << " " << Coordinate.getGeodeticLatitude() << " " << Coordinate.getLongitude() << " " << Coordinate.getHeight() << endl;
-			strm.lineNumber++;
-		}
-
-		// Write startin velocity 
-		strm << startVelocityTag << " " << startVelocity[0] << " " << startVelocity[1] << " " << startVelocity[2] << endl;
-		strm.lineNumber++;
-
-		// Write startin attitude 
-		strm << startAttitudeTag << " " << startAttitude[0] << " " << startAttitude[1] << " " << startAttitude[2] << endl;
-		strm.lineNumber++;
-
-		// Empty line
-		strm << endl;
-		strm.lineNumber++;
-
-		// Write end of header tag
-		strm << endOfHeaderTag << std::endl;
-		strm.lineNumber++;
-		*/
-
-	
-
+		
 	void TrajectoryHeader::dump(ostream& s) const {
 
 	}
@@ -637,14 +501,14 @@ namespace PINASimulator {
 
 			if (timeSys.getTimeSystem() == gpstk::TimeSystem::Systems::GPS) {
 				gpstk::GPSWeekSecond startGPSTime(startTime);
-				strm << startTimeTag << " " << startGPSTime.week << " " << startGPSTime.sow << endl;
+				strm << startTimeTag << " " << startGPSTime.week << " " << fixed << std::setprecision(5) << startGPSTime.sow << endl;
 			}
 			else if (timeSys.getTimeSystem() == gpstk::TimeSystem::Systems::GAL) {
 				gpstk::GALWeekSecond startGALTime(startTime);
-				strm << startTimeTag << " " << startGALTime.week << " " << startGALTime.sow << endl;
+				strm << startTimeTag << " " << startGALTime.week << " " << fixed << std::setprecision(5) << startGALTime.sow << endl;
 			}
 			else {
-				strm << startTimeTag << " " << timeSystemDefinitionTag << " " << timeSys.getTimeSystem() << endl;
+				strm << startTimeTag << " "  << endl;
 			}
 			strm.lineNumber++;
 
@@ -662,14 +526,14 @@ namespace PINASimulator {
 
 			if (timeSys.getTimeSystem() == gpstk::TimeSystem::Systems::GPS) {
 				gpstk::GPSWeekSecond startGPSTime(endTime);
-				strm << endTimeTag << " " << startGPSTime.week << " " << startGPSTime.sow << endl;
+				strm << endTimeTag << " " << startGPSTime.week << " " << fixed << std::setprecision(5) << startGPSTime.sow << endl;
 			}
 			else if (timeSys.getTimeSystem() == gpstk::TimeSystem::Systems::GAL) {
 				gpstk::GALWeekSecond startGALTime(endTime);
-				strm << endTimeTag << " " << startGALTime.week << " " << startGALTime.sow << endl;
+				strm << endTimeTag << " " << startGALTime.week << " " << fixed << std::setprecision(5) << startGALTime.sow << endl;
 			}
 			else {
-				strm << endTimeTag << " " << timeSystemDefinitionTag << " " << timeSys.getTimeSystem() << endl;
+				strm << endTimeTag << " "  << endl;
 			}
 			strm.lineNumber++;
 
@@ -705,11 +569,11 @@ namespace PINASimulator {
 		if (strm.lineNumber == 14) {
 
 			if (coorSys == gpstk::Position::CoordinateSystem::Cartesian) {
-				strm << startPositionTag << " " << Coordinate.getX() << " " << Coordinate.getY() << " " << Coordinate.getZ() << endl;
+				strm << startPositionTag << " " << fixed << std::setprecision(5) << Coordinate.getX() << " " << fixed << std::setprecision(5) << Coordinate.getY() << " " << fixed << std::setprecision(5) << Coordinate.getZ() << endl;
 				strm.lineNumber++;
 			}
 			else if (coorSys == gpstk::Position::CoordinateSystem::Geodetic) {
-				strm << startPositionTag << " " << Coordinate.getGeodeticLatitude() << " " << Coordinate.getLongitude() << " " << Coordinate.getHeight() << endl;
+				strm << startPositionTag << " " << fixed << std::setprecision(12) << Coordinate.getGeodeticLatitude() << " " << fixed << std::setprecision(12) << Coordinate.getLongitude() << " " << fixed << std::setprecision(12) << Coordinate.getHeight() << endl;
 				strm.lineNumber++;
 			}
 
@@ -723,7 +587,7 @@ namespace PINASimulator {
 		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
 
 		if (strm.lineNumber == 15) {
-			strm << startVelocityTag << " " << startVelocity[0] << " " << startVelocity[1] << " " << startVelocity[2] << endl;
+			strm << startVelocityTag << " " << fixed << std::setprecision(5) << startVelocity[0] << " " << fixed << std::setprecision(5) << startVelocity[1] << " " << fixed << std::setprecision(5) << startVelocity[2] << endl;
 			strm.lineNumber++;
 
 			return true;
@@ -736,7 +600,7 @@ namespace PINASimulator {
 		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
 
 		if (strm.lineNumber == 16) {
-			strm << startAttitudeTag << " " << startAttitude[0] << " " << startAttitude[1] << " " << startAttitude[2] << endl;
+			strm << startAttitudeTag << " " << fixed << std::setprecision(5) << startAttitude[0] << " " << fixed << std::setprecision(5) << startAttitude[1] << " " << fixed << std::setprecision(5) << startAttitude[2] << endl;
 			strm.lineNumber++;
 
 			return true;

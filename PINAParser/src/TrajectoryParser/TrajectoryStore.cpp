@@ -19,12 +19,12 @@ namespace PINASimulator {
 
 	TrajectoryData& TrajectoryStore::addPosition( TrajectoryData data) {
 		TrajectoryData ret;
-		if (TrajStore.find(data.gpsTime) == TrajStore.end()) {
+		if (TrajStore.find(data.time) == TrajStore.end()) {
 			setCorrdinateSystem(data.coorSys);
 			if (isCoorSystemSet && coorSys != gpstk::Position::CoordinateSystem::Unknown) {
 				ret = data;
 				ret.pos = data.pos.transformTo(data.coorSys);
-				TrajStore[data.gpsTime] = ret;
+				TrajStore[data.time] = ret;
 			}
 		}
 	    return ret;

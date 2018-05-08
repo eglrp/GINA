@@ -25,7 +25,9 @@ namespace PINASimulator {
 		TrajectoryHeader header;
 		
 		/// Flag showing whether or not the header has been read.
-		bool headerRead;
+		bool headerRead = false;
+		bool dataStartRead= false;
+		bool dataStartWritten = false;
 
 	private:
 		void init();
