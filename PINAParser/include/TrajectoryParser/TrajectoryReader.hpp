@@ -3,8 +3,8 @@
 #include <string>
 #include <iostream>
 //#include "GNSStime.h"
-#include "CoordinateFrames.h"
-#include "CoordinateFrameHandler.h"
+//#include "CoordinateFrames.h"
+//#include "CoordinateFrameHandler.h"
 
 // From IMU Simulator
 
@@ -21,7 +21,7 @@ public:
 
 	void open(void);
 	void close(void);
-	FULLFrame readLine_as_frame(void);
+	//FULLFrame readLine_as_frame(void);
 	
 
 #ifdef TESTING
@@ -34,9 +34,9 @@ private:
 
 #endif
 	
-	GPSTime nextTime(void);
-	LLHCoordinate nextLLH(void);
-	ECEFCoordinate nextECEF(void);
+	//GPSTime nextTime(void);
+	//LLHCoordinate nextLLH(void);
+	//ECEFCoordinate nextECEF(void);
 	bool isFormatValid(void);
 	bool is_open();
 	void setFile2Begining(void);
@@ -48,12 +48,12 @@ private:
 	bool isNotHeaderRead = true;
 	bool isFileOpen = false;
 	char* fileNamewPath;
-	FULLFrame frame;
-	LLHCoordinate LLHcoords;
-	ECEFCoordinate ECEFcoords;
+	//FULLFrame frame;
+	//LLHCoordinate LLHcoords;
+	//ECEFCoordinate ECEFcoords;
 	enum CoordinateType {ECEF,LLH};
 	CoordinateType coordType;
-	CoordinateFrameHandler coordFHandler;
+	//CoordinateFrameHandler coordFHandler;
 	std::ifstream trajFile;
 };
 

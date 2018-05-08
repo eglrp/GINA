@@ -11,7 +11,7 @@
 #include "TrajectoryStream.hpp"
 #include "Position.hpp"
 
-namespace gnsssimulator
+namespace PINASimulator
 {
 	/// @ingroup FileHandling
 	//@{

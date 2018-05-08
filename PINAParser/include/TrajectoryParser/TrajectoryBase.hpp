@@ -2,7 +2,7 @@
 
 #include "FFData.hpp"
 
-namespace gnsssimulator {
+namespace PINASimulator {
 		/// @ingroup FileHandling
 		//@{
 

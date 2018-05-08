@@ -4,7 +4,7 @@
 #include <map>
 #include "TrajectoryData.hpp"
 
-namespace gnsssimulator {
+namespace PINASimulator {
 	class TrajectoryStore
 	{
 	public:

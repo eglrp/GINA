@@ -3,7 +3,7 @@
 #include "FFTextStream.hpp"
 #include "TrajectoryHeader.hpp"
 
-namespace gnsssimulator {
+namespace PINASimulator {
 
 	class TrajectoryStream : public gpstk::FFTextStream
 	{
@@ -23,7 +23,7 @@ namespace gnsssimulator {
 
 		/// RINEX NAV header for this file.
 		TrajectoryHeader header;
-
+		
 		/// Flag showing whether or not the header has been read.
 		bool headerRead;
 

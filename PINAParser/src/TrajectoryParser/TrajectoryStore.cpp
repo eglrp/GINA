@@ -1,6 +1,6 @@
 #include "TrajectoryStore.hpp"
 
-namespace gnsssimulator {
+namespace PINASimulator {
 	TrajectoryStore::TrajectoryStore()
 	{
 	}

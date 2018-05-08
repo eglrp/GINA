@@ -1,7 +1,7 @@
 
 #include "TrajectoryData.hpp"
 
-namespace gnsssimulator 
+namespace PINASimulator
 {
 	using namespace gpstk::StringUtils;
 	using namespace std;
@@ -37,7 +37,7 @@ namespace gnsssimulator
 		throw(std::exception, gpstk::FFStreamError,
 			gpstk::StringUtils::StringException) {
 
-		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+		/*TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
 		this->strm = &strm;
 
 		if (!strm.headerRead)
@@ -53,7 +53,7 @@ namespace gnsssimulator
 
 		getTime(line);
 		getPosition(line);
-
+		*/
 		return;
 	}
 

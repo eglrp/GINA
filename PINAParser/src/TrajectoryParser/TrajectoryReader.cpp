@@ -1,6 +1,6 @@
 
 #include "TrajectoryReader.hpp"
-
+/*
 // TODO: Remove this class
 //using namespace std;
 trajectoryReader::trajectoryReader(){
@@ -276,5 +276,5 @@ ECEFCoordinate trajectoryReader::nextECEF(void){
 	this->nextPos(&pos.x, &pos.y, &pos.z);
 
 	return pos;
-
 }
+*/

@@ -1,7 +1,7 @@
 
 #include "TrajectoryStream.hpp"
 
-namespace gnsssimulator {
+namespace PINASimulator {
 	TrajectoryStream::TrajectoryStream(){
 		init();
 	}

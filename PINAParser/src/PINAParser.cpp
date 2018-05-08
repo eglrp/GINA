@@ -12,20 +12,22 @@
 #include "TrajectoryStore.hpp"
 
 #include "GPSWeekSecond.hpp"
+#include "GALWeekSecond.hpp"
 #include "BasicFramework.hpp"
 
-#include "CoordinateFrames.h"
-#include "CoordinateFrameHandler.h"
+//#include "CoordinateFrames.h"
+//#include "CoordinateFrameHandler.h"
 
 using namespace std;
 
 int main(int argc, char **argv) {
 
-	gnsssimulator::TrajectoryStream trajFileIn("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\PINAParser\\files\\example_trajectory.pina");
-	gnsssimulator::TrajectoryStream trajFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\PINAParser\\files\\example_trajectory.pina_out.pina", std::ios::out);
-	gnsssimulator::TrajectoryHeader trajHeader;
+	PINASimulator::TrajectoryStream trajFileIn("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\PINAParser\\files\\example_trajectory.pina");
+	PINASimulator::TrajectoryStream trajFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\PINAParser\\files\\example_trajectory.pina_out.pina", std::ios::out);
+	PINASimulator::TrajectoryHeader trajHeader;
 
 	trajFileIn >> trajHeader;
+
 	trajFileOut << trajHeader;
 
 	trajFileIn.close();
