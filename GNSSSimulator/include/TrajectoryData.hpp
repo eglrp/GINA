@@ -10,6 +10,7 @@
 #include "TrajectoryBase.hpp"
 #include "TrajectoryStream.hpp"
 #include "Position.hpp"
+#include "..\PINAParser\include\TrajectoryParser\TrajectoryData.hpp"
 
 namespace gnsssimulator
 {
@@ -61,8 +62,9 @@ namespace gnsssimulator
 		bool operator==(const TrajectoryData& ) const;
 		bool operator!=(const TrajectoryData& ) const;
 		
-
 		TrajectoryData& operator+=(gpstk::Position&);
+		TrajectoryData& TrajectoryData::operator=(gpstk::Position&);
+		TrajectoryData& TrajectoryData::operator=(PINASimulator::TrajectoryData&);
 
 		gpstk::Position::CoordinateSystem coorSys = gpstk::Position::CoordinateSystem::Unknown;
 		gpstk::Position pos;

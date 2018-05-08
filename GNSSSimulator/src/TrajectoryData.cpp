@@ -77,6 +77,21 @@ namespace gnsssimulator
 		return *this;
 	}
 
+	TrajectoryData& TrajectoryData::operator=(gpstk::Position& newpos) {
+		this->pos = newpos;
+		this->coorSys = newpos.getCoordinateSystem();
+		return *this;
+	}
+
+	TrajectoryData& TrajectoryData::operator=(PINASimulator::TrajectoryData& trajData) {
+		this->pos = trajData.pos;
+		this->coorSys = trajData.coorSys;
+		this->gpsTime = gpstk::GPSWeekSecond(trajData.time);
+		return *this;
+	
+	}
+
+
 	void TrajectoryData::getTime(const std::string& currentLine)
 		throw(gpstk::StringUtils::StringException, gpstk::FFStreamError)
 	{

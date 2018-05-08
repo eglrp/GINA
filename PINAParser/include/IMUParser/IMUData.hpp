@@ -7,10 +7,10 @@
 #include "CommonTime.hpp"
 #include "FFStream.hpp"
 #include "RinexNavBase.hpp"
-#include "TrajectoryBase.hpp"
-#include "TrajectoryStream.hpp"
+#include "IMUBase.hpp"
+#include "IMUStream.hpp"
 #include "Position.hpp"
-#include "TrajectoryHeader.hpp"
+#include "IMUHeader.hpp"
 
 namespace PINASimulator
 {
@@ -23,7 +23,7 @@ namespace PINASimulator
 	* \sa rinex_nav_test.cpp and rinex_nav_read_write.cpp for examples.
 	* \sa gpstk::RinexNavHeader and gpstk::RinexNavStream classes.
 	*/
-	class TrajectoryData : public TrajectoryBase
+	class IMUData : public IMUBase
 	{
 	public:
 		/**
@@ -31,10 +31,10 @@ namespace PINASimulator
 		* @warning CHECK THE PRNID TO SEE IF THIS DATA IS
 		*  VALID BEFORE USING!!
 		*/
-		TrajectoryData() {};
+		IMUData() {};
 
 		/// destructor
-		virtual ~TrajectoryData() {}
+		virtual ~IMUData() {}
 
 		// The next four lines is our common interface
 		/// RinexNavData is "data" so this function always returns true.
@@ -58,14 +58,14 @@ namespace PINASimulator
 			throw(std::exception, gpstk::FFStreamError,
 				gpstk::StringUtils::StringException);
 	
-		bool compare(const TrajectoryData&) const;
-		bool operator==(const TrajectoryData& ) const;
-		bool operator!=(const TrajectoryData& ) const;
+		bool compare(const IMUData&) const;
+		bool operator==(const IMUData& ) const;
+		bool operator!=(const IMUData& ) const;
 		
 
-		TrajectoryData& operator+=(gpstk::Position&);
-		TrajectoryData& operator=(gpstk::Position&);
-		TrajectoryData& operator=(TrajectoryData&);
+		IMUData& operator+=(gpstk::Position&);
+		IMUData& operator=(gpstk::Position&);
+		IMUData& operator=(IMUData&);
 
 		gpstk::Position::CoordinateSystem coorSys = gpstk::Position::CoordinateSystem::Unknown;
 		gpstk::TimeSystem timeSys = gpstk::TimeSystem::Systems::Unknown;
@@ -77,12 +77,12 @@ namespace PINASimulator
 
 		
 	
-		static const string TrajectoryData::startofDataTag;
+		static const string IMUData::startofDataTag;
 		
 	private:
-		TrajectoryStream* strm;
+		IMUStream* strm;
 
-		void TrajectoryData::parseLine(std::string& currentLine) 
+		void IMUData::parseLine(std::string& currentLine)
 			throw(gpstk::StringUtils::StringException, gpstk::FFStreamError);
 
 	};  // class RinexNavData

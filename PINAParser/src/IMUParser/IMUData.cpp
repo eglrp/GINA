@@ -1,18 +1,18 @@
 
-#include "TrajectoryData.hpp"
+#include "IMUData.hpp"
 
 namespace PINASimulator
 {
 	using namespace gpstk::StringUtils;
 	using namespace std;
 
-	const string TrajectoryData::startofDataTag = "START OF DATA";
+	const string IMUData::startofDataTag = "START OF DATA";
 
-	void TrajectoryData::reallyPutRecord(gpstk::FFStream& ffs) const
+	void IMUData::reallyPutRecord(gpstk::FFStream& ffs) const
 		throw(std::exception, gpstk::FFStreamError,
 			gpstk::StringUtils::StringException) {
 
-		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+		IMUStream& strm = dynamic_cast<IMUStream&>(ffs);
 
 		if (!strm.dataStartWritten) {
 			strm << startofDataTag << endl;
@@ -66,11 +66,11 @@ namespace PINASimulator
 	*  a read or formatting error occurs.  This also resets the
 	*  stream to its pre-read position.
 	*/
-	void TrajectoryData::reallyGetRecord(gpstk::FFStream& ffs)
+	void IMUData::reallyGetRecord(gpstk::FFStream& ffs)
 		throw(std::exception, gpstk::FFStreamError,
 			gpstk::StringUtils::StringException) {
 
-		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
+		IMUStream& strm = dynamic_cast<IMUStream&>(ffs);
 		this->strm = &strm;
 
 		string line;
@@ -107,34 +107,34 @@ namespace PINASimulator
 		return;
 	}
 
-	bool TrajectoryData::compare(const TrajectoryData& other) const{
+	bool IMUData::compare(const IMUData& other) const{
 		return (this->pos == other.pos && this->timeSys == other.timeSys);
 	}
 
 	//bool operator== (const Triple& right) const;
-	bool TrajectoryData::operator==(const TrajectoryData& other) const{
+	bool IMUData::operator==(const IMUData& other) const{
 		return this->compare(other);
 	}
 
-	bool TrajectoryData::operator!=(const TrajectoryData& other) const {
+	bool IMUData::operator!=(const IMUData& other) const {
 		return !this->compare(other);
 	}
 
 
-	TrajectoryData& TrajectoryData::operator+=(gpstk::Position& newpos) {
+	IMUData& IMUData::operator+=(gpstk::Position& newpos) {
 		// TODO: This is not quit right here. Shall match the coor systems.
 		this->pos += newpos;
 		this->coorSys = newpos.getCoordinateSystem();
 		return *this;
 	}
 
-	TrajectoryData& TrajectoryData::operator=(gpstk::Position& newpos) {
+	IMUData& IMUData::operator=(gpstk::Position& newpos) {
 		this->pos = newpos;
 		this->coorSys = newpos.getCoordinateSystem();
 		return *this;
 	}
 
-	TrajectoryData& TrajectoryData::operator=(TrajectoryData& trajData) {
+	IMUData& IMUData::operator=(IMUData& trajData) {
 
 		this->pos = trajData.pos;
 		this->coorSys = trajData.coorSys;
@@ -150,7 +150,7 @@ namespace PINASimulator
 
 
 	
-	void TrajectoryData::parseLine(std::string& currentLine)
+	void IMUData::parseLine(std::string& currentLine)
 		throw(gpstk::StringUtils::StringException, gpstk::FFStreamError)
 	{
 		try
