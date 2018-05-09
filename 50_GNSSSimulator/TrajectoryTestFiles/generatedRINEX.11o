@@ -1,0 +1,25 @@
+     2.11           OBSERVATION DATA    MIXED               RINEX VERSION / TYPE
+GNSS Simulator PR                       20171107 135430 UTC PGM / RUN BY / DATE
+C1 modelled using GNSSSIM                                   COMMENT
+https://github.com/GNSSSim/GNSSSimulator                    COMMENT
+Header contents might be invalid. Only C1 is important.     COMMENT
+MOBS                                                        MARKER NAME
+50182M001                                                   MARKER NUMBER
+geodesy@ga.gov.au   ---                                     OBSERVER / AGENCY
+3007645             SEPT POLARX4TR      2.9.6               REC # / TYPE / VERS
+CR20020709          ASH701945C_M    NONE                    ANT # / TYPE
+ -4130636.5890  2894953.1210 -3890530.4420                  APPROX POSITION XYZ
+        0.0000        0.0000        0.0000                  ANTENNA: DELTA H/E/N
+     1    C1                                                # / TYPES OF OBSERV
+     1     1                                                WAVELENGTH FACT L1/2
+    30.000                                                  INTERVAL
+  2017     9    10     0     0    0.0000000     GPS         TIME OF FIRST OBS
+    18                                                      LEAP SECONDS
+                                                            END OF HEADER
+ 17  9 10  1 13 30.0000000  0 22G03G07G09G16G23G26
+  21759065.219 0
+  21643218.103 0
+  20948871.062 0
+  21718560.751 0
+  20357992.069 0
+  23175279.603 0

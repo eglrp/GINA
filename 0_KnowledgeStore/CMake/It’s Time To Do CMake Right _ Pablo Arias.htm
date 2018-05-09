@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html class="wf-icomoon-n4-active wf-ptsans-n4-active wf-abrilfatface-n4-active wf-ptsans-i4-active wf-ptsans-i7-active wf-ptsans-n7-active wf-active" lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v7.5.0 <https://qwtel.com/hydejack/>
+--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><meta http-equiv="x-ua-compatible" content="ie=edge"><title>It’s Time To Do CMake Right | Pablo Arias</title><meta name="generator" content="Jekyll v3.6.2"><meta property="og:title" content="It’s Time To Do CMake Right"><meta name="author" content="Pablo Arias"><meta property="og:locale" content="en"><meta name="description" content="Not so long ago I got the task of rethinking our build system. The idea was to evaluate existing components, dependencies, but most importantly, to establish a superior design by making use of modern CMake features and paradigms. Most people I know would have avoided such enterprise at all costs, but there is something about writing find modules that makes my brain release endorphins. I thought I was up for an amusing ride. Boy was I wrong."><meta property="og:description" content="Not so long ago I got the task of rethinking our build system. The idea was to evaluate existing components, dependencies, but most importantly, to establish a superior design by making use of modern CMake features and paradigms. Most people I know would have avoided such enterprise at all costs, but there is something about writing find modules that makes my brain release endorphins. I thought I was up for an amusing ride. Boy was I wrong."><link rel="canonical" href="https://pabloariasal.github.io/2018/02/19/its-time-to-do-cmake-right/"><meta property="og:url" content="https://pabloariasal.github.io/2018/02/19/its-time-to-do-cmake-right/"><meta property="og:site_name" content="Pablo Arias"><meta property="og:type" content="article"><meta property="article:published_time" content="2018-02-19T00:00:00+00:00"> <script src="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/embed.js"></script><script src="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/hydejack-7.js"></script><script src="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/analytics.htm"></script><script src="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/webfontloader.js"></script><script type="application/ld+json"> {"description":"Not so long ago I got the task of rethinking our build system. The idea was to evaluate existing components, dependencies, but most importantly, to establish a superior design by making use of modern CMake features and paradigms. Most people I know would have avoided such enterprise at all costs, but there is something about writing find modules that makes my brain release endorphins. I thought I was up for an amusing ride. Boy was I wrong.","author":{"@type":"Person","name":"Pablo Arias"},"@type":"BlogPosting","url":"https://pabloariasal.github.io/2018/02/19/its-time-to-do-cmake-right/","headline":"It’s Time To Do CMake Right","dateModified":"2018-02-19T00:00:00+00:00","datePublished":"2018-02-19T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://pabloariasal.github.io/2018/02/19/its-time-to-do-cmake-right/"},"@context":"http://schema.org"}</script><meta name="keywords" content=""><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Pablo Arias"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="application-name" content="Pablo Arias"><meta name="msapplication-config" content="/assets/ieconfig.xml"><meta name="theme-color" content="#268bd2"><meta name="generator" content="Hydejack v7.5.0"><link type="application/atom+xml" rel="alternate" href="https://pabloariasal.github.io/feed.xml" title="Pablo Arias"><link rel="alternate" href="https://pabloariasal.github.io/2018/02/19/its-time-to-do-cmake-right/" hreflang="en"><link rel="shortcut icon" href="https://pabloariasal.github.io/assets/icons/favicon.ico"><link rel="apple-touch-icon" href="https://pabloariasal.github.io/assets/icons/icon.png"><link rel="manifest" href="https://pabloariasal.github.io/assets/manifest.json"><link rel="dns-prefetch" href="https://fonts.googleapis.com/"><link rel="dns-prefetch" href="https://fonts.gstatic.com/"><link rel="dns-prefetch" href="https://www.google-analytics.com/"><link id="_disqusJS" rel="dns-prefetch" href="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/embed.js"><link id="_katexJS" rel="dns-prefetch" href="https://pabloariasal.github.io/assets/bower_components/katex/dist/katex.min.js"><link id="_katexCSS" rel="dns-prefetch" href="https://pabloariasal.github.io/assets/bower_components/katex/dist/katex.min.css"> <script> function stdOnEnd(n,e){n.onload=function(){this.onerror=this.onload=null,e(null,n)},n.onerror=function(){this.onerror=this.onload=null,e(new Error("Failed to load "+this.src),n)}}function ieOnEnd(n,e){n.onreadystatechange=function(){"complete"!=this.readyState&&"loaded"!=this.readyState||(this.onreadystatechange=null,e(null,n))}}window.setRelStylesheet=function(n){function e(){this.rel="stylesheet"}var o=document.getElementById(n);o.addEventListener?o.addEventListener("load",e,!1):o.onload=e},window._loaded=!1,window.loadJSDeferred=function(n,e){function o(){window._loaded=!0;var o=document.createElement("script");o.src=n,e&&(("onload"in o?stdOnEnd:ieOnEnd)(o,e),o.onload||stdOnEnd(o,e));var t=document.scripts[0];t.parentNode.insertBefore(o,t)}window._loaded?o():window.addEventListener?window.addEventListener("load",o,!1):window.onload=o}; !function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this); !function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this); window._noPushState = false; window._noDrawer = false; </script> <!--[if gt IE 8]><!----> <script> WebFontConfig = { google: { families: ['Abril+Fatface:400','PT+Sans:400,400i,700,700i'] }, custom: { families: ['icomoon'], urls: ['/assets/icomoon/style.css'] } }; (function(d) { var wf = d.createElement('script'), s = d.scripts[0]; wf.src = "/assets/bower_components/webfontloader/webfontloader.js"; s.parentNode.insertBefore(wf, s); }(document)); </script> <!--<![endif]--> <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface:400%7CPT+Sans:400,400i,700,700i"><style> html { font-family: 'PT Sans', Helvetica, Arial, sans-serif } h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .heading { font-family: 'PT Sans', Helvetica, Arial, sans-serif }</style><link rel="stylesheet" href="/assets/icomoon/style.css"> </noscript> <!--[if gt IE 8]><!----><style> *{box-sizing:border-box}html,body{margin:0;padding:0}html{font-size:16px;line-height:1.75}body{color:#444;background-color:#fff;overflow-y:scroll}a{text-decoration:none}.lead{margin-left:-1rem;margin-right:-1rem}.content img,.img{display:block;max-width:100%;margin-bottom:1rem;border:none}.content img.lead,.img.lead{max-width:calc(100% + 2rem);width:calc(100% + 2rem)}h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{font-weight:700;margin:4rem 0 1rem}.heading{font-weight:700}h1,.h1{font-size:2rem;line-height:1.3}h2,.h2{font-size:1.5rem;line-height:1.4}h3,.h3{font-size:1.17em;line-height:1.5}p{margin-top:0;margin-bottom:1rem}p.lead{padding:0 1rem}ul,ol,dl{margin-top:0;margin-bottom:1rem}ul,ol{padding-left:1.25rem}hr{position:relative;margin:1.5rem 0;border:0;border-top:1px solid #eee}strong{font-weight:700}.hr{border-bottom:1px solid #eee;padding-bottom:1rem;margin-bottom:2rem}h4,h5,h6,.h4,.h5,.h6{margin-bottom:0.5rem;font-size:1rem}table:not(.highlight){border-collapse:collapse;margin-bottom:2rem;margin-left:-1rem}table:not(.highlight) td,table:not(.highlight) th{padding:.25rem .5rem;border:1px solid #eee}table:not(.highlight) td:first-child,table:not(.highlight) th:first-child{padding-left:1rem}table:not(.highlight) td:last-child,table:not(.highlight) th:last-child{padding-right:1rem}.page{margin-bottom:3em}.page li+li{margin-top:.25rem}.page>header{margin-bottom:2rem}.page-title,.post-title{margin-top:0}.post-date{display:block;margin-top:-0.5rem;margin-bottom:1rem;color:#888}.related-posts{padding-left:0;list-style:none;margin-bottom:2rem}.related-posts>li,.related-posts>li+li{margin-top:1rem}.message{margin-bottom:1rem;padding:1rem;color:#666;background-color:rgba(0,0,0,0.025);margin-left:-1rem;margin-right:-1rem}@media screen{body::before{content:'';width:.5rem;background:#eee;position:absolute;left:0;top:0;bottom:0}}@media screen and (min-width: 42em){html{font-size:17px}}@media screen and (min-width: 125em){html{font-size:18px}}hy-push-state a,.a{position:relative;padding-bottom:.15rem;border-bottom:1px solid}.content .img{overflow:hidden;background-color:rgba(0,0,0,0.025)}.content .img img{margin:0;width:100%;height:100%}.fade-in{animation-duration:500ms;animation-name:fade-in;animation-fill-mode:forwards}@keyframes fade-in{from{transform:translateY(-3rem);opacity:0}50%{transform:translateY(-3rem);opacity:0}to{transform:translateY(0);opacity:1}}.fl{float:left}.fr{float:right}.mb4{margin-bottom:4rem}.mb6{margin-bottom:6rem}.mt0{margin-top:0}.mt4{margin-top:4rem}.pb0{padding-bottom:0}.clearfix,.sidebar-social::after,.clearafter::after{content:"";display:table;clear:both}.sr-only{display:none}.sidebar{color:rgba(255,255,255,0.75);text-align:left}.sidebar a{color:#fff;border-bottom-color:rgba(255,255,255,0.2)}hy-drawer{position:relative;padding:1rem 0}@media screen{hy-drawer{padding:2rem 1rem}}@media screen and (min-width: 64em){hy-drawer{position:fixed;top:0;left:0;bottom:0;width:18rem;margin-left:0}}@media screen and (min-width: 98.5em){hy-drawer{width:calc(50% - 28rem)}}.sidebar-bg{position:absolute;top:0;right:0;bottom:0;left:0;background:#202020 center / cover}.sidebar-bg::after{content:"";position:absolute;top:0;left:0;bottom:0;right:0;background:rgba(0,0,0,0.05)}.sidebar-bg.sidebar-overlay::after{background:linear-gradient(to bottom, rgba(32,32,32,0) 0%, rgba(32,32,32,0.5) 100%)}.sidebar-sticky{position:relative;z-index:3}@media screen{.sidebar-sticky{position:absolute;right:1.5rem;left:1.5rem;bottom:1rem}}@media screen and (min-width: 98.5em){.sidebar-sticky{left:auto;width:15rem}}.sidebar-about>h1{color:#fff;font-size:2rem}.sidebar-nav>ul{list-style:none;padding-left:0;margin-bottom:.5rem}a.sidebar-nav-item{display:block;font-weight:700;line-height:1.75;padding:.25rem 0;border-bottom:1px solid rgba(255,255,255,0.2)}.sidebar-social{margin-bottom:.5rem}.sidebar-social>ul{list-style:none;padding-left:0}.sidebar-social>ul>li{float:left}.sidebar-social>ul>li>a{display:inline-block;text-align:center;font-size:1.5rem;width:3rem;height:3.5rem;padding:0}.sidebar-social>ul li+li{margin-top:0}.fixed-top{position:fixed;top:0;left:0;width:100%;z-index:2}.navbar>.content{padding-top:0;padding-bottom:0;min-height:0;height:0;color:#888}.nav-btn-bar{margin-left:-.875rem}.nav-btn{display:inline-block;padding:1.75rem .875rem;border-bottom:none;color:#888 !important}@media screen and (min-width: 64em){#_menu{position:absolute;left:-9999px}}.content{position:relative;margin-left:auto;margin-right:auto;padding:5rem 1rem 12rem}@media screen{.content{padding-left:1.5rem;max-width:38rem;min-height:100vh}}@media screen and (min-width: 54em){.content{max-width:42rem}}@media screen and (min-width: 64em){.content{margin-left:22rem;margin-right:4rem;padding-left:1rem}}@media screen and (min-width: 90em){.content{max-width:48rem}}@media screen and (min-width: 98.5em){.content{margin:auto}}.avatar{float:right;width:6.5rem;height:6.5rem;border-radius:100%;margin-left:.5rem}@media screen and (min-width: 42em){.avatar{width:7rem;height:7rem}}.sidebar h2{font-family:"Abril Fatface",serif !important;font-weight:normal;font-size:3rem}html{font-family:Helvetica, Arial, sans-serif}h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6,.heading{font-family:Helvetica, Arial, sans-serif}</style><link rel="stylesheet" href="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/hydejack-7.css" media="all"><link id="_stylePreload" rel="null" as="style" href="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/hydejack-7.css"> <script>window.setRelStylesheet('_stylePreload');</script> <noscript><link rel="stylesheet" href="/assets/css/hydejack-7.5.0.css"></noscript><style id="_pageStyle"> .content a:not(.btn){color:#268bd2;border-color:rgba(38,139,210,0.2)}.content a:not(.btn):hover{border-color:#268bd2}:focus{outline-color:#268bd2}.btn-primary{color:#fff;background-color:#268bd2;border-color:#268bd2}.btn-primary:focus,.btn-primary.focus{box-shadow:0 0 0 3px rgba(38,139,210,0.5)}.btn-primary:hover,.btn-primary.hover{color:#fff;background-color:#2076b2;border-color:#2076b2}.btn-primary:disabled,.btn-primary.disabled{color:#fff;background-color:#268bd2;border-color:#268bd2}.btn-primary:active,.btn-primary.active{color:#fff;background-color:#2076b2;border-color:#2076b2}::selection{color:#fff;background:#268bd2}::-moz-selection{color:#fff;background:#268bd2}</style><link rel="stylesheet" href="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/css.css" media="all"><link rel="stylesheet" href="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/style.css" media="all"><!--<![endif]--><style type="text/css" data-href="node_modules/hy-drawer/src/style.css">@media screen {
+  .hy-drawer-scrim {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.5);
+    transform: translateX(0);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .hy-drawer-content {
+    position: fixed;
+    bottom: 0;
+    height: 100vh;
+    z-index: 3;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transform: translateX(0);
+    width: 300px;
+    background: #e8e8e8;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+    contain: strict;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hy-drawer-content.hy-drawer-left {
+    left: -300px;
+  }
+
+  .hy-drawer-content.hy-drawer-right {
+    right: -300px;
+  }
+
+  .hy-drawer-content.hy-drawer-left.hy-drawer-opened {
+    left: 0!important;
+    transform: translateX(0)!important;
+  }
+
+  .hy-drawer-content.hy-drawer-right.hy-drawer-opened {
+    right: 0!important;
+    transform: translateX(0)!important;
+  }
+
+  .hy-drawer-grab {
+    cursor: move;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: grab;
+  }
+
+  .hy-drawer-grabbing {
+    cursor: -webkit-grabbing;
+    cursor: -moz-grabbing;
+    cursor: grabbing;
+  }
+}
+@media print {
+  .hy-drawer-scrim {
+    display: none!important;
+  }
+
+  .hy-drawer-content {
+    transform: none!important;
+  }
+}
+</style><link rel="prefetch" href="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/a_data_002/lounge.css"><link rel="prefetch" href="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/a_data_002/common.js"><link rel="prefetch" href="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/a_data_002/lounge_002.js"><link rel="prefetch" href="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/a_data_002/config.js"><script src="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/alfie.js" async="" charset="UTF-8"></script></head><body><div class="navbar fixed-top"><div class="content"><div class="nav-btn-bar"> <span class="sr-only">Jump to:</span> <a id="_menu" class="nav-btn no-hover" href="#_navigation"> <span class="sr-only">Navigation</span> <span class="icon-menu"></span> </a></div><div class="loading"> <span class="sr-only">Loading…</span> <span class="icon-cog"></span></div></div></div><div class="animation-main fixed-top"><div class="content"><div class="page"></div></div></div><hy-push-state><main id="_main" class="content layout-post" role="main" data-color="#268bd2" data-theme-color="" data-background="#202020"><article id="post-2018-02-19-its-time-to-do-cmake-right" class="page post" role="article"><header><h1 class="post-title"> It's Time To Do CMake Right</h1><p class="post-date heading"> <time datetime="2018-02-19T00:00:00+00:00">19 Feb 2018</time> on <a href="https://pabloariasal.github.io/tag/build-systems/" class="flip-title">Build Systems</a>, <a href="https://pabloariasal.github.io/tag/cpp/" class="flip-title">C++</a></p><div class="hr pb0"></div></header><p>Not
+ so long ago I got the task of rethinking our build system. The idea was
+ to evaluate existing components, dependencies, but most importantly, to
+ establish a superior design by making use of modern CMake features and 
+paradigms. Most people I know would have avoided such enterprise at all 
+costs, but there is something about writing find modules that makes my 
+brain release endorphins. I thought I was up for an amusing ride. Boy 
+was I wrong.</p><p>My excitement was soon shattered after discovering 
+the lack of standard practices in CMake usage and specially the 
+insufficient adoption of modern design patterns. This post explores the 
+concepts of what is known as modern CMake, which advocates for 
+abandoning a traditional variable-based approach for a more structured 
+model based on so-called targets. My intention is to show how “new” 
+(&gt;= 3.0.0) features can be employed to reshape your CMake system into
+ a more maintainable and intuitive alternative that actually makes 
+sense.</p><p>Many of the concepts presented here find their roots in Daniel Pfeifer’s masterpiece <a href="https://youtu.be/rLopVhns4Zs">Effective CMake</a>.
+ Daniel has practically become the Messiah of the modern CMake church, 
+preaching best practices and guidelines in a time when the only standard
+ is to not have one. Daniel, I am your prophet.</p><p>Enough preambles. Does this look familiar to you?</p><div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">find_package</span><span class="p">(</span>Boost 1.55 COMPONENTS asio<span class="p">)</span> 
+<span class="nb">list</span><span class="p">(</span>APPEND INCLUDE_DIRS <span class="si">${</span><span class="nv">BOOST_INCLUDE_DIRS</span><span class="si">}</span><span class="p">)</span>
+<span class="nb">list</span><span class="p">(</span>APPEND LIBRARIES <span class="si">${</span><span class="nv">BOOST_LIBRARIES</span><span class="si">}</span><span class="p">)</span>
+
+<span class="nb">include_directories</span><span class="p">(</span><span class="si">${</span><span class="nv">INCLUDE_DIRS</span><span class="si">}</span><span class="p">)</span>
+<span class="nb">link_libraries</span><span class="p">(</span><span class="si">${</span><span class="nv">LIBRARIES</span><span class="si">}</span><span class="p">)</span>
+</code></pre></div></div><p>Don’t. Just don’t. This is wrong in so many 
+dimensions. You are just blindly throwing stuff into a pot of include 
+directories and compiler flags. There is no structure. There is no 
+transparency. Not to mention that functions like <code class="highlighter-rouge">include_directories</code> work at the directory level and apply to all entities defined in scope.</p><p>And
+ this isn’t even the real problem, what do you do with transitive 
+dependencies? What about the order of linking? Yes, you need to take 
+care about that yourself. The moment you need to deal with the 
+dependencies of your dependencies is the moment your life needs to be 
+reevaluated.</p><h1 id="targets-and-properties">Targets and Properties <a href="#targets-and-properties" class="permalink"> <span class="sr-only">Permalink</span> <span class="icon-link"></span> </a> </h1><p>CMake
+ developers saw the aforementioned problems and introduced language 
+features that allow you to better structure your projects. Modern CMake 
+is all about targets and properties. Conceptually this isn’t 
+complicated. Targets model the components of you application. An 
+executable is a target, a library is a target. Your application is built
+ as a collection of targets that depend on and use each other.</p><p>Targets
+ have properties. Properties of a target are the source files it’s built
+ from, the compiler options it requires, the libraries it links against.
+ In modern CMake you create a list of targets and define the necessary 
+properties on them.</p><h2 id="build-requirements-vs-usage-requirements">Build Requirements vs Usage Requirements <a href="#build-requirements-vs-usage-requirements" class="permalink"> <span class="sr-only">Permalink</span> <span class="icon-link"></span> </a> </h2><p>Target properties are defined in one of two scopes: <strong>INTERFACE</strong> and <strong>PRIVATE</strong>. Private properties are used <em>internally</em> to build the target, while interface properties are used <em>externally</em>
+ by users of the target. In other words, interface properties model 
+usage requirements, whereas private properties model build requirements 
+of targets.</p><p>Interface properties have the prefix, wait for it, <em>INTERFACE_</em> prepended to them.</p><p>For example, the property <strong>COMPILE_OPTIONS</strong>
+ encodes a list of options to be passed to the compiler when building 
+the target. If a target must be built with all warnings enabled, for 
+instance, this list should contain the option <code class="highlighter-rouge">-Wall</code>. This is a private property used only when building the target and won’t affect its users in any way.</p><p>On the other hand, the property <strong>INTERFACE_COMPILE_FEATURES</strong> stores which features must be supported by the compiler when building <em>users</em>
+ of the target. For instance, if the public header of a library contains
+ a variadic function template, this property should contain the feature <code class="highlighter-rouge">cxx_variadic_templates</code>.
+ This instructs CMake that applications including this header will have 
+to be built by a compiler that understands variadic templates.</p><p>Properties can also be specified as <strong>PUBLIC</strong>. Public properties are defined in both <strong>PRIVATE</strong> and <strong>INTERFACE</strong> scopes.</p><p>All of this is better understood with an example.</p><h2 id="libjsonutils">libjsonutils <a href="#libjsonutils" class="permalink"> <span class="sr-only">Permalink</span> <span class="icon-link"></span> </a> </h2><p>Imagine that you are writing a json utily library, <em>libjsonutils</em>,
+ that parses json files from a provided location. Json files can be 
+located on your local file system, as well as accessible via some URL.</p><p>The library has the following structure:</p><div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>libjsonutils
+├── CMakeLists.txt
+├── include
+│&nbsp;&nbsp; └── jsonutils
+│&nbsp;&nbsp;     └── json_utils.h
+├── src
+│&nbsp;&nbsp; ├── file_utils.h
+│&nbsp;&nbsp; └── json_utils.cpp
+└── test
+    ├── CMakeLists.txt
+    └── src
+        └── test_main.cpp
+</code></pre></div></div><p>We have a single public header, were we define the <code class="highlighter-rouge">loadJson()</code> function:</p><div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">boost</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="n">rapidjson</span><span class="o">::</span><span class="n">Document</span><span class="o">&gt;</span> <span class="n">loadJson</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">url</span><span class="p">);</span>
+</code></pre></div></div><p>This function receives either a URL or a filepath to a json and loads it as a rapidjson object. If something goes wrong, <code class="highlighter-rouge">boost::none</code> will be returned instead.</p><p>Let’s start writing jsonutil’s <code class="highlighter-rouge">CMakeLists.txt</code>:</p><div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.5<span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span>libjsonutils VERSION 1.0.0 LANGUAGES CXX<span class="p">)</span>
+</code></pre></div></div><p>Nothing surprising here. The first step is to create our library target:</p><div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">add_library</span><span class="p">(</span>JSONUtils src/json_utils.cpp<span class="p">)</span>
+</code></pre></div></div><p>Now let’s define some properties on our target. Why not start with the include directories?</p><div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">target_include_directories</span><span class="p">(</span>JSONUtils
+    PUBLIC 
+        $&lt;INSTALL_INTERFACE:include&gt;    
+        $&lt;BUILD_INTERFACE:<span class="si">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="si">}</span>/include&gt;
+    PRIVATE
+        <span class="si">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="si">}</span>/src
+<span class="p">)</span>
+</code></pre></div></div><p>Our headers are located in two different places: inside <code class="highlighter-rouge">src/</code>, which contains a utility header called <code class="highlighter-rouge">file_utils.h</code>, and in <code class="highlighter-rouge">include/</code>, where our public header <code class="highlighter-rouge">json_utils.h</code> lives. For building our library we need all headers in both locations (<code class="highlighter-rouge">json_utils.cpp</code> includes both), so <strong>INCLUDE_DIRS</strong> must contain <code class="highlighter-rouge">src/</code>, as well as <code class="highlighter-rouge">include/</code>.</p><p>On the other hand, users of <em>jsonutils</em> only need to know about the location of the public header <code class="highlighter-rouge">json_utils.h</code>, so <strong>INTERFACE_INCLUDE_DIRS</strong> only needs to contain <code class="highlighter-rouge">include/</code>, but not <code class="highlighter-rouge">src/</code>.</p><p>There is still a problem, though. While building jsonutils, <code class="highlighter-rouge">include/</code> is at <code class="highlighter-rouge">/home/pablo/libjsonutils/include/</code>, but after installing our library, it will be under <code class="highlighter-rouge">${CMAKE_INSTALL_PREFIX}/include/</code>.
+ Therefore, the location of this directory needs to be different 
+depending on whether we are building or installing the library. To solve
+ this problem, we use <a href="https://cmake.org/cmake/help/v3.5/manual/cmake-generator-expressions.7.html">generator expressions</a>, which set the correct path depending on the situation.</p><h3 id="leave-cmake_cxx_flags-alone">Leave CMAKE_CXX_FLAGS Alone <a href="#leave-cmake_cxx_flags-alone" class="permalink"> <span class="sr-only">Permalink</span> <span class="icon-link"></span> </a> </h3><p>We can now continue by defining extra properties on our target. For example, it could be beneficial to treat warnings as errors:</p><div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">target_compile_options</span><span class="p">(</span>JSONUtils PRIVATE -Werror<span class="p">)</span>
+</code></pre></div></div><p>Given that we use <code class="highlighter-rouge">constexpr</code> and <code class="highlighter-rouge">auto</code>, we could set the language standard to c++11:</p><div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">target_compile_features</span><span class="p">(</span>JSONUtils PRIVATE cxx_std_11<span class="p">)</span>
+</code></pre></div></div><p>Note that there is no reason to manually append <code class="highlighter-rouge">-std=c++11</code> to <strong>CMAKE_CXX_FLAGS</strong>, let CMake do that for you! Stay away from variable land, model your requirements via properties.</p><h1 id="model-dependencies-with-target_link_libraries">Model dependencies with <code class="highlighter-rouge">target_link_libraries</code> <a href="#model-dependencies-with-target_link_libraries" class="permalink"> <span class="sr-only">Permalink</span> <span class="icon-link"></span> </a> </h1><p>Let’s
+ think about our dependencies. First off all, we need boost, as we use 
+optional. Additionally, in order to figure out if the passed string is 
+an URL, we have to evaluate it against some regex, so we need 
+boost::regex (yes I know c++11 introduces regex utilities but bear with 
+me). Second, we need rapidjson.</p><p>In CMake, <code class="highlighter-rouge">target_link_libraries</code> is used to model dependencies between targets.</p><div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">find_package</span><span class="p">(</span>Boost 1.55 REQUIRED COMPONENTS regex<span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span>RapidJSON 1.0 REQUIRED MODULE<span class="p">)</span>
+
+<span class="nb">target_link_libraries</span><span class="p">(</span>JSONUtils
+    PUBLIC
+        Boost::boost RapidJSON::RapidJSON
+    PRIVATE
+        Boost::regex
+<span class="p">)</span>
+</code></pre></div></div><p>Dependencies (a.k.a link libraries) of a target are just another property and are defined in an <strong>INTERFACE</strong> or <strong>PRIVATE</strong> scope. In our case, both rapidjson and boost optional (defined in the target <code class="highlighter-rouge">Boost::boost</code>) have to be interface dependencies and be propagated to users, as they are used in a public header that’s imported by clients.</p><p>This means that users of <code class="highlighter-rouge">JSONUtils</code> don’t just require <code class="highlighter-rouge">JSONUtil</code>’s
+ interface properties, but also the interface properties of its 
+interface dependencies (which define the public headers of boost and 
+rapidjson in this case), and those of the dependencies of the 
+dependencies, etc.</p><p>But how does CMake solve this problem? Easy, it adds all interface properties of <code class="highlighter-rouge">Boost::boost</code> and <code class="highlighter-rouge">RapidJSON::RapidJSON</code> to the corresponding <code class="highlighter-rouge">JSONUtil</code>’s own interface properties. This means that users of <code class="highlighter-rouge">JSONUtils</code> will transitively receive the interface properties of targets all up the dependency chain.</p><p>On the other hand, Boost::regex is only used internally and can be a private dependency. Here, <code class="highlighter-rouge">Boost::regexes</code> interface properties will be appended to the corresponding <code class="highlighter-rouge">JSONUtil</code>’s private properties, and won’t be propagated to users.</p><p>Isn’t this beautiful? Usage requirements are propagated and build requirements encapsulated. Welcome to modern CMake.</p><h1 id="sex-drugs-and-imported-targets">Sex, Drugs and Imported Targets <a href="#sex-drugs-and-imported-targets" class="permalink"> <span class="sr-only">Permalink</span> <span class="icon-link"></span> </a> </h1><p>Note that <code class="highlighter-rouge">Boost::boost</code> and <code class="highlighter-rouge">RapidJSON::RapidJSON</code>
+ are targets themselves. But where did they come from? I haven’t told 
+you the most breathtaking fact about targets yet: targets can be 
+exported. Exported targets can be later imported into other projects.</p><p>When we call <code class="highlighter-rouge">find_package(Boost 1.55 REQUIRED COMPONENTS regex)</code>, CMake will execute <code class="highlighter-rouge">FindBoost.cmake</code>, where the targets <code class="highlighter-rouge">Boost::boost</code> and <code class="highlighter-rouge">Boost::regex</code> will be imported, allowing us to depend on them via <code class="highlighter-rouge">target_link_libraries()</code>.</p><p>Our
+ projects have structure, as they are build as a collection of 
+encapsulated targets, and CMake handles transitive requirements for us. 
+You might be wondering with tears in your eyes how beautiful life can 
+be, but boy are up for a revelation.</p><p>Let’s try to build <em>jsonutils</em>:</p><div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CMake Error at CMakeLists.txt:9
+    Target "JSONUtils" links to target "RapidJSON::RapidJSON" but the target was not found.
+</code></pre></div></div><h2 id="good-boys-export-their-targets">Good boys export their targets <a href="#good-boys-export-their-targets" class="permalink"> <span class="sr-only">Permalink</span> <span class="icon-link"></span> </a> </h2><p>The imported target <code class="highlighter-rouge">RapidJSON::RapidJSON</code> could not be found, because <code class="highlighter-rouge">RapidJSONConfig.cmake</code> did not create it. Let’s inspect what rapidjson does in the config installed on my arch linux system:</p><div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">get_filename_component</span><span class="p">(</span>RAPIDJSON_CMAKE_DIR <span class="s2">"</span><span class="si">${</span><span class="nv">CMAKE_CURRENT_LIST_FILE</span><span class="si">}</span><span class="s2">"</span> PATH<span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span>RAPIDJSON_INCLUDE_DIRS <span class="s2">"/usr/include"</span><span class="p">)</span>
+<span class="nb">message</span><span class="p">(</span>STATUS <span class="s2">"RapidJSON found. Headers: </span><span class="si">${</span><span class="nv">RAPIDJSON_INCLUDE_DIRS</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div></div><p>Yes, welcome to hell. This is where the real
+ pain begins: 3rdparty dependencies. In the case of rapidjson, a single 
+variable is set to point to its include directories. This is exactly 
+what we don’t want, we don’t want variables, we want targets!</p><p>In 
+my case, 70% of my dependencies didn’t define any targets in their find 
+modules or configs. The reality is that CMake usage is an anarchy. There
+ are few rules and too much flexibility. We need standard practices, we 
+need guidelines. We have design patterns for C++, why not for CMake?</p><h2 id="if-you-want-it-done-right-do-it-yourself">If you want it done right do it yourself <a href="#if-you-want-it-done-right-do-it-yourself" class="permalink"> <span class="sr-only">Permalink</span> <span class="icon-link"></span> </a> </h2><p>So what can you do in these cases?</p><p>Daniel
+ Pfeifer advises to report such usage as a bug to the library 
+developers. I agree. Upstreams should support downstream’s modern 
+target-based design. Ask yourself: do you really need this dependency? 
+Are there alternatives that do support modern cmake usage?</p><p>In this case, however, there is no other option other taking matters into your own hands and write <code class="highlighter-rouge">FindRapidJSON.cmake</code> ourselves:</p><div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># FindRapidJSON.cmake</span>
+<span class="c1">#</span>
+<span class="c1"># Finds the rapidjson library</span>
+<span class="c1">#</span>
+<span class="c1"># This will define the following variables</span>
+<span class="c1">#</span>
+<span class="c1">#    RapidJSON_FOUND</span>
+<span class="c1">#    RapidJSON_INCLUDE_DIRS</span>
+<span class="c1">#</span>
+<span class="c1"># and the following imported targets</span>
+<span class="c1">#</span>
+<span class="c1">#     RapidJSON::RapidJSON</span>
+<span class="c1">#</span>
+<span class="c1"># Author: Pablo Arias - pabloariasal@gmail.com</span>
+
+<span class="nb">find_package</span><span class="p">(</span>PkgConfig<span class="p">)</span>
+<span class="nf">pkg_check_modules</span><span class="p">(</span>PC_RapidJSON QUIET RapidJSON<span class="p">)</span>
+
+<span class="nb">find_path</span><span class="p">(</span>RapidJSON_INCLUDE_DIR
+    NAMES rapidjson.h
+    PATHS <span class="si">${</span><span class="nv">PC_RapidJSON_INCLUDE_DIRS</span><span class="si">}</span>
+    PATH_SUFFIXES rapidjson
+<span class="p">)</span>
+
+<span class="nb">set</span><span class="p">(</span>RapidJSON_VERSION <span class="si">${</span><span class="nv">PC_RapidJSON_VERSION</span><span class="si">}</span><span class="p">)</span>
+
+<span class="nb">mark_as_advanced</span><span class="p">(</span>RapidJSON_FOUND RapidJSON_INCLUDE_DIR RapidJSON_VERSION<span class="p">)</span>
+
+<span class="nb">include</span><span class="p">(</span>FindPackageHandleStandardArgs<span class="p">)</span>
+<span class="nf">find_package_handle_standard_args</span><span class="p">(</span>RapidJSON
+    REQUIRED_VARS RapidJSON_INCLUDE_DIR
+    VERSION_VAR RapidJSON_VERSION
+<span class="p">)</span>
+
+<span class="nb">if</span><span class="p">(</span>RapidJSON_FOUND<span class="p">)</span>
+    <span class="nb">set</span><span class="p">(</span>RapidJSON_INCLUDE_DIRS <span class="si">${</span><span class="nv">RapidJSON_INCLUDE_DIR</span><span class="si">}</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+
+<span class="nb">if</span><span class="p">(</span>RapidJSON_FOUND AND NOT TARGET RapidJSON::RapidJSON<span class="p">)</span>
+    <span class="nb">add_library</span><span class="p">(</span>RapidJSON::RapidJSON INTERFACE IMPORTED<span class="p">)</span>
+    <span class="nb">set_target_properties</span><span class="p">(</span>RapidJSON::RapidJSON PROPERTIES
+        INTERFACE_INCLUDE_DIRECTORIES <span class="s2">"</span><span class="si">${</span><span class="nv">RapidJSON_INCLUDE_DIR</span><span class="si">}</span><span class="s2">"</span>
+    <span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+</code></pre></div></div><p>This is a very simple find module that looks for rapidjson’s headers in the system and creates the imported target <code class="highlighter-rouge">RapidJSON::RapidJSON</code> that we require. I use <strong>INTERFACE</strong>
+ to indicate that this “library” isn’t really a library, as there is no 
+correponding .a or .so, but just defines usage requirements.</p><h2 id="this-is-how-you-do-cmake">This is how you do CMake <a href="#this-is-how-you-do-cmake" class="permalink"> <span class="sr-only">Permalink</span> <span class="icon-link"></span> </a> </h2><p>We
+ want jsonutils to integrate in a target-based build system of 
+downstreams. This means that all they have to do to use jsonutils is 
+this:</p><div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">find_package</span><span class="p">(</span>JSONUtils 1.0 REQUIRED<span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span>example JSONUtils::JSONUtils<span class="p">)</span>
+</code></pre></div></div><p>To achieve this we need to do two things. First, we need to export the target <code class="highlighter-rouge">JSONUtils::JSONUtils</code>. And second, we need to import that target when downtreams call <code class="highlighter-rouge">find_package(JSONUtils)</code>, i.e. from inside our <code class="highlighter-rouge">JSONUtilsConfig.cmake</code>.</p><p>Let’s start with exporting our target to a <code class="highlighter-rouge">JSONUtilsTargets.cmake</code> script that imports it. First of all, we need to install the library itself (the actual .a or .so file):</p><div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">include</span><span class="p">(</span>GNUInstallDirs<span class="p">)</span>
+<span class="nb">install</span><span class="p">(</span>TARGETS JSONUtils
+    EXPORT jsonutils-export
+    LIBRARY DESTINATION <span class="si">${</span><span class="nv">CMAKE_INSTALL_LIBDIR</span><span class="si">}</span>
+    ARCHIVE DESTINATION <span class="si">${</span><span class="nv">CMAKE_INSTALL_LIBDIR</span><span class="si">}</span>
+<span class="p">)</span>
+</code></pre></div></div><p>In CMake, installed targets are registered to exports using the <strong>EXPORT</strong>
+ argument. Exports are therefore just a set of targets that can be 
+exported and installed. Here we just told CMake to install our library 
+and to register the target in the export <em>jsonutils-export</em>.</p><p>Then we can go ahead and install the export that we defined above:</p><div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">install</span><span class="p">(</span>EXPORT jsonutils-targets
+  FILE
+    JSONUtilsTargets.cmake
+  NAMESPACE
+    JSONUtils::
+  DESTINATION
+    <span class="si">${</span><span class="nv">CMAKE_INSTALL_LIBDIR</span><span class="si">}</span>/cmake/JSONUtils
+<span class="p">)</span>
+</code></pre></div></div><p>This will install the import script <code class="highlighter-rouge">JSONUtilsTargets.cmake</code> that, when included in other scripts, will load the targets defined in the export <em>jsonutils-export</em>. By using the <strong>NAMESPACE</strong> argument, we tell CMake to prepend the prefix <em>JSONUtils::</em> to all targets imported.</p><h2 id="import-your-targets-inside-your-configcmake">Import your targets inside your Config.cmake <a href="#import-your-targets-inside-your-configcmake" class="permalink"> <span class="sr-only">Permalink</span> <span class="icon-link"></span> </a> </h2><p>Remember, when clients call <code class="highlighter-rouge">find_package(JSONUtils)</code>, CMake will look for and execute a <code class="highlighter-rouge">JSONUtilsConfig.cmake</code>.</p><p>So that our target <code class="highlighter-rouge">JSONUtils::JSONUtils</code> is imported and can be used by clients, we need to load <code class="highlighter-rouge">JSONUtilsTargets.cmake</code> in our config file:</p><div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">get_filename_component</span><span class="p">(</span>JSONUtils_CMAKE_DIR <span class="s2">"</span><span class="si">${</span><span class="nv">CMAKE_CURRENT_LIST_FILE</span><span class="si">}</span><span class="s2">"</span> PATH<span class="p">)</span>
+<span class="nb">include</span><span class="p">(</span>CMakeFindDependencyMacro<span class="p">)</span>
+
+<span class="nf">find_dependency</span><span class="p">(</span>Boost 1.55 REQUIRED COMPONENTS regex<span class="p">)</span>
+<span class="nf">find_dependency</span><span class="p">(</span>RapidJSON 1.0 REQUIRED MODULE<span class="p">)</span>
+
+<span class="nb">if</span><span class="p">(</span>NOT TARGET JSONUtils::JSONUtils<span class="p">)</span>
+    <span class="nb">include</span><span class="p">(</span><span class="s2">"</span><span class="si">${</span><span class="nv">JSONUtils_CMAKE_DIR</span><span class="si">}</span><span class="s2">/JSONUtilsTargets.cmake"</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+</code></pre></div></div><p>Be aware that <code class="highlighter-rouge">JSONUtilsTargets.cmake</code> contains code like:</p><div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">add_library</span><span class="p">(</span>JSONUtils::JSONUtils STATIC IMPORTED<span class="p">)</span>
+<span class="nb">set_target_properties</span><span class="p">(</span>JSONUtils::JSONUtils PROPERTIES
+  INTERFACE_INCLUDE_DIRECTORIES <span class="s2">"</span><span class="si">${</span><span class="nv">_IMPORT_PREFIX</span><span class="si">}</span><span class="s2">/include"</span>
+  INTERFACE_LINK_LIBRARIES <span class="s2">"Boost::boost;RapidJSON::RapidJSON;</span><span class="se">\$</span><span class="s2">&lt;LINK_ONLY:Boost::regex&gt;"</span>
+<span class="p">)</span>
+</code></pre></div></div><p>Since this script references targets from boost and rapidjson, they need to be imported before including <code class="highlighter-rouge">JSONUtilsTargets.cmake</code> in <code class="highlighter-rouge">JSONUtilsConfig.cmake</code>.</p><p>This is why we need to call <code class="highlighter-rouge">find_dependency()</code> in <code class="highlighter-rouge">JSONUtilsConfig.cmake</code>:
+ to make sure that downstreams have all required dependencies installed 
+and the needed targets are imported before they are referenced in our <code class="highlighter-rouge">JSONUtilsTargets.cmake</code>.</p><h1 id="thats-all-folks">That’s all folks <a href="#thats-all-folks" class="permalink"> <span class="sr-only">Permalink</span> <span class="icon-link"></span> </a> </h1><p>You can refer to my <a href="https://github.com/pabloariasal/modern-cmake-sample">github</a>
+ where I have uploaded the entire jsonutils project containing all the 
+code shown in this post. There I also included examples on how to test 
+the library using gtest, as well as how to export your targets from the 
+build tree and register them in CMake’s package registry.</p><p>Hopefully
+ by now you were able to grasp how clean and structured a target-based 
+CMake can be compared to a flag and variable based approach. Also, 
+exporting your targets is something your grandma could do, so why not do
+ it? I believe the reason is that CMake suffers from a syndrome of “if 
+no one does it why should I?” We need to change this. We deserve to live
+ in a better world. Export your targets goddammit.</p></article><hr class="dingbat related"><aside class="about related mt4 mb4" role="complementary"><div class="author mt4"> <img class="avatar" src="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/pabloariasal.jpg" alt="pabloariasal" srcset="https://avatars3.githubusercontent.com/pabloariasal?v=3&amp;s=128 1x, https://avatars3.githubusercontent.com/pabloariasal?v=3&amp;s=256 2x, https://avatars3.githubusercontent.com/pabloariasal?v=3&amp;s=384 3x, https://avatars3.githubusercontent.com/pabloariasal?v=3&amp;s=512 4x" data-proofer-ignore="true" height="128" width="128"><h2 class="page-title hr"> About</h2><p>Hola!
+ My name is Pablo and I am a software engineer currently living in 
+Munich, Germany. My first line of code was written 12 years ago while 
+attempting to customize an add-on for my World of Warcraft UI in Lua. A 
+passion for programming has been growning in me ever since and now, at 
+26 years old, I write software for a living. This blog explores a 
+variety of topics that I’ve stumbled across in my journey as a software 
+developer. Even though mostly written for my own understanding, my hope 
+is that the curious programmer may find my writings entertaining.</p><div class="sidebar-social"> <span class="sr-only">Social:</span><ul><li> <a href="https://github.com/pabloariasal" title="GitHub" class="no-mark-external"> <span class="icon-github"></span> <span class="sr-only">GitHub</span> </a></li><li> <a href="mailto:%3Cpabloariasal@gmail.com%3E" title="Email" class="no-mark-external"> <span class="icon-mail"></span> <span class="sr-only">Email</span> </a></li><li> <a href="https://instagram.com/pabloariasal" title="Instagram" class="no-mark-external"> <span class="icon-instagram"></span> <span class="sr-only">Instagram</span> </a></li><li> <a href="https://www.linkedin.com/in/pablo-arias-519616127" title="LinkedIn" class="no-mark-external"> <span class="icon-linkedin2"></span> <span class="sr-only">LinkedIn</span> </a></li></ul></div></div></aside><aside class="comments related" role="complementary"><h2 class="hr">Comments</h2><div id="disqus_thread"><iframe id="dsq-app3297" name="dsq-app3297" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" sandbox="allow-forms allow-popups allow-same-origin allow-scripts" style="width: 1px ! important; min-width: 100% ! important; border: medium none ! important; overflow: hidden ! important; height: 0px ! important;" src="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/a.htm" frameborder="0" width="100%"></iframe><iframe id="dsq-app3294" name="dsq-app3294" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" style="width: 1px ! important; min-width: 100% ! important; border: medium none ! important; overflow: hidden ! important; height: 5404px ! important;" src="It%E2%80%99s%20Time%20To%20Do%20CMake%20Right%20_%20Pablo%20Arias_elemei/a_002.htm" horizontalscrolling="no" verticalscrolling="no" frameborder="0" width="100%"></iframe></div><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></aside><footer role="contentinfo"><hr><p><small class="copyright">© 2018. All rights reserved. </small></p><p><small>Powered by <a class="external" href="https://qwtel.com/hydejack/">Hydejack</a> v<span id="_version">7.5.0</span></small></p><hr class="sr-only"></footer></main><hy-drawer class="loaded"><div class="hy-drawer-scrim" style="pointer-events: all; opacity: 1; display: none;"></div><div class="hy-drawer-content hy-drawer-left hy-drawer-opened" style="transform: translateX(467px);"><header id="_sidebar" class="sidebar" role="banner"><div class="sidebar-bg " style="background:#202020"></div><div class="sidebar-sticky"><div class="sidebar-about"><h2 class="h1"><a href="https://pabloariasal.github.io/">Pablo Arias</a></h2><p class=""> Personal blog about the little stuff I know</p></div><nav class="sidebar-nav heading" role="navigation"> <span class="sr-only">Navigation:</span><ul><li> <a id="_navigation" href="https://pabloariasal.github.io/tag/cpp/" class="sidebar-nav-item"> C++ </a></li><li> <a href="https://pabloariasal.github.io/tag/python/" class="sidebar-nav-item"> Python </a></li><li> <a href="https://pabloariasal.github.io/tag/build-systems/" class="sidebar-nav-item"> Build Systems </a></li><li> <a href="https://pabloariasal.github.io/about/" class="sidebar-nav-item"> About </a></li></ul></nav><div class="sidebar-social"> <span class="sr-only">Social:</span><ul><li> <a href="https://github.com/pabloariasal" title="GitHub" class="no-mark-external"> <span class="icon-github"></span> <span class="sr-only">GitHub</span> </a></li><li> <a href="mailto:%3Cpabloariasal@gmail.com%3E" title="Email" class="no-mark-external"> <span class="icon-mail"></span> <span class="sr-only">Email</span> </a></li><li> <a href="https://instagram.com/pabloariasal" title="Instagram" class="no-mark-external"> <span class="icon-instagram"></span> <span class="sr-only">Instagram</span> </a></li><li> <a href="https://www.linkedin.com/in/pablo-arias-519616127" title="LinkedIn" class="no-mark-external"> <span class="icon-linkedin2"></span> <span class="sr-only">LinkedIn</span> </a></li></ul></div></div></header></div></hy-drawer> </hy-push-state> <script> window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date; ga('create', 'UA-110411218-1', 'auto'); ga('send', 'pageview'); loadJSDeferred('https://www.google-analytics.com/analytics.js'); </script> <!--[if gt IE 9]><!----> <script>loadJSDeferred('/assets/js/hydejack-7.5.0.js');</script> <!--<![endif]--><hr class="sr-only"><h2 class="sr-only">Templates (for web app):</h2><template id="_animation-template"><div class="animation-main fixed-top"><div class="content"><div class="page"></div></div></div></template> <template id="_loading-template"><div class="loading"> <span class="sr-only">Loading…</span> <span class="icon-cog"></span></div></template> <template id="_error-template"><div class="page"><h1 class="page-title">Error</h1><p class="lead"> Sorry, an error occurred while loading <a class="this-link" href=""></a>.</p></div></template> <template id="_back-template"> <a id="_back" class="back nav-btn no-hover"> <span class="sr-only">Back</span> <span class="icon-arrow-left2"></span> </a> </template> <template id="_permalink-template"> <a href="#" class="permalink"> <span class="sr-only">Permalink</span> <span class="icon-link"></span> </a> </template>
+<iframe style="display: none;"></iframe></body></html>

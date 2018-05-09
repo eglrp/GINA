@@ -41,13 +41,13 @@ include_directories ("${PROJECT_BINARY_DIR}")
 # Math Packages #
 #################
 #################################################################
-add_subdirectory (MathPckgs)
+add_subdirectory (10_MathPckgs)
 
 	##########
 	# ALGLIB #
 	##########
 	#################################################################
-	get_property(ALGLIB_CORE_INC_DIRS DIRECTORY "${PROJECT_SOURCE_DIR}/MathPckgs/ALGLIB" PROPERTY ALGLIB_CORE_INC_DIRS)
+	get_property(ALGLIB_CORE_INC_DIRS DIRECTORY "${PROJECT_SOURCE_DIR}/10_MathPckgs/ALGLIB" PROPERTY ALGLIB_CORE_INC_DIRS)
 	set (EXTRA_LIBS ${EXTRA_LIBS} ALGLIB)
 	#message("Property for root directory root read from ALGLIB_CORE_INC_DIRS: " ${ALGLIB_CORE_INC_DIRS})
 
@@ -55,7 +55,7 @@ add_subdirectory (MathPckgs)
 	#Eigen Lib #
 	############
 	#################################################################
-	get_property(EIGEN_CORE_INC_DIRS DIRECTORY "${PROJECT_SOURCE_DIR}/MathPckgs/Eigen" PROPERTY EIGEN_CORE_INC_DIRS)
+	get_property(EIGEN_CORE_INC_DIRS DIRECTORY "${PROJECT_SOURCE_DIR}/10_MathPckgs/Eigen" PROPERTY EIGEN_CORE_INC_DIRS)
 	#message("Property for root directory root read from EIGEN_CORE_INC_DIRS: " ${EIGEN_CORE_INC_DIRS})
 
 #########
@@ -63,9 +63,9 @@ add_subdirectory (MathPckgs)
 #########
 #################################################################
 
-#add_subdirectory (GPSTk-master)
-file( GLOB_RECURSE GPSTK_CORE_INC_FILES "GPSTk-master/core/lib/*.hpp" )
-file( GLOB_RECURSE GPSTK_EXT_INC_FILES "GPSTk-master/ext/lib/*.h" "GPSTk-master/ext/lib/*.hpp" )
+#add_subdirectory (20_GPSTk-master)
+file( GLOB_RECURSE GPSTK_CORE_INC_FILES "20_GPSTk-master/core/lib/*.hpp" )
+file( GLOB_RECURSE GPSTK_EXT_INC_FILES "20_GPSTk-master/ext/lib/*.h" "GPSTk-master/ext/lib/*.hpp" )
   
 #----------------------------------------
 # Define /core library include directories
@@ -92,35 +92,35 @@ set( GPSTK_EXT_INC_DIRS "" )
 
   list( REMOVE_DUPLICATES GPSTK_EXT_INC_DIRS )
 
-add_subdirectory (GPSTk-master)
+add_subdirectory (20_GPSTk-master)
 set (EXTRA_LIBS ${EXTRA_LIBS} gpstk_extra)
 set (GPSTK_LIBS ${GPSTK_LIBS} gpstk)
 
 #PINAPArser
 ##############################################################
 option( PINAParser "HELP: Build Pina Parser: SWITCH, Default = ON, Build the PINAPArser" ON )
-add_subdirectory (PINAPArser) 
-get_property(PINAPARSER_CORE_INC_DIRS DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/PINAParser" PROPERTY PINAPARSER_CORE_INC_DIRS)
+add_subdirectory (68_PINAPArser) 
+get_property(PINAPARSER_CORE_INC_DIRS DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/68_PINAParser" PROPERTY PINAPARSER_CORE_INC_DIRS)
 # message("Property for root directory root read from GNSSSIM_INCLUDE_DIRS: " ${GNSSSIM_INCLUDE_DIRS})
 
 #GNSSsimulator
 ##############################################################
-add_subdirectory (GNSSsimulator)
-get_property(GNSSSIM_INCLUDE_DIRS DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/GNSSSimulator" PROPERTY GNSSSIM_INCLUDE_DIRS)
+add_subdirectory (50_GNSSsimulator)
+get_property(GNSSSIM_INCLUDE_DIRS DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/50_GNSSSimulator" PROPERTY GNSSSIM_INCLUDE_DIRS)
 # message("Property for root directory root read from GNSSSIM_INCLUDE_DIRS: " ${GNSSSIM_INCLUDE_DIRS})
  
 #IMUSimulator & IMUSimulatorLibrary
 ##############################################################
 option( IMUSimulator_Tests "HELP: IMUSimulatorTest: Default = OFF, Create tests projects of the IMUSimulator." OFF )
-add_subdirectory (IMUSimulator)
+add_subdirectory (60_IMUSimulator)
 set (EXTRA_LIBS ${EXTRA_LIBS} IMUSimulatorLibrary)
 
 # GNSS Competence Team's Projects
 ##############################################################
 option( GNSS_Competence_Team_Project_1 "HELP: BUILD_EXC1: SWITCH, Default = ON, Build the GNSS Competence Team - 1st exercise" OFF )
-add_subdirectory (GNSS_Competence_Team) 
+add_subdirectory (40_GNSS_Competence_Team) 
 
-add_subdirectory (PINA)
+add_subdirectory (69_PINA)
 
 
 

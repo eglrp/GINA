@@ -1,3 +1,0 @@
-GNSS Trajectory File
-Position LLH
-END OF HEADER
