@@ -72,7 +72,7 @@ namespace gnsssimulator
 
 
 	TrajectoryData& TrajectoryData::operator+=(gpstk::Position& newpos) {
-		this->pos = newpos;
+		this->pos = newpos; // TODO not correct. sth wrong
 		this->coorSys = newpos.getCoordinateSystem();
 		return *this;
 	}

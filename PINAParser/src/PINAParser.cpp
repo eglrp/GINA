@@ -4,7 +4,13 @@
 #include <math.h>
 
 //Own includes
-#include "TrajectoryReader.hpp"
+
+#include "IMUBase.hpp"
+#include "IMUData.hpp"
+#include "IMUHeader.hpp"
+#include "IMUStream.hpp"
+#include "IMUStore.hpp"
+
 #include "TrajectoryBase.hpp"
 #include "TrajectoryData.hpp"
 #include "TrajectoryHeader.hpp"
@@ -22,8 +28,32 @@ using namespace std;
 
 int main(int argc, char **argv) {
 
+
+	// IMU file parser
+	PINASimulator::IMUStream imuFileIn("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\PINAParser\\files\\example_IMU_Input.pina");
+	PINASimulator::IMUStream imuFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\PINAParser\\files\\example_IMU_Input_out.pina", std::ios::out);
+	PINASimulator::IMUHeader imuHeader;
+	PINASimulator::IMUData imuData;
+
+	imuFileIn >> imuHeader;
+	imuFileOut << imuHeader;
+	
+	imuFileIn >> imuData;
+	imuFileOut << imuData;
+
+	imuFileIn >> imuData;
+	imuFileOut << imuData;
+
+	imuFileIn >> imuData;
+	imuFileOut << imuData;
+	
+	imuFileIn.close();
+	imuFileOut.close();
+
+	// Trajectory file parser
+	
 	PINASimulator::TrajectoryStream trajFileIn("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\PINAParser\\files\\example_trajectory.pina");
-	PINASimulator::TrajectoryStream trajFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\PINAParser\\files\\example_trajectory.pina_out.pina", std::ios::out);
+	PINASimulator::TrajectoryStream trajFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\PINAParser\\files\\example_trajectory_out.pina", std::ios::out);
 	PINASimulator::TrajectoryHeader trajHeader;
 	PINASimulator::TrajectoryData trajData;
 
@@ -41,30 +71,6 @@ int main(int argc, char **argv) {
 
 	trajFileIn.close();
 	trajFileOut.close();
-
-//typedef std::numeric_limits< double > dbl;
-//cout.precision(dbl::max_digits10);
-/*string trajectoryFile = "..//..//IMUSimulator//files//example_trajectory.pina";
-string IMU_inputFile = "..//..//IMUSimulator//files//example_IMU_Input.pina";
-
-PinaFile pinaFile(trajectoryFile);
-pinaFile.header.print_info();
-pinaFile.print_data();
-
-pinaFile.clear();
-pinaFile.header.print_info();
-pinaFile.print_data();
-
-pinaFile.open(IMU_inputFile);
-pinaFile.header.print_info();
-pinaFile.print_data();
-
-ConcreteDataProcess CDataProcess;
-CDataProcess.copy(pinaFile);
-CDataProcess.print();
-double foo[3] = { 0,1,3 };
-pos2cne(foo);*/
-//strap..()
 
 getchar();
 return 0;

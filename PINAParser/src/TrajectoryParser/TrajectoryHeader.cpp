@@ -59,9 +59,6 @@ namespace PINASimulator {
 			else continue;
 
 		}
-
-		writeStartofHeader(ffs);
-
 	}
 
 	void TrajectoryHeader::reallyPutRecord(gpstk::FFStream& ffs) const

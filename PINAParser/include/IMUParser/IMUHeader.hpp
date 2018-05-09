@@ -35,12 +35,7 @@ namespace PINASimulator {
 		/// This function dumps the contents of the header.
 		//virtual void dump(std::ostream& s) const;
 
-		enum FormatSpec {
-			isFormatPINA = 1,
-			isFormatCSSIM = 2,
-			isFormatGNSSSIM = 3
-		} formatSpec;
-
+	
 		bool IMUHeader::isPosFormatSet;
 		bool IMUHeader::isHeaderEnd;
 		bool IMUHeader::firstLineisRead;
@@ -62,7 +57,7 @@ namespace PINASimulator {
 
 		static const int IMUHeader::numberofLineinHeader;
 		static const string IMUHeader::startofHeaderPinaTag;
-		static const string IMUHeader::secondLineOfPINATrajectoryTag;
+		static const string IMUHeader::secondLineOfIMUTrajectoryTag;
 		static const string IMUHeader::creatorOfFileTag;
 		static const string IMUHeader::timeofCreationTag;
 		static const string IMUHeader::positionTypeLLHTag;

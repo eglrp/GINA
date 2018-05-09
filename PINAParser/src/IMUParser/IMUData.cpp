@@ -31,26 +31,21 @@ namespace PINASimulator
 			strm << fixed << std::setprecision(5) << timeGAL.getSOW() << "  ";
 		}
 
-		if (coorSys == gpstk::Position::CoordinateSystem::Cartesian) {
-			strm << fixed << std::setprecision(5) << pos.getX() << "  ";
-			strm << fixed << std::setprecision(5) << pos.getY() << "  ";
-			strm << fixed << std::setprecision(5) << pos.getZ() << "  ";
-		}
-		else if (coorSys == gpstk::Position::CoordinateSystem::Geodetic) {
-			strm << fixed << std::setprecision(12) << pos.getGeodeticLatitude() << "  ";
-			strm << fixed << std::setprecision(12) << pos.getLongitude() << "  ";
-			strm << fixed << std::setprecision(5) << pos.getAltitude() << "  ";
-		}
+		
+		strm << fixed << std::setprecision(5) << acceleration[0] << "  ";
+		strm << fixed << std::setprecision(5) << acceleration[1] << "  ";
+		strm << fixed << std::setprecision(5) << acceleration[2] << "  ";
+		
 
-		if (attitude == nullptr) {
+		if (angularRate == nullptr) {
 			strm << "0.0" << "  ";
 			strm << "0.0" << "  ";
 			strm << "0.0" << "  ";
 		}
 		else {
-			strm << fixed << std::setprecision(5) << attitude[0] << "  ";
-			strm << fixed << std::setprecision(5) << attitude[1] << "  ";
-			strm << fixed << std::setprecision(5) << attitude[2] << "  ";
+			strm << fixed << std::setprecision(5) << angularRate[0] << "  ";
+			strm << fixed << std::setprecision(5) << angularRate[1] << "  ";
+			strm << fixed << std::setprecision(5) << angularRate[2] << "  ";
 		}
 		
 		strm << endl;
@@ -108,7 +103,28 @@ namespace PINASimulator
 	}
 
 	bool IMUData::compare(const IMUData& other) const{
-		return (this->pos == other.pos && this->timeSys == other.timeSys);
+
+		bool rtv = true;
+		if (this->acceleration[0]!= other.acceleration[0]) {
+			rtv = false;
+		}
+
+		if (this->acceleration[1] != other.acceleration[1]) {
+			rtv = false;
+		}
+		if (this->acceleration[2] != other.acceleration[2]) {
+			rtv = false;
+		}
+
+		if (this->time != other.time) {
+			rtv = false;
+		}
+
+		if (this->timeSys != other.timeSys) {
+			rtv = false;
+		}
+
+		return rtv;
 	}
 
 	//bool operator== (const Triple& right) const;
@@ -121,33 +137,36 @@ namespace PINASimulator
 	}
 
 
-	IMUData& IMUData::operator+=(gpstk::Position& newpos) {
-		// TODO: This is not quit right here. Shall match the coor systems.
-		this->pos += newpos;
-		this->coorSys = newpos.getCoordinateSystem();
+	IMUData& IMUData::operator+=(IMUData& newData) {
+
+		// TODO: This is not quit right here.
+		if (this->time != newData.time) {
+			throw ("Time value is not matching");
+		} 
+
+		this->acceleration[0] += newData.acceleration[0];
+		this->acceleration[1] += newData.acceleration[1];
+		this->acceleration[2] += newData.acceleration[2];
+
+		this->angularRate[0] += newData.angularRate[0];
+		this->angularRate[1] += newData.angularRate[1];
+		this->angularRate[2] += newData.angularRate[2];
+		
 		return *this;
 	}
 
-	IMUData& IMUData::operator=(gpstk::Position& newpos) {
-		this->pos = newpos;
-		this->coorSys = newpos.getCoordinateSystem();
-		return *this;
-	}
+	IMUData& IMUData::operator=(IMUData& newData) {
 
-	IMUData& IMUData::operator=(IMUData& trajData) {
+		this->acceleration[0] = newData.acceleration[0];
+		this->acceleration[1] = newData.acceleration[1];
+		this->acceleration[2] = newData.acceleration[2];
 
-		this->pos = trajData.pos;
-		this->coorSys = trajData.coorSys;
-		this->timeSys = trajData.timeSys;
-		this->time = trajData.time;
-
-		this->attitude[0] = trajData.attitude[0];
-		this->attitude[1] = trajData.attitude[1];
-		this->attitude[2] = trajData.attitude[2];
+		this->angularRate[0] = newData.angularRate[0];
+		this->angularRate[1] = newData.angularRate[1];
+		this->angularRate[2] = newData.angularRate[2];
 
 		return *this;
 	}
-
 
 	
 	void IMUData::parseLine(std::string& currentLine)
@@ -157,9 +176,9 @@ namespace PINASimulator
 		{
 			
 			std::stringstream   ss(currentLine);
-			string week, tow, coor1, coor2, coor3, roll, pitch, yaw;
+			string week, tow, accx, accy, accz, rollRate, pitchRate, yawRate;
 
-			ss >> week >> tow >> coor1 >> coor2 >> coor3 >> roll >> pitch >> yaw;
+			ss >> week >> tow >> accx >> accy >> accz >> rollRate >> pitchRate >> yawRate;
 
 			gpstk::GPSWeekSecond timeGPS;
 			gpstk::GALWeekSecond timeGAL;
@@ -181,39 +200,30 @@ namespace PINASimulator
 			}
 
 
-			if (coorSys == gpstk::Position::CoordinateSystem::Cartesian) {
-				double coordinates[3];
 
-				if (coor1.empty() || coor2.empty() || coor3.empty()) {
-					coordinates[0] = 0;
-					coordinates[1] = 0;
-					coordinates[2] = 0;
-					// TODO shall throw error or sys
-				}
-				else {
-					coordinates[0] = stod(coor1, nullptr);
-					coordinates[1] = stod(coor2, nullptr);
-					coordinates[2] = stod(coor3, nullptr);
-				}
-				pos.setECEF(coordinates);
+			if (accx.empty() || accy.empty() || accz.empty()) {
+				acceleration[0] = 0;
+				acceleration[1] = 0;
+				acceleration[2] = 0;
+				// TODO shall throw error or sys
 			}
-			else if (coorSys == gpstk::Position::CoordinateSystem::Geodetic) {
-				double geodeticLatitude = stod(coor1, nullptr);
-				double longitude = stod(coor2, nullptr);
-				double height = stod(coor3, nullptr);
-
-				pos.setGeodetic(geodeticLatitude, longitude, height);
+			else {
+				acceleration[0] = stod(accx, nullptr);
+				acceleration[1] = stod(accy, nullptr);
+				acceleration[2] = stod(accz, nullptr);
 			}
+				
+			
 
-			if (roll.empty() || pitch.empty() || yaw.empty()) {
-				attitude[0] = 0;
-				attitude[1] = 0;
-				attitude[2] = 0;
+			if (rollRate.empty() || pitchRate.empty() || yawRate.empty()) {
+				angularRate[0] = 0;
+				angularRate[1] = 0;
+				angularRate[2] = 0;
 			}
 			else{
-				attitude[0] = stod(roll, nullptr);
-				attitude[1] = stod(pitch, nullptr);
-				attitude[2] = stod(yaw, nullptr);
+				angularRate[0] = stod(rollRate, nullptr);
+				angularRate[1] = stod(pitchRate, nullptr);
+				angularRate[2] = stod(yawRate, nullptr);
 			}
 			
 

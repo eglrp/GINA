@@ -6,7 +6,7 @@ namespace PINASimulator {
 
 	const int IMUHeader::numberofLineinHeader = 21;
 	const string IMUHeader::startofHeaderPinaTag = "START OF HEADER";
-	const string IMUHeader::secondLineOfPINATrajectoryTag = "TYPE PINA TRAJECTORY";
+	const string IMUHeader::secondLineOfIMUTrajectoryTag = "TYPE PINA IMU BODY DATA";
 	const string IMUHeader::creatorOfFileTag = "CREATOR";
 	const string IMUHeader::timeofCreationTag = "TIME OF CREATIONS";
 	const string IMUHeader::positionTypeLLHTag = "POSITION FORMAT LLH";
@@ -59,9 +59,6 @@ namespace PINASimulator {
 			else continue;
 
 		}
-
-		writeStartofHeader(ffs);
-
 	}
 
 	void IMUHeader::reallyPutRecord(gpstk::FFStream& ffs) const
@@ -103,14 +100,32 @@ namespace PINASimulator {
 		
 		if (firstLineisRead == false) {
 			string line_second;
-			strm.formattedGetLine(line_second);
-			gpstk::StringUtils::stripTrailing(line_second);
 
-			if (valid == false && line != startofHeaderPinaTag && line_second != secondLineOfPINATrajectoryTag) {
+			std::size_t index = line.find("#");
+			if (index > 0 && index < 10000) {
+				line = line.substr(line.length() + 1, index - line.length() - 1);
+			}
+			
+			gpstk::StringUtils::stripTrailing(line, std::string(1, ' '), std::string::npos);
+			gpstk::StringUtils::stripTrailing(line, std::string(1, '\t'), std::string::npos);
+
+			strm.formattedGetLine(line_second);
+
+			index = line_second.find("#");
+			if (index > 0 && index < 10000) {
+				line_second = line_second.substr(0, secondLineOfIMUTrajectoryTag.length());
+			}
+			
+
+			gpstk::StringUtils::stripTrailing(line_second, std::string(1, ' '), std::string::npos);
+			gpstk::StringUtils::stripTrailing(line_second, std::string(1, '\t'), std::string::npos);
+
+
+			if (valid == false && line != startofHeaderPinaTag && line_second != secondLineOfIMUTrajectoryTag) {
 				valid = false;
 			}
 
-			if (line == startofHeaderPinaTag && line_second == secondLineOfPINATrajectoryTag)
+			if (line == startofHeaderPinaTag && line_second == secondLineOfIMUTrajectoryTag)
 			{
 				valid = true;
 				strm.header = *this;
@@ -436,7 +451,7 @@ namespace PINASimulator {
 		}
 		else if (strm.lineNumber == 1){
 
-			strm << secondLineOfPINATrajectoryTag << endl;
+			strm << secondLineOfIMUTrajectoryTag << endl;
 			strm.lineNumber++;
 			return true;
 		}

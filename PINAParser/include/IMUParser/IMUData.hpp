@@ -62,17 +62,15 @@ namespace PINASimulator
 		bool operator==(const IMUData& ) const;
 		bool operator!=(const IMUData& ) const;
 		
-
-		IMUData& operator+=(gpstk::Position&);
-		IMUData& operator=(gpstk::Position&);
+		IMUData& operator+=(IMUData&);
 		IMUData& operator=(IMUData&);
 
 		gpstk::Position::CoordinateSystem coorSys = gpstk::Position::CoordinateSystem::Unknown;
 		gpstk::TimeSystem timeSys = gpstk::TimeSystem::Systems::Unknown;
-		gpstk::Position pos;
 		gpstk::CommonTime time;
 
-		double attitude[3];
+		double acceleration[3];
+		double angularRate[3];
 		
 
 		

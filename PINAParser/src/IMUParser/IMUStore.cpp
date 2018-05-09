@@ -18,12 +18,21 @@ namespace PINASimulator {
 	}
 
 	IMUData& IMUStore::addPosition(IMUData data) {
+		// TODO not sure if it's correct
 		IMUData ret;
 		if (imuStore.find(data.time) == imuStore.end()) {
 			setCorrdinateSystem(data.coorSys);
 			if (isCoorSystemSet && coorSys != gpstk::Position::CoordinateSystem::Unknown) {
 				ret = data;
-				ret.pos = data.pos.transformTo(data.coorSys);
+
+				ret.acceleration[0] = data.acceleration[0];
+				ret.acceleration[1] = data.acceleration[1];
+				ret.acceleration[2] = data.acceleration[2];
+
+				ret.angularRate[0] = data.angularRate[0];
+				ret.angularRate[1] = data.angularRate[1];
+				ret.angularRate[2] = data.angularRate[2];
+
 				imuStore[data.time] = ret;
 			}
 		}
