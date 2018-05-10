@@ -1,24 +1,25 @@
 function h_data = read_header(fileName)
 %h_data is a structure of the header data. 
 %It is declared default values as followe: 
-h_data.startTime = 0;
-h_data.endTime = 0;
-h_data.positonFormat = 'defaultValue';
-h_data.startPositon = [0,0,0];
-h_data.startVelocity = [0,0,0];
-h_data.startAttitude =[0,0,0];
-h_data.epochTime = 0;
+h_data.startTime = NaN;
+h_data.endTime = NaN;
+h_data.positionFormat = 'defaultValue';
+h_data.startPosition = [NaN,NaN,NaN];
+h_data.startVelocity = [NaN,NaN,NaN];
+h_data.startAttitude =[NaN,NaN,NaN];
+h_data.epochTime = NaN;
 
 pinaFile = fopen(fileName);
 
 keyword_start = 'START OF HEADER';
 keyword_end = 'END OF HEADER';
 
-keywords = {'START TIME','END TIME','POSITION FORMAT',...
+keywords = {'START TIME','END TIME',...
              'START POSITION','START VELOCITY',...
-             'START ATTITUDE','EPOCH TIME'};
-         
-header_switch = 0; 
+             'START ATTITUDE','EPOCH TIME','TYPE','POSITION FORMAT',...
+             'CREATOR','TYPE','TIME SYSTEM','TIME OF CREATION','POSITION FORMAT'};
+
+ header_switch = 0; 
 
 while ~feof(pinaFile) && header_switch ~= -1
     line = fgetl(pinaFile);

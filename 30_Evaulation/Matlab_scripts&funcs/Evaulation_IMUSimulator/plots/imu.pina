@@ -10,7 +10,7 @@ START TIME 1972 120000.000 										# Start time in Week Number Time of Week fo
 END TIME 1972 120200.000 										# End time in Week Number Time of Week format. GPS Time	OPTIONAL
 
 POSITION FORMAT LLH												# Position format van be LLH or ECEF || POSITION FORMAT LLH	|| POSITION FORMAT ECEF	
-START POSITION 1.510000000  1.510000000   110.0000				# Start position. LLH [rad] [rad] || [m] ECEF [m] [m] [m]
+START POSITION 1.510000000       1.510000000      110.0000		# Start position. LLH [rad] [rad] || [m] ECEF [m] [m] [m]
 																# 1st coordinate at 15-28 carrier position
 																# 2nd coordinate at 29-42 carrier position
 																# 3rd coordinate at 43-56 carrier position
@@ -21,7 +21,7 @@ EPOCH TIME 0.0100		 										# This is optional. This shall be in seconds [s]
 
 
 
-END OF HEADER
+END OF HEADER       
 
 # Observation data format.
 # WN in 1-4 carrier position		

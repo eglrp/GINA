@@ -1,0 +1,9 @@
+% 2 D-s ploton ábrázolnal a lat longot. Matlabos 2D-s plot.
+function lat_long_plot(t_data,varargin)
+    figure 
+    plot(t_data.lat,t_data.lon)
+    title('Hosszúsági és szelességi koordináták')
+    xlabel('Szélesség [rad]')
+    ylabel('Magasság [rad]')
+    
+end 

@@ -1,0 +1,9 @@
+function tarjectroy3d_plot(t_data,varargin)
+    f1=figure('name','lat lon h / x y z ')
+    if strcmp('llh',t_data.positionFormat) == 1
+        title('East-North-Up koordináta rendszer,East-North vetülte')
+xlabel('east [m]')
+ylabel('north [m]')
+    end
+    
+end 

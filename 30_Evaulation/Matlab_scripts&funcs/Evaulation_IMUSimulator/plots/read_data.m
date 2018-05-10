@@ -1,17 +1,12 @@
 
-% Külön ploton ábrázolni a beállási szöget. roll pitch yaw, 3 subploton
-% 2 D-s ploton ábrázolnal a lat longot. Matlabos 2D-s plot.
 
-% 2D es ploton ábrázoljuk a NED-et. Ehhez az elsõ kezdõpontot válasszuk
-% ûreferinciának 
-% és mindig ahhoz képest számoljuk ki a Cne-t és az elmozdulásokat.
-% 
-% Ugyanez a plot csak 3D-ben.
+
 % 
 % 
 % Google mapet csinálni az llh-ból. (errõl van matlabos script a neten, csak 
 % túrni kell)
 % 
+
 % 3D ploton ábrázolni a trajecktóriát.
 % 
 % Olvassuk be az IMU fájlt.
@@ -23,10 +18,12 @@
 % Plusz feladat:
 % A 3D plotot az erõkkel animáljuk. Idõben látszódjon, ahogy haladunk, és
 % ahogy más, más erõk hatnak rá.
-
+%% Az adatok után nem állhat üres sor! 
+%%És az adatok sorok között sem lehet üres sor!
 function data = read_data(fileName)
+format long;
 pinaFile = fopen(fileName);
-key_word = 'START OF DATA';
+key_word = 'START OF DATA'; % érzékeny a spcaekre !!!! a fileban 
 data_switch = 0; 
 row = 1;
 while ~feof(pinaFile)
