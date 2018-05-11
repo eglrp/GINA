@@ -16,15 +16,15 @@ file(GLOB GNSSSIM_INCL "include/*.h" "include/*.hpp")
 
   # Add every directory containing a header file
   # to the project(gpstk) include_directories
-  include_directories( ${GNSSSim_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${GPSTK_EXT_INC_DIRS} ${PINAPARSER_CORE_INC_DIRS} )
+  
 
   # append ext include files needed to build library target
-
 
 
 include_directories (include)
 add_executable(GNSSSimulator ${GNSSSIM_SRC} ${GNSSSIM_INCL} )
 target_link_libraries (GNSSSimulator  ${GPSTK_LIBS})
+target_include_directories(GNSSSimulator PUBLIC ${GNSSSim_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${GPSTK_EXT_INC_DIRS} ${PINAPARSER_CORE_INC_DIRS} )
 
 # Create VS Filters	
 set( GNSS_All_FILES "" )	

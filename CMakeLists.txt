@@ -65,7 +65,7 @@ add_subdirectory (10_MathPckgs)
 
 #add_subdirectory (20_GPSTk-master)
 file( GLOB_RECURSE GPSTK_CORE_INC_FILES "20_GPSTk-master/core/lib/*.hpp" )
-file( GLOB_RECURSE GPSTK_EXT_INC_FILES "20_GPSTk-master/ext/lib/*.h" "GPSTk-master/ext/lib/*.hpp" )
+file( GLOB_RECURSE GPSTK_EXT_INC_FILES "20_GPSTk-master/ext/lib/*.h" "20_GPSTk-master/ext/lib/*.hpp" )
   
 #----------------------------------------
 # Define /core library include directories
