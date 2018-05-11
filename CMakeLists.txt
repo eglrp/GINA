@@ -98,7 +98,7 @@ set (GPSTK_LIBS ${GPSTK_LIBS} gpstk)
 
 #PINAPArser
 ##############################################################
-option( PINAParser "HELP: Build Pina Parser: SWITCH, Default = ON, Build the PINAPArser" ON )
+option( test_PINAParser "HELP: Build test of Pina Parser: SWITCH, Default = ON, Build the PINAPArser" OFF )
 add_subdirectory (68_PINAPArser) 
 get_property(PINAPARSER_CORE_INC_DIRS DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/68_PINAParser" PROPERTY PINAPARSER_CORE_INC_DIRS)
 # message("Property for root directory root read from GNSSSIM_INCLUDE_DIRS: " ${GNSSSIM_INCLUDE_DIRS})
