@@ -166,7 +166,15 @@ namespace PINASimulator
 		return *this;
 	}
 
+	double TrajectoryData::getGPSWeek(void) {
+		gpstk::GPSWeekSecond GPSTime(time);
+		return GPSTime.getWeek();
+	}
 
+	double TrajectoryData::getGPSToW(void) {
+		gpstk::GPSWeekSecond GPSTime(time);
+		return GPSTime.getSOW();
+	}
 	
 	void TrajectoryData::parseLine(std::string& currentLine)
 		throw(gpstk::StringUtils::StringException, gpstk::FFStreamError)

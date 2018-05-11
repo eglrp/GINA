@@ -12,7 +12,7 @@ namespace IMUSimulator {
 
 	std::ostream& operator<<(std::ostream& os, const Position_IMU&);
 
-	class Trajectory: public PINASimulator::I_TrajectoryData {
+	class Trajectory {
 		
 		public:
 			Position_IMU node;						// this is a temp variable. Used to collect every position data before we can push it to the Position_IMU vector

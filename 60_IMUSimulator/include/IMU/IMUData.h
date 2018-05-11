@@ -37,6 +37,8 @@ namespace IMUSimulator {
 		double angularRate[3];
 
 		IMUData& operator=(PINASimulator::IMUData&);
+		IMUData& operator=(Measure_IMU&);
+		Measure_IMU& IMUData::operator=(IMUData&);
 
 		double getAccX(void);
 		double getAccY(void);
@@ -47,7 +49,6 @@ namespace IMUSimulator {
 
 		int getGPSWeek(void);
 		double getGPSTow(void);
-
 
 	private:
 

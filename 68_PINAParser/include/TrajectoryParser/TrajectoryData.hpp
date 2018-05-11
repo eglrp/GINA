@@ -78,6 +78,9 @@ namespace PINASimulator
 		
 		TrajectoryData& operator=(I_TrajectoryData&);
 	
+		double getGPSWeek(void);
+		double getGPSToW(void);
+
 		static const string TrajectoryData::startofDataTag;
 		
 	private:
