@@ -20,7 +20,6 @@ list( REMOVE_DUPLICATES IMU_CORE_INC_DIRS )
 
 # Add every directory containing a header file
 # to the project(IMUSimulator) include_directories
-include_directories( ${IMU_CORE_INC_DIRS} ${ALGLIB_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${EIGEN_CORE_INC_DIRS} ${GNSSSIM_INCLUDE_DIRS})
 
 
 # define src and include files needed to build library target
@@ -34,13 +33,18 @@ list( APPEND IMU_INC_FILES ${EIGEN_INC_FILES} )
 # IMUSimulator library build target
 add_library(IMUSimulator	STATIC 	${IMU_SRC_FILES}
 									${IMU_INC_FILES})
+target_link_libraries (IMUSimulator 	PUBLIC gpstk 
+										PUBLIC PINAParser)	
+										
+target_include_directories(IMUSimulator PUBLIC ${IMU_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${EIGEN_CORE_INC_DIRS} ${GNSSSIM_INCLUDE_DIRS} ${PINAPARSER_CORE_INC_DIRS} )
 
 
 # add the executable
 add_executable(IMUSimulatorProject ${IMU_SRC_FILES} ${IMU_INC_FILES})
 target_link_libraries (IMUSimulatorProject 	PUBLIC gpstk 
-											PRIVATE ALGLIB)
-									
+											PUBLIC PINAParser)
+target_include_directories(IMUSimulatorProject PUBLIC ${IMU_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${EIGEN_CORE_INC_DIRS} ${GNSSSIM_INCLUDE_DIRS} ${PINAPARSER_CORE_INC_DIRS} )
+						
 
 # Create VS Filters	
 set( IMU_All_FILES "" )	

@@ -5,6 +5,19 @@
 #include <iostream>
 #include <vector>
 
+// PINAParser
+//#include "IMUBase.hpp"
+#include "IMUData.hpp"
+#include "IMUHeader.hpp"
+/*#include "IMUStream.hpp"
+#include "IMUStore.hpp"*/
+
+/*#include "TrajectoryBase.hpp"
+#include "TrajectoryData.hpp"
+#include "TrajectoryHeader.hpp"
+#include "TrajectoryStream.hpp"
+#include "TrajectoryStore.hpp"*/
+
 namespace IMUSimulator {
 
 	std::ostream& operator<<(std::ostream& os, const Position_IMU&);
@@ -21,6 +34,7 @@ namespace IMUSimulator {
 			void add_measure(TimeFrame, Measure_IMU);
 		
 			void updateTime(TimeFrame, int, double);
+
 
 			friend std::ostream& operator<<(std::ostream&, IMUStore&);
 			friend std::ostream& operator<<(std::ostream&, const Measure_IMU&);
