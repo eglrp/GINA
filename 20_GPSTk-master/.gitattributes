@@ -6,7 +6,6 @@
 *.h text
 *.py text
 *.i text
-*.cmake text
 *.ctest text
 *.txt text
 *.md text
