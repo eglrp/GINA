@@ -2,9 +2,6 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "ConcreteDataProcess.h"
-#include "Data.h"
-#include "PinaFile.h"
 
 #include "linalg.h"
 #include "alglibinternal.h"
