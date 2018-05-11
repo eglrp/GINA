@@ -29,7 +29,7 @@ void simpleLS::calculateSolution(CommonTime time, vector<SatID>& prnVec, vector<
 	solution = VectorXd::Zero(4);
 
 	prObservations = stripSatSysfromObservations(prnVec, rangeVec, SatID::systemGlonass);
-	calcCorrections(prObservations);
+	calcCorrections(prObservations, prnVec, time);
 
 	// Iteration
 	do {
@@ -106,13 +106,25 @@ void simpleLS::corrW_Sagnac(VectorXd & prvec)
 	//MatrixXd rotMatrix = 
 }
 
-void simpleLS::calcCorrections(VectorXd & prvec)
+void simpleLS::calcCorrections(VectorXd & prvec,vector<SatID> prn, CommonTime time)
 {
+	Xvt satXvt;
+	CommonTime Tr = time;
 	double deltaT = 0;
-	for (int i = 0; i < 5;i++) {
 
+	for (int i = 0; i < prvec.size();i++)
+	{
+		Tr = time;
+		for (int j = 0; j < 5;j++) {
 
-		corrW_Sagnac(prvec);
+			Tr -= getSignalTravelTime(prvec[i]);
+			satXvt = getSatXVT(Tr,prn.at(i))
+			//corrW_Sagnac(prvec.data[i]);
+		}
 	}
-	
+}
+
+Xvt simpleLS::getSatXVT(CommonTime time, SatID sat)
+{
+	return getStore().getXvt(sat,time);
 }

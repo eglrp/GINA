@@ -21,8 +21,8 @@ namespace simpleLS {
 
 	void corrW_Sagnac(VectorXd & prvec);
 
-	void calcCorrections(VectorXd & prvec);
+	void calcCorrections(VectorXd & prvec, vector<SatID> prnvec, CommonTime time);
 
-	int getSatXVT();
+	Xvt getSatXVT(CommonTime time, SatID sat);
 
 }

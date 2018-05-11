@@ -1,5 +1,16 @@
 #include "util.h"
 
+void setStore(GPSEphemerisStore & in)
+{
+	bceStore = in;
+}
+
+GPSEphemerisStore getStore()
+{
+	return bceStore;
+}
+
+
 double getDiff(double &in1, double &in2)
 {
 	return abs(in1-in2);
@@ -53,6 +64,11 @@ void getSatPos(CommonTime time)
 {
 	//Todo: bcestore setter and use getXvt
 	
+}
+
+double getSignalTravelTime(double psdrange)
+{
+	return psdrange / C_MPS;
 }
 
 

@@ -14,6 +14,14 @@
 using namespace gpstk;
 using namespace std;
 
+static GPSEphemerisStore bceStore;
+static const double C_MPS = 2.99792458e8;
+
+//---------------------------------------\\
+
+void setStore(GPSEphemerisStore & in);
+GPSEphemerisStore getStore();
+
 double getDiff(double &in1, double &in2);
 
 double getNorm(Eigen::VectorXd &vector);
@@ -25,3 +33,5 @@ Eigen::VectorXd stripSatSysfromObservations(vector<SatID>&prnvec, vector<double>
 void print_comparesolutions(gpstk::Vector<double> &gpstksolution, Eigen::VectorXd &lssolution);
 
 void getSatPos(CommonTime time);
+
+double getSignalTravelTime(double psdrange);
