@@ -15,6 +15,8 @@ namespace simpleLS {
 	
 	double getGeometricDistance(VectorXd &solution,Triple satPos);
 
+	VectorXd getSolution();
+
 	void setConvLimit(double val);
 
 }

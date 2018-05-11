@@ -6,7 +6,6 @@
 
 #include <vector>
 
-#include "PRSolution2.hpp"
 #include "CommonTime.hpp"
 #include "SatID.hpp"
 #include "GPSEphemerisStore.hpp"
@@ -22,3 +21,5 @@ double getNorm(Eigen::VectorXd &vector);
 int calculatePRNsize(vector<gpstk::SatID> &prnvec);
 
 Eigen::VectorXd stripSatSysfromObservations(vector<SatID>&prnvec, vector<double>&rangevec, SatID::SatelliteSystem StripSystem);
+
+void print_comparesolutions(gpstk::Vector<double> &gpstksolution, Eigen::VectorXd &lssolution);

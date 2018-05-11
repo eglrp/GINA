@@ -208,7 +208,7 @@ int main(int argc, char *argv[])
 					// corrected ranges
 					rangeVec.push_back(P1);
 
-					cout << "PARSING| PRN: " << (*it).first << "   Range: " << P1 << endl;
+					//cout << "PARSING| PRN: " << (*it).first << "   Range: " << P1 << endl;
 					// WARNING: Please note that so far no further correction
 					// is done on data: Relativistic effects, tropospheric
 					// correction, instrumental delays, etc.
@@ -230,9 +230,11 @@ int main(int argc, char *argv[])
 					rangeVec,
 					bcestore,
 					tropModelPtr);
+				
 
-				//simpleLS::convergenceLimitLS = 3e-3;
+				
 				simpleLS::calculateSolution(rod.time,prnVec,rangeVec,bcestore);
+				print_comparesolutions(raimSolver.Solution, simpleLS::getSolution());
 
 				// Note: Given that the default constructor sets public
 				// attribute "Algebraic" to FALSE, a linearized least squares

@@ -4,8 +4,11 @@ using namespace Eigen;
 using namespace std;
 
 static IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
+static vector<double> extgpstksol;
+static VectorXd solution;
 
 static double convergenceLimitLS = 3e-3;
+
 
 void simpleLS::calculateSolution(CommonTime time, vector<SatID>& prnVec, vector<double>& rangeVec, GPSEphemerisStore & bceStore)
 {
@@ -23,7 +26,7 @@ void simpleLS::calculateSolution(CommonTime time, vector<SatID>& prnVec, vector<
 	VectorXd prObservations = VectorXd::Zero(numSats);
 	VectorXd geometricDistance = VectorXd::Zero(numSats);
 
-	VectorXd solution = VectorXd::Zero(4);
+	solution = VectorXd::Zero(4);
 
 	prObservations = stripSatSysfromObservations(prnVec, rangeVec, SatID::systemGlonass);
 
@@ -68,14 +71,14 @@ void simpleLS::calculateSolution(CommonTime time, vector<SatID>& prnVec, vector<
 
 		//cout << "Iteration convergence: " << endl << getNorm(x) << endl;
 		//cout << covMatrix.format(CleanFmt)<<endl;
-		cout.precision(17);
+		/*cout.precision(17);
 		cout << "Norm: " << fixed << getNorm(x) << "  Limit:  " << fixed << convergenceLimitLS << "  Verdict: " << (getNorm(x) > convergenceLimitLS) << endl;
-		cout << " Clock:   " << x[3] << endl;
+		cout << " Clock:   " << x[3] << endl;*/
 	} while (getNorm(x) < convergenceLimitLS); //Todo x(1:3), clock error nem számít normába
 	
 
 	//Convergence reached
-	cout << "Convergence reached: " << x << endl << "Solution: " << endl << solution[0] << "  " << solution[1] << "   " << solution[2] << endl;
+	//cout << "Convergence reached: " << x << endl << "Solution: " << endl << solution[0] << "  " << solution[1] << "   " << solution[2] << endl;
 
 }
 
@@ -83,6 +86,11 @@ double simpleLS::getGeometricDistance(VectorXd & solution,Triple satPos)
 {
 	//return sqrt(pow(solution[0] - satPos[0],2)+(solution[1] - satPos[1]) ^ 2 + (solution[2] - satPos[2]) ^ 2);
 	return sqrt(pow(solution[0] - satPos[0],2)+ pow(solution[1] - satPos[1], 2)+ pow(solution[2] - satPos[2], 2));
+}
+
+VectorXd simpleLS::getSolution()
+{
+	return solution;
 }
 
 void simpleLS::setConvLimit(double val)

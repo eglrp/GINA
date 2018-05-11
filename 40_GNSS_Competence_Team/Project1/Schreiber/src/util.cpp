@@ -38,4 +38,15 @@ Eigen::VectorXd stripSatSysfromObservations(vector<SatID>& prnvec, vector<double
 	return Eigen::VectorXd::Map(returnVec.data(),returnVec.size());
 }
 
+void print_comparesolutions(gpstk::Vector<double> &gpstksolution, Eigen::VectorXd &lssolution)
+{
+	cout << "Difference between the two solutions: " << endl
+		<< (gpstksolution[0] - lssolution[0]) << endl
+		<< (gpstksolution[1] - lssolution[1]) << endl
+		<< (gpstksolution[2] - lssolution[2]) << endl;
+		/*<< gpstksolution[0] << " " << lssolution[0] << endl
+		<< gpstksolution[1] << " " << lssolution[1] << endl
+		<< gpstksolution[2] << " " << lssolution[2] << endl;*/
+}
+
 
