@@ -8,6 +8,29 @@ namespace PINASimulator
 
 	const string IMUData::startofDataTag = "START OF DATA";
 
+	IMUData& IMUData::operator=(I_IMUData& data) {
+
+		IMUData new_data;
+		double acc[3];
+		double ang[3];
+
+		new_data.acceleration[0] = data.getAccX();
+		new_data.acceleration[1] = data.getAccY();
+		new_data.acceleration[2] = data.getAccZ();
+
+		new_data.angularRate[0] = data.getAngX();
+		new_data.angularRate[1] = data.getAngY();
+		new_data.angularRate[2] = data.getAngZ();
+
+		gpstk::GPSWeekSecond gpsTime;
+		gpsTime.week = data.getGPSWeek();
+		gpsTime.sow = data.getGPSTow();
+
+		new_data.time = gpsTime;
+
+		return new_data;
+	}
+
 	void IMUData::reallyPutRecord(gpstk::FFStream& ffs) const
 		throw(std::exception, gpstk::FFStreamError,
 			gpstk::StringUtils::StringException) {
@@ -168,6 +191,15 @@ namespace PINASimulator
 		return *this;
 	}
 
+	double IMUData::getGPSWeek(void) {
+		gpstk::GPSWeekSecond GPSTime(time);
+		return GPSTime.getWeek();
+	}
+
+	double IMUData::getGPSToW(void) {
+		gpstk::GPSWeekSecond GPSTime(time);
+		return GPSTime.getSOW();
+	}
 	
 	void IMUData::parseLine(std::string& currentLine)
 		throw(gpstk::StringUtils::StringException, gpstk::FFStreamError)

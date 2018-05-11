@@ -12,6 +12,8 @@
 #include "Position.hpp"
 #include "TrajectoryHeader.hpp"
 
+#include "I_PINA_writer.hpp"
+
 namespace PINASimulator
 {
 	/// @ingroup FileHandling
@@ -74,8 +76,7 @@ namespace PINASimulator
 
 		double attitude[3];
 		
-
-		
+		TrajectoryData& operator=(I_TrajectoryData&);
 	
 		static const string TrajectoryData::startofDataTag;
 		

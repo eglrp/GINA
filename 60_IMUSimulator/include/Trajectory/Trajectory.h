@@ -6,11 +6,13 @@
 #include <iostream>
 #include <vector>
 
+#include "I_PINA_writer.hpp"
+
 namespace IMUSimulator {
 
 	std::ostream& operator<<(std::ostream& os, const Position_IMU&);
 
-	class Trajectory {
+	class Trajectory: public PINASimulator::I_TrajectoryData {
 		
 		public:
 			Position_IMU node;						// this is a temp variable. Used to collect every position data before we can push it to the Position_IMU vector
@@ -21,7 +23,6 @@ namespace IMUSimulator {
 			void add_position(CoordiateFrame, double[], TimeFrame, int, double, double, double, double);
 			void add_position(CoordiateFrame, double[], TimeFrame, int, double);
 			void add_position(CoordiateFrame, TimeFrame, Position_IMU);
-			
 
 			void updateTime(TimeFrame, int, double);
 
@@ -37,7 +38,5 @@ namespace IMUSimulator {
 			void add_position(void);
 			void add_position(CoordiateFrame, TimeFrame);
 			void transform2missingCoordinateFrame(CoordiateFrame, TimeFrame);
-
 	};
-
 }

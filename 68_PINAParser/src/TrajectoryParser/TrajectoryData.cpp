@@ -8,6 +8,24 @@ namespace PINASimulator
 
 	const string TrajectoryData::startofDataTag = "START OF DATA";
 
+
+	TrajectoryData& TrajectoryData::operator=(I_TrajectoryData& data) {
+	
+		TrajectoryData new_data;
+
+		new_data.coorSys = gpstk::Position::CoordinateSystem::Cartesian;
+		new_data.pos = gpstk::Position(data.getECEF_X(), data.getECEF_Y(), data.getECEF_Z());
+
+		new_data.timeSys = gpstk::TimeSystem::Systems::GPS;
+		new_data.time = gpstk::GPSWeekSecond(data.getGPSWeek(), data.getGPSTow());
+
+		new_data.attitude[0] = data.getRoll();
+		new_data.attitude[1] = data.getPitch();
+		new_data.attitude[2] = data.getYaw();
+
+		return new_data;
+	}
+
 	void TrajectoryData::reallyPutRecord(gpstk::FFStream& ffs) const
 		throw(std::exception, gpstk::FFStreamError,
 			gpstk::StringUtils::StringException) {

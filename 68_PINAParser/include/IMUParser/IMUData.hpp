@@ -12,6 +12,8 @@
 #include "Position.hpp"
 #include "IMUHeader.hpp"
 
+#include "I_PINA_writer.hpp"
+
 namespace PINASimulator
 {
 	/// @ingroup FileHandling
@@ -72,10 +74,11 @@ namespace PINASimulator
 		double acceleration[3];
 		double angularRate[3];
 		
+		double getGPSWeek(void);
+		double getGPSToW(void);
 
-		
-	
 		static const string IMUData::startofDataTag;
+		IMUData& operator=(I_IMUData&);
 		
 	private:
 		IMUStream* strm;
