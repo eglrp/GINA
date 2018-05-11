@@ -69,11 +69,11 @@ endif()
 add_library(PINAParser	SHARED 	${PINAPARSER_LIB_CORE_SRC_FILES}
 								${PINAPARSER_INC_FILES})
 target_link_libraries (PINAParser PUBLIC gpstk)		
-target_include_directories(test_PINAParser PUBLIC ${PINAPARSER_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS})	
+target_include_directories(PINAParser PUBLIC ${PINAPARSER_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS})	
 
 # add the executable
-#add_executable(PINAParser ${PINAPARSER_SRC_FILES} ${PINAPARSER_INC_FILES})
-#target_link_libraries (PINAParser PUBLIC gpstk)							
+#add_executable(PINAParserproj ${PINAPARSER_SRC_FILES} ${PINAPARSER_INC_FILES})
+#target_link_libraries (PINAParserproj PUBLIC gpstk)							
 
 # Create VS Filters	
 set( PINAPARSER_All_FILES "" )	
