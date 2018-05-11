@@ -23,3 +23,5 @@ int calculatePRNsize(vector<gpstk::SatID> &prnvec);
 Eigen::VectorXd stripSatSysfromObservations(vector<SatID>&prnvec, vector<double>&rangevec, SatID::SatelliteSystem StripSystem);
 
 void print_comparesolutions(gpstk::Vector<double> &gpstksolution, Eigen::VectorXd &lssolution);
+
+void getSatPos(CommonTime time);

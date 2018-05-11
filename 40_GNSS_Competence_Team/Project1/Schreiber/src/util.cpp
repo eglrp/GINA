@@ -49,4 +49,10 @@ void print_comparesolutions(gpstk::Vector<double> &gpstksolution, Eigen::VectorX
 		<< gpstksolution[2] << " " << lssolution[2] << endl;*/
 }
 
+void getSatPos(CommonTime time)
+{
+	//Todo: bcestore setter and use getXvt
+	
+}
+
 

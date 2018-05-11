@@ -19,4 +19,10 @@ namespace simpleLS {
 
 	void setConvLimit(double val);
 
+	void corrW_Sagnac(VectorXd & prvec);
+
+	void calcCorrections(VectorXd & prvec);
+
+	int getSatXVT();
+
 }

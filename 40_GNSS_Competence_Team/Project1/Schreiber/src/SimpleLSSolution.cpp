@@ -29,6 +29,7 @@ void simpleLS::calculateSolution(CommonTime time, vector<SatID>& prnVec, vector<
 	solution = VectorXd::Zero(4);
 
 	prObservations = stripSatSysfromObservations(prnVec, rangeVec, SatID::systemGlonass);
+	calcCorrections(prObservations);
 
 	// Iteration
 	do {
@@ -96,4 +97,22 @@ VectorXd simpleLS::getSolution()
 void simpleLS::setConvLimit(double val)
 {
 	//convergenceLimitLS = val;
+}
+
+void simpleLS::corrW_Sagnac(VectorXd & prvec)
+{
+	const GPSEllipsoid ell;
+	const double wt = ell.angVelocity;
+	//MatrixXd rotMatrix = 
+}
+
+void simpleLS::calcCorrections(VectorXd & prvec)
+{
+	double deltaT = 0;
+	for (int i = 0; i < 5;i++) {
+
+
+		corrW_Sagnac(prvec);
+	}
+	
 }
