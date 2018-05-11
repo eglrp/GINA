@@ -5,7 +5,7 @@
 *.pyc
 
 # build directories
-build*/
+build/*
 
 # OS/X File system droppings
 *.DS_Store
