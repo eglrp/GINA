@@ -1,7 +1,6 @@
 #pragma once
 
 #include "std_IMUSimulator.h"
-
 #include <iostream>
 #include <vector>
 
@@ -10,14 +9,6 @@
 #include "I_PINA_writer.hpp"
 #include "TrajectoryData.hpp"
 
-/*#include "IMUStream.hpp"
-#include "IMUStore.hpp"*/
-
-/*#include "TrajectoryBase.hpp"
-#include "TrajectoryData.hpp"
-#include "TrajectoryHeader.hpp"
-#include "TrajectoryStream.hpp"
-#include "TrajectoryStore.hpp"*/
 
 namespace IMUSimulator {
 
@@ -37,7 +28,7 @@ namespace IMUSimulator {
 		PositionData& operator=(PINASimulator::TrajectoryData&);
 		PositionData& operator=(Position_IMU&);
 		Position_IMU& operator=(PositionData&);
-		
+
 		virtual double getECEF_X(void);
 		virtual double getECEF_Y(void);
 		virtual double getECEF_Z(void);

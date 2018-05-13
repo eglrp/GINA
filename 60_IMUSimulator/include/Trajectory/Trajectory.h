@@ -1,7 +1,8 @@
 #pragma once
 
 #include "geoparam_wgs84.h"
-#include "strapdown_ECEF.h"
+#include "strapdown_ecef.h"
+#include "PositionData.h"
 #include "std_IMUSimulator.h"
 #include <iostream>
 #include <vector>
@@ -27,10 +28,10 @@ namespace IMUSimulator {
 			void updateTime(TimeFrame, int, double);
 
 			friend std::ostream& operator<<(std::ostream&, Trajectory&);
-			friend std::ostream& operator<<(std::ostream&, Trajectory&);
 			friend std::ostream& operator<<(std::ostream&, const Position_IMU&);
 
-			friend Trajectory& operator<<(Trajectory&, strapdown_ecef&);
+			friend strapdown_ecef& operator>>(strapdown_ecef&, Trajectory&);
+			friend PositionData& operator>>(PositionData&, Trajectory&);
 
 		private:
 			void printf(std::ostream&);

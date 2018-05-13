@@ -8,6 +8,8 @@ namespace IMUSimulator {
 
 	}
 
+	
+
 	Position_IMU& PositionData::operator=(PositionData& node) {
 
 		Position_IMU new_node;
@@ -32,6 +34,14 @@ namespace IMUSimulator {
 
 		return new_node;
 	}
+
+	/*PositionData & PositionData::operator=(strapdown_ecef  str)
+	{
+		
+		PositionData pos;
+		// TODO: insert return statement here
+		return pos;
+	}*/
 
 	PositionData& PositionData::operator=(Position_IMU& node) {
 	

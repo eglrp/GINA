@@ -1,4 +1,4 @@
-#include "stdafx.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -19,7 +19,7 @@
 #include "Trajectory.h"
 #include "IMUSignalGenerator.h"
 #include "IMUStore.h"
-
+#include "IMUData.h"
 
 #include "..\68_PINAParser\include\TrajectoryParser\TrajectoryData.hpp"
 
@@ -39,136 +39,192 @@
 
 using namespace std;
 
-int main(int argc, char **argv){
-	
+PINASimulator::TrajectoryData convert2PINAcompatible(IMUSimulator::PositionData&);
+PINASimulator::IMUData convert2PINAcompatible(IMUSimulator::Measure_IMU&);
+
+void setPINAParsers(const PINASimulator::TrajectoryStream&,
+					PINASimulator::TrajectoryHeader&,
+					const PINASimulator::IMUStream&,
+					PINASimulator::IMUHeader&,
+					const Eigen::Vector3d&,
+					const Eigen::Vector3d&,
+					const unsigned char&, const double&,
+					const unsigned char&, const double&,
+					const double&);
+
+void generatetrajectory(IMUSimulator::IMUSignalGenerator&,
+						IMUSimulator::strapdown_ecef&,
+						IMUSimulator::PositionData&,
+						IMUSimulator::Measure_IMU&,
+						Eigen::Vector3d,
+						Eigen::Vector3d,
+						unsigned int,
+						double,
+						double);
+
+int main(int argc, char **argv) {
 
 	typedef std::numeric_limits< double > dbl;
 	std::cout.precision(dbl::max_digits10);
 
-	double llh_array[3] = { 0,0,0 };
-	double Rn, Re, g, sL, cL, WIE_E;
-
-	IMUSimulator::IMUSignalGenerator imuGenerator;
-
-	IMUSimulator::WGS84Ellipsoid myellip(llh_array, IMUSimulator::LLH_Frame);
-	myellip.getParams(Rn, Re, g, sL, cL, WIE_E);
-
-	std::cout << Rn << "   " <<
-		Re << "   " <<
-		g << "   " <<
-		sL << "   " <<
-		cL << "   " <<
-		WIE_E << std::endl;
-
 	Eigen::Vector3d ab, wb, Vb, ab_comp, wb_comp, Vb_comp;
-	ab << 0, 0, 0;
-	Eigen::Vector3d bode2ecef_angle, nav2ecef_angle, local_angle;
-	wb << 0, 0, 0;
-
+	Eigen::Vector3d local_angle, ecef, llh;
+	
 	Eigen::Matrix3d Cnb;
-	Eigen::Vector3d ecef;
-	Eigen::Vector3d llh;
-	llh << 0, 0, 0;
-	ecef = IMUSimulator::Lib::transform_llh2ecef(llh);
-	IMUSimulator::strapdown_ecef str_e(ecef);
+	
 	IMUSimulator::IMUStore imuStore;
 	IMUSimulator::Trajectory traj;
-
+	IMUSimulator::PositionData posData;
 	IMUSimulator::Measure_IMU meas;
-
-	double dt = 0.1;
-	double time = 0.0;
-	double time_max = 100.0;
-
-	for (time = 0; time < time_max; time += dt) {
-
-	std:cout << endl;
-
-		/*nav2ecef_angle = IMUSimulator::Lib::dcm2euler(str_e.Cne);
-		std::cout << "Roll, pitch, yaw: " << nav2ecef_angle << std::endl;
-		bode2ecef_angle = IMUSimulator::Lib::dcm2euler(str_e.Cbe);
-		std::cout << "Roll, pitch, yaw: " << bode2ecef_angle << std::endl;*/
-
-		Cnb = str_e.Cne.transpose()*str_e.Cbe;
-		local_angle = IMUSimulator::Lib::dcm2euler(Cnb);
-
-		Vb = str_e.getVbody();
-		llh = str_e.getLLH();
-
-		/*std::cout << "Acc body: " << std::endl << ab << std::endl;
-		std::cout << "Angular rate body: " << std::endl << wb << std::endl;
-		std::cout << "Velocity body: " << std::endl << Vb << std::endl;
-		std::cout << "Lat lon height: " << std::endl << llh << std::endl;
-		std::cout << "Roll, pitch, yaw: " << std::endl << local_angle << std::endl;*/
-
-		meas = imuGenerator.calculate(ab, wb, Vb, llh, local_angle);
-
-		meas.wn = 1956;
-		meas.tow = time;
-
-		//std::cout << "IMU measurement: " << std::endl << meas << std::endl;
-
-		imuStore.add_measure(IMUSimulator::GPSTime, meas);
-
-		str_e.update(meas, dt);
-		//std::cout << str_e << endl;
-		traj << str_e;
-		traj.updateTime(IMUSimulator::GPSTime, meas.wn, meas.tow);
-	}
-
-	IMUSimulator::Position_IMU last_traj_elements = traj.traj_data.back();
-
-	//std::cout << imuStore << endl;
-	//std::cout << traj << endl;
-	std::cout << last_traj_elements;
-
-
-
-	/*
-	// IMU file parser
-	PINASimulator::IMUStream imuFileIn("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\PINAParser\\files\\example_IMU_Input.pina");
-	PINASimulator::IMUStream imuFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\PINAParser\\files\\example_IMU_Input_out.pina", std::ios::out);
-	PINASimulator::IMUHeader imuHeader;
-	PINASimulator::IMUData imuData;
-
-	imuFileIn >> imuHeader;
-	imuFileOut << imuHeader;
-
-	imuFileIn >> imuData;
-	imuFileOut << imuData;
-
-	imuFileIn >> imuData;
-	imuFileOut << imuData;
-
-	imuFileIn >> imuData;
-	imuFileOut << imuData;
-
-	imuFileIn.close();
-	imuFileOut.close();
-
-	// Trajectory file parser
-
-	PINASimulator::TrajectoryStream trajFileIn("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\PINAParser\\files\\example_trajectory.pina");
-	PINASimulator::TrajectoryStream trajFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\PINAParser\\files\\example_trajectory_out.pina", std::ios::out);
+	IMUSimulator::IMUData imu_meas;
+	
+	PINASimulator::TrajectoryStream trajFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\60_IMUSimulator\\files\\example_trajectory_out_steady_state.pina", std::ios::out);
 	PINASimulator::TrajectoryHeader trajHeader;
 	PINASimulator::TrajectoryData trajData;
 
-	trajFileIn >> trajHeader;
+	PINASimulator::IMUStream imuFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\60_IMUSimulator\\files\\example_imu_out_steady_state.pina", std::ios::out);
+	PINASimulator::IMUHeader imuHeader;
+	PINASimulator::IMUData imuData;
+
+	double dt = 0.1;
+	double startTime = 0;
+	double time = 0.0;
+	double endTime = 100.0;
+	int startWeek = 1956;
+	int endWeek = 1956;
+	
+	ab << 0.0, 0.0, 0;
+	wb << 0, 0, 0.0;
+	llh << 0, 0, 0;
+	ecef = IMUSimulator::Lib::transform_llh2ecef(llh);
+
+	IMUSimulator::IMUSignalGenerator imuGenerator;
+	IMUSimulator::strapdown_ecef str_e(ecef);
+	local_angle = str_e.getLocalAngle();
+
+	setPINAParsers(	trajFileOut,	trajHeader,
+					imuFileOut,		imuHeader,
+					ecef,			local_angle,
+					startWeek,		startTime,
+					endWeek,		endTime,
+					dt);
+
 	trajFileOut << trajHeader;
+	imuFileOut << imuHeader;
 
-	trajFileIn >> trajData;
-	trajFileOut << trajData;
+	for (time = startTime; time < endTime; time += dt) {
 
-	trajFileIn >> trajData;
-	trajFileOut << trajData;
+		generatetrajectory(	imuGenerator,	str_e,
+							posData,		meas,
+							ab,				wb,
+							startWeek,		time,	
+							dt);
 
-	trajFileIn >> trajData;
-	trajFileOut << trajData;
+		trajFileOut << convert2PINAcompatible(posData);
+		imuFileOut << convert2PINAcompatible(meas); 
+	}
 
-	trajFileIn.close();
 	trajFileOut.close();
-	*/
-	getchar();
+	imuFileOut.close();
+
+	//getchar();
 
 	return 0;
+}
+
+
+PINASimulator::TrajectoryData convert2PINAcompatible(IMUSimulator::PositionData &posData) {
+
+	PINASimulator::TrajectoryData trajData;
+	trajData = posData;
+
+	return trajData;
+}
+
+PINASimulator::IMUData convert2PINAcompatible(IMUSimulator::Measure_IMU &meas) {
+
+	PINASimulator::IMUData imuData;
+	IMUSimulator::IMUData imu_meas;
+
+	imu_meas = meas;
+	imuData = imu_meas;
+
+	return imuData;
+}
+
+void setPINAParsers(const PINASimulator::TrajectoryStream& trajFileOut,
+					PINASimulator::TrajectoryHeader& trajHeader,
+					const PINASimulator::IMUStream& imuFileOut,
+					PINASimulator::IMUHeader& imuHeader,
+					const Eigen::Vector3d& ecef,
+					const Eigen::Vector3d& local_angle,
+					const unsigned char& startWeek, const double& startTime,
+					const unsigned char& endWeek, const double& endTime,
+					const double& dt) {
+
+	trajHeader.timeSys = gpstk::TimeSystem::GPS;
+	trajHeader.coorSys = gpstk::Position::CoordinateSystem::Cartesian;
+	imuHeader.timeSys = gpstk::TimeSystem::GPS;
+	imuHeader.coorSys = gpstk::Position::CoordinateSystem::Cartesian;
+
+	gpstk::GPSWeekSecond starttime_gpstk, endtime_gpstk;
+	starttime_gpstk.week = startWeek;
+	starttime_gpstk.sow = startTime;
+	endtime_gpstk.week = endWeek;
+	endtime_gpstk.sow = endTime;
+	trajHeader.endTime = endtime_gpstk;
+	trajHeader.startTime = starttime_gpstk;
+
+	imuHeader.endTime = endtime_gpstk;
+	imuHeader.startTime = starttime_gpstk;
+
+	trajHeader.epochInterval = dt;
+	imuHeader.epochInterval = dt;
+
+	trajHeader.startAttitude[0] = local_angle(0);
+	trajHeader.startAttitude[1] = local_angle(1);
+	trajHeader.startAttitude[2] = local_angle(2);
+
+	imuHeader.startAttitude[0] = local_angle(0);
+	imuHeader.startAttitude[1] = local_angle(1);
+	imuHeader.startAttitude[2] = local_angle(2);
+
+
+	trajHeader.startVelocity[0] = 0.0;
+	trajHeader.startVelocity[1] = 0.0;
+	trajHeader.startVelocity[2] = 0.0;
+
+	imuHeader.startVelocity[0] = 0.0;
+	imuHeader.startVelocity[1] = 0.0;
+	imuHeader.startVelocity[2] = 0.0;
+
+	double ecefarray[3];
+	ecefarray[0] = ecef(0);
+	ecefarray[1] = ecef(1);
+	ecefarray[2] = ecef(2);
+
+	trajHeader.startPosition.setECEF(ecefarray);
+	imuHeader.startPosition.setECEF(ecefarray);
+}
+
+void generatetrajectory(IMUSimulator::IMUSignalGenerator& imuGenerator, 
+						IMUSimulator::strapdown_ecef& str_e, 
+						IMUSimulator::PositionData& posData,
+						IMUSimulator::Measure_IMU& meas,
+						Eigen::Vector3d ab, 
+						Eigen::Vector3d wb, 
+						unsigned int gpsWeek, 
+						double gpsToW, 
+						double timeIncrement) {
+
+	Eigen::Vector3d Vb = str_e.getVbody();
+	Eigen::Vector3d llh = str_e.getLLH();
+	Eigen::Vector3d local_angle = str_e.getLocalAngle();
+
+	meas = imuGenerator.calculate(ab, wb, Vb, llh, local_angle);
+	meas.wn = gpsWeek;
+	meas.tow = gpsToW;
+
+	str_e.update(meas, timeIncrement);
+	str_e >> posData;
 }

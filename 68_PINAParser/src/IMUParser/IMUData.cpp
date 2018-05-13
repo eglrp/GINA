@@ -10,25 +10,22 @@ namespace PINASimulator
 
 	IMUData& IMUData::operator=(I_IMUData& data) {
 
-		IMUData new_data;
-		double acc[3];
-		double ang[3];
+	
+		this->acceleration[0] = data.getAccX();
+		this->acceleration[1] = data.getAccY();
+		this->acceleration[2] = data.getAccZ();
 
-		new_data.acceleration[0] = data.getAccX();
-		new_data.acceleration[1] = data.getAccY();
-		new_data.acceleration[2] = data.getAccZ();
-
-		new_data.angularRate[0] = data.getAngX();
-		new_data.angularRate[1] = data.getAngY();
-		new_data.angularRate[2] = data.getAngZ();
+		this->angularRate[0] = data.getAngX();
+		this->angularRate[1] = data.getAngY();
+		this->angularRate[2] = data.getAngZ();
 
 		gpstk::GPSWeekSecond gpsTime;
 		gpsTime.week = data.getGPSWeek();
 		gpsTime.sow = data.getGPSTow();
 
-		new_data.time = gpsTime;
+		this->time = gpsTime;
 
-		return new_data;
+		return *this;
 	}
 
 	void IMUData::reallyPutRecord(gpstk::FFStream& ffs) const
@@ -55,9 +52,9 @@ namespace PINASimulator
 		}
 
 		
-		strm << fixed << std::setprecision(5) << acceleration[0] << "  ";
-		strm << fixed << std::setprecision(5) << acceleration[1] << "  ";
-		strm << fixed << std::setprecision(5) << acceleration[2] << "  ";
+		strm << fixed << std::setprecision(precision) << acceleration[0] << "  ";
+		strm << fixed << std::setprecision(precision) << acceleration[1] << "  ";
+		strm << fixed << std::setprecision(precision) << acceleration[2] << "  ";
 		
 
 		if (angularRate == nullptr) {
@@ -66,9 +63,9 @@ namespace PINASimulator
 			strm << "0.0" << "  ";
 		}
 		else {
-			strm << fixed << std::setprecision(5) << angularRate[0] << "  ";
-			strm << fixed << std::setprecision(5) << angularRate[1] << "  ";
-			strm << fixed << std::setprecision(5) << angularRate[2] << "  ";
+			strm << fixed << std::setprecision(precision) << angularRate[0] << "  ";
+			strm << fixed << std::setprecision(precision) << angularRate[1] << "  ";
+			strm << fixed << std::setprecision(precision) << angularRate[2] << "  ";
 		}
 		
 		strm << endl;

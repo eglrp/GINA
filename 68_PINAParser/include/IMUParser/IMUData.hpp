@@ -71,6 +71,7 @@ namespace PINASimulator
 		gpstk::TimeSystem timeSys = gpstk::TimeSystem::Systems::Unknown;
 		gpstk::CommonTime time;
 
+		unsigned int precision = 11;
 		double acceleration[3];
 		double angularRate[3];
 		

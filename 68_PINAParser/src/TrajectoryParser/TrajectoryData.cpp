@@ -11,19 +11,18 @@ namespace PINASimulator
 
 	TrajectoryData& TrajectoryData::operator=(I_TrajectoryData& data) {
 	
-		TrajectoryData new_data;
 
-		new_data.coorSys = gpstk::Position::CoordinateSystem::Cartesian;
-		new_data.pos = gpstk::Position(data.getECEF_X(), data.getECEF_Y(), data.getECEF_Z());
+		this->coorSys = gpstk::Position::CoordinateSystem::Cartesian;
+		this->pos = gpstk::Position(data.getECEF_X(), data.getECEF_Y(), data.getECEF_Z());
 
-		new_data.timeSys = gpstk::TimeSystem::Systems::GPS;
-		new_data.time = gpstk::GPSWeekSecond(data.getGPSWeek(), data.getGPSTow());
+		this->timeSys = gpstk::TimeSystem::Systems::GPS;
+		this->time = gpstk::GPSWeekSecond(data.getGPSWeek(), data.getGPSTow());
 
-		new_data.attitude[0] = data.getRoll();
-		new_data.attitude[1] = data.getPitch();
-		new_data.attitude[2] = data.getYaw();
+		this->attitude[0] = data.getRoll();
+		this->attitude[1] = data.getPitch();
+		this->attitude[2] = data.getYaw();
 
-		return new_data;
+		return *this;
 	}
 
 	void TrajectoryData::reallyPutRecord(gpstk::FFStream& ffs) const
@@ -48,6 +47,10 @@ namespace PINASimulator
 			strm << timeGAL.getWeek() << "  ";
 			strm << fixed << std::setprecision(5) << timeGAL.getSOW() << "  ";
 		}
+		else {
+			strm << 0.0 << "  ";
+			strm << fixed << std::setprecision(5) << 0.0 << "  ";
+		}
 
 		if (coorSys == gpstk::Position::CoordinateSystem::Cartesian) {
 			strm << fixed << std::setprecision(5) << pos.getX() << "  ";
@@ -59,6 +62,12 @@ namespace PINASimulator
 			strm << fixed << std::setprecision(12) << pos.getLongitude() << "  ";
 			strm << fixed << std::setprecision(5) << pos.getAltitude() << "  ";
 		}
+		else {
+			strm << fixed << std::setprecision(12) << 0.0 << "  ";
+			strm << fixed << std::setprecision(12) << 0.0 << "  ";
+			strm << fixed << std::setprecision(5) << 0.0 << "  ";
+		}
+
 
 		if (attitude == nullptr) {
 			strm << "0.0" << "  ";
@@ -66,9 +75,27 @@ namespace PINASimulator
 			strm << "0.0" << "  ";
 		}
 		else {
-			strm << fixed << std::setprecision(5) << attitude[0] << "  ";
-			strm << fixed << std::setprecision(5) << attitude[1] << "  ";
-			strm << fixed << std::setprecision(5) << attitude[2] << "  ";
+			if (abs(attitude[0]) > 1e-5) {
+				strm << fixed << std::setprecision(5) << attitude[0] << "  ";
+			}
+			else {
+				strm << fixed << std::setprecision(5) << 0.0 << "  ";
+			}
+
+			if (abs(attitude[1]) > 1e-5) {
+				strm << fixed << std::setprecision(5) << attitude[1] << "  ";
+			}
+			else {
+				strm << fixed << std::setprecision(5) << 0.0 << "  ";
+			}
+
+			if (abs(attitude[2]) > 1e-5) {
+				strm << fixed << std::setprecision(5) << attitude[2] << "  ";
+			}
+			else {
+				strm << fixed << std::setprecision(5) << 0.0 << "  ";
+			}
+			
 		}
 		
 		strm << endl;

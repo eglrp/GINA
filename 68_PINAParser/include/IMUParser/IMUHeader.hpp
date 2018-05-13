@@ -42,7 +42,7 @@ namespace PINASimulator {
 		bool IMUHeader::valid;
 		gpstk::Position::CoordinateSystem coorSys;
 		gpstk::TimeSystem timeSys;
-		gpstk::Position Coordinate;
+		gpstk::Position startPosition;
 		gpstk::CommonTime startTime;
 		gpstk::CommonTime endTime;
 
@@ -61,6 +61,7 @@ namespace PINASimulator {
 		static const string IMUHeader::creatorOfFileTag;
 		static const string IMUHeader::timeofCreationTag;
 		static const string IMUHeader::positionTypeLLHTag;
+		static const string IMUHeader::positionTypeUnknownTag;
 		static const string IMUHeader::positionTypeECEFTag;
 		static const string IMUHeader::timeSystemDefinitionTag;
 		static const string IMUHeader::startTimeTag;

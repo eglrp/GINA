@@ -9,20 +9,20 @@ namespace IMUSimulator {
 
 	IMUData& IMUData::operator=(Measure_IMU& node) {
 	
-		IMUData new_node;
+		
 
-		new_node.acceleration[0] = node.a[0];
-		new_node.acceleration[1] = node.a[1];
-		new_node.acceleration[2] = node.a[2];
+		this->acceleration[0] = node.a[0];
+		this->acceleration[1] = node.a[1];
+		this->acceleration[2] = node.a[2];
 
-		new_node.angularRate[0] = node.w[0];
-		new_node.angularRate[1] = node.w[1];
-		new_node.angularRate[2] = node.w[2];
+		this->angularRate[0] = node.w[0];
+		this->angularRate[1] = node.w[1];
+		this->angularRate[2] = node.w[2];
 
-		new_node.GPSWeek = node.wn;
-		new_node.GPSToW = node.tow;
+		this->GPSWeek = node.wn;
+		this->GPSToW = node.tow;
 
-		return new_node;
+		return *this;
 	}
 
 	Measure_IMU& IMUData::operator=(IMUData& node) {

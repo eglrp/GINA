@@ -96,7 +96,7 @@ namespace IMUSimulator {
 		clearNode();
 	}
 
-	Trajectory& operator<<(Trajectory& traj, IMUSimulator::strapdown_ecef& str) {
+	strapdown_ecef& operator >> (strapdown_ecef& str, Trajectory& traj) {
 
 		Eigen::Vector3d& local_angle = IMUSimulator::Lib::dcm2euler(str.Cnb);
 
@@ -105,7 +105,26 @@ namespace IMUSimulator {
 							0.0, 0.0,
 							local_angle(0), local_angle(1), local_angle(2));
 
-		return traj;
+		return str;
+	}
+
+	PositionData& operator >> (PositionData& pos , Trajectory& traj) {
+		
+		double llh[3];
+
+		Lib::transform_ecef2llh(pos.ecef[0],
+								pos.ecef[1],
+								pos.ecef[2],
+								llh[0],
+								llh[1],
+								llh[2]);
+
+		traj.add_position(	pos.ecef[0], pos.ecef[1], pos.ecef[2],
+							llh[0], llh[1], llh[2],
+							pos.GPSWeek, pos.GPSToW,
+							pos.attitude[0], pos.attitude[1], pos.attitude[2]);
+
+		return pos;
 	}
 
 	std::ostream& operator<<(std::ostream& os, Trajectory& traj) {

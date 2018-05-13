@@ -1,4 +1,4 @@
-#include "strapdown_ECEF.h"
+#include "strapdown_ecef.h"
 #include "std_IMUSimulator.h"
 
 #include "Position.hpp"
@@ -42,7 +42,6 @@ namespace IMUSimulator {
 		this->setParams(Cbe_new, Ve_new, ecef_new);
 	}
 
-	
 	strapdown_ecef::strapdown_ecef(Eigen::Vector3d& rollpitchyaw, Eigen::Vector3d& Vb, Eigen::Vector3d& ecef_new) {
 
 		Cnb = IMUSimulator::Lib::euler2dcm(rollpitchyaw);
@@ -63,7 +62,6 @@ namespace IMUSimulator {
 
 		/*Set new params*/
 		this->setParams(Cbe_new, Ve_new, ecef_new);
-		//this->wgs84.setWGS84Params();
 	}
 
 	/*Update step*/
@@ -83,7 +81,10 @@ namespace IMUSimulator {
 	}
 	
 	void strapdown_ecef::update(Measure_IMU& meas, double dt) {
-	
+
+		double newtow = meas.tow + dt;
+		setTime(meas.wn, newtow);
+
 		Eigen::Vector3d a, w;
 		a << meas.a[0], meas.a[1], meas.a[2];
 		w << meas.w[0], meas.w[1], meas.w[2];
@@ -165,6 +166,13 @@ namespace IMUSimulator {
 		return Cbe.transpose() * Ve;
 	}
 
+	Eigen::Vector3d strapdown_ecef::getLocalAngle(void) {
+	
+		Eigen::Matrix3d Cnb = this->Cne.transpose()*this->Cbe;
+		Eigen::Vector3d local_angle = IMUSimulator::Lib::dcm2euler(Cnb);
+		return local_angle;
+	}
+
 	void strapdown_ecef::update_gravitiy(Eigen::Vector3d llh) {
 
 		double llh_array[3];
@@ -199,6 +207,29 @@ namespace IMUSimulator {
 		return os;
 	}
 
+	strapdown_ecef& operator>>(strapdown_ecef& str_e, PositionData& pos) {
+
+		pos.ecef[0] = str_e.ecef[0];
+		pos.ecef[1] = str_e.ecef[1];
+		pos.ecef[2] = str_e.ecef[2];
+
+		Eigen::Vector3d& local_angle = IMUSimulator::Lib::dcm2euler(str_e.Cnb);
+		pos.attitude[0] = local_angle(0);
+		pos.attitude[1] = local_angle(1);
+		pos.attitude[2] = local_angle(2);
+		
+		pos.GPSWeek = str_e.GPSWeek;
+		pos.GPSToW = str_e.GPSToW;
+		return str_e;
+	}
+
+	void strapdown_ecef::setTime(unsigned int& wn, double& tow) {
+
+		// TODO week rollover
+		this->GPSWeek = wn;
+		this->GPSToW = tow;
+	}
+
 	/*Utility methods*/
 	Eigen::Matrix3d strapdown_ecef::pos2Cne(double& lat, double& lon) {
 	
@@ -214,4 +245,6 @@ namespace IMUSimulator {
 	
 		return IMUSimulator::Lib::skew(v);
 	}
+
+	
 }
