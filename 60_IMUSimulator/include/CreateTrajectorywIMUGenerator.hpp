@@ -46,8 +46,8 @@ void setPINAParsers(const PINASimulator::TrajectoryStream&,
 					PINASimulator::IMUHeader&,
 					const Eigen::Vector3d&,
 					const Eigen::Vector3d&,
-					const unsigned char&, const double&,
-					const unsigned char&, const double&,
+					const unsigned int&, const double&,
+					const unsigned int&, const double&,
 					const double&);
 
 void generatetrajectory(IMUSimulator::IMUSignalGenerator&,

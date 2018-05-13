@@ -8,13 +8,16 @@ void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFil
 	double startTime = 0;
 	double time = 0.0;
 	double endTime = 100.0;
-	int startWeek = 1956;
-	int endWeek = 1956;
+	unsigned int startWeek = 1956;
+	unsigned int endWeek = 1956;
 
-	Eigen::Vector3d ab, wb, Vb, ab_comp, wb_comp, Vb_comp, local_angle, ecef, llh;
+	Eigen::Vector3d ab, wb, Vb, ab_comp, wb_comp, Vb_comp, rollpitchyaw, ecef, llh;
+
 	ab << 0.0, 0.0, 0;
 	wb << 0, 0, 0.0;
 	llh << 0, 0, 0;
+	rollpitchyaw << 0.0, 0.0, 1.51;
+	Vb << 1.0, 0.0, 0.0;
 
 	typedef std::numeric_limits< double > dbl;
 	std::cout.precision(dbl::max_digits10);
@@ -36,28 +39,27 @@ void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFil
 	PINASimulator::IMUData imuData;
 
 	ecef = IMUSimulator::Lib::transform_llh2ecef(llh);
-
+	
 	IMUSimulator::IMUSignalGenerator imuGenerator;
-	IMUSimulator::strapdown_ecef str_e(ecef);
-	local_angle = str_e.getLocalAngle();
-
+	IMUSimulator::strapdown_ecef str_e(rollpitchyaw, Vb, ecef);
+	
 	setPINAParsers(trajFileOut, trajHeader,
-		imuFileOut, imuHeader,
-		ecef, local_angle,
-		startWeek, startTime,
-		endWeek, endTime,
-		dt);
+					imuFileOut, imuHeader,
+					ecef, rollpitchyaw,
+					startWeek, startTime,
+					endWeek, endTime,
+					dt);
 
 	trajFileOut << trajHeader;
 	imuFileOut << imuHeader;
 
 	for (time = startTime; time < endTime; time += dt) {
 
-		generatetrajectory(imuGenerator, str_e,
-			posData, meas,
-			ab, wb,
-			startWeek, time,
-			dt);
+		generatetrajectory(	imuGenerator, str_e,
+							posData, meas,
+							ab, wb,
+							startWeek, time,
+							dt);
 
 		trajFileOut << convert2PINAcompatible(posData);
 		imuFileOut << convert2PINAcompatible(meas);
@@ -76,8 +78,8 @@ void setPINAParsers(const PINASimulator::TrajectoryStream& trajFileOut,
 	PINASimulator::IMUHeader& imuHeader,
 	const Eigen::Vector3d& ecef,
 	const Eigen::Vector3d& local_angle,
-	const unsigned char& startWeek, const double& startTime,
-	const unsigned char& endWeek, const double& endTime,
+	const unsigned int& startWeek, const double& startTime,
+	const unsigned int& endWeek, const double& endTime,
 	const double& dt) {
 
 	trajHeader.timeSys = gpstk::TimeSystem::GPS;
