@@ -10,7 +10,9 @@ namespace PINASimulator
 
 	IMUData& IMUData::operator=(I_IMUData& data) {
 
-	
+		this->timeSys = gpstk::TimeSystem::Systems::GPS;
+		this->time = gpstk::GPSWeekSecond(data.getGPSWeek(), data.getGPSTow());
+
 		this->acceleration[0] = data.getAccX();
 		this->acceleration[1] = data.getAccY();
 		this->acceleration[2] = data.getAccZ();
@@ -49,6 +51,9 @@ namespace PINASimulator
 			gpstk::GALWeekSecond timeGAL(time);
 			strm << timeGAL.getWeek() << "  ";
 			strm << fixed << std::setprecision(5) << timeGAL.getSOW() << "  ";
+		}
+		else {
+			strm << " ??? " << " ??? ";
 		}
 
 		
