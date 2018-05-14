@@ -68,7 +68,7 @@ void getSatPos(CommonTime time)
 
 double getSignalTravelTime(double psdrange)
 {
-	return psdrange / C_MPS;
+	return psdrange / C_mps;
 }
 
 

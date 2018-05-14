@@ -15,7 +15,7 @@ using namespace gpstk;
 using namespace std;
 
 static GPSEphemerisStore bceStore;
-static const double C_MPS = 2.99792458e8;
+static double C_mps = 2.99792458e8;
 
 //---------------------------------------\\
 

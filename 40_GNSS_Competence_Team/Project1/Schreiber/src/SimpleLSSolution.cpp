@@ -101,8 +101,8 @@ void simpleLS::setConvLimit(double val)
 
 void simpleLS::corrW_Sagnac(VectorXd & prvec)
 {
-	const GPSEllipsoid ell;
-	const double wt = ell.angVelocity;
+	GPSEllipsoid ell;
+	double wt = ell.angVelocity();
 	//MatrixXd rotMatrix = 
 }
 
@@ -118,7 +118,7 @@ void simpleLS::calcCorrections(VectorXd & prvec,vector<SatID> prn, CommonTime ti
 		for (int j = 0; j < 5;j++) {
 
 			Tr -= getSignalTravelTime(prvec[i]);
-			satXvt = getSatXVT(Tr,prn.at(i))
+			satXvt = getSatXVT(Tr, prn.at(i));
 			//corrW_Sagnac(prvec.data[i]);
 		}
 	}
