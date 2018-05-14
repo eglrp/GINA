@@ -10,6 +10,7 @@ namespace PINASimulator {
 	const string IMUHeader::creatorOfFileTag = "CREATOR";
 	const string IMUHeader::timeofCreationTag = "TIME OF CREATIONS";
 	const string IMUHeader::positionTypeLLHTag = "POSITION FORMAT LLH";
+	const string IMUHeader::positionTypeUnknownTag = "POSITION FORMAT UNKNOWN";
 	const string IMUHeader::positionTypeECEFTag = "POSITION FORMAT ECEF";
 	const string IMUHeader::timeSystemDefinitionTag = "TIME SYSTEM";
 	const string IMUHeader::startTimeTag = "START TIME";
@@ -284,14 +285,14 @@ namespace PINASimulator {
 					ecef[1] = stod(fourth, nullptr);
 					ecef[2] = stod(fifth, nullptr);
 				}
-				Coordinate.setECEF(ecef);
+				startPosition.setECEF(ecef);
 			}
 			else if (coorSys == gpstk::Position::CoordinateSystem::Geodetic) {
 				double geodeticLatitude = stod(third, nullptr);
 				double longitude = stod(fourth, nullptr);
 				double height = stod(fifth, nullptr);
 
-				Coordinate.setGeodetic(geodeticLatitude, longitude, height);
+				startPosition.setGeodetic(geodeticLatitude, longitude, height);
 			}
 
 			return true;
@@ -499,7 +500,7 @@ namespace PINASimulator {
 				strm << timeSystemDefinitionTag << " " << "GAL" << endl;
 			}
 			else {
-				strm << timeSystemDefinitionTag << " " << timeSys.getTimeSystem() << endl;
+				strm << timeSystemDefinitionTag << " Unknown " << endl;
 			}
 			strm.lineNumber++;
 
@@ -571,7 +572,10 @@ namespace PINASimulator {
 				strm << positionTypeLLHTag << endl;
 				strm.lineNumber++;
 			}
-
+			else {
+				strm << positionTypeUnknownTag << endl;
+				strm.lineNumber++;
+			}
 			return true;
 		}
 
@@ -584,14 +588,17 @@ namespace PINASimulator {
 		if (strm.lineNumber == 14) {
 
 			if (coorSys == gpstk::Position::CoordinateSystem::Cartesian) {
-				strm << startPositionTag << " " << fixed << std::setprecision(5) << Coordinate.getX() << " " << fixed << std::setprecision(5) << Coordinate.getY() << " " << fixed << std::setprecision(5) << Coordinate.getZ() << endl;
+				strm << startPositionTag << " " << fixed << std::setprecision(5) << startPosition.getX() << " " << fixed << std::setprecision(5) << startPosition.getY() << " " << fixed << std::setprecision(5) << startPosition.getZ() << endl;
 				strm.lineNumber++;
 			}
 			else if (coorSys == gpstk::Position::CoordinateSystem::Geodetic) {
-				strm << startPositionTag << " " << fixed << std::setprecision(12) << Coordinate.getGeodeticLatitude() << " " << fixed << std::setprecision(12) << Coordinate.getLongitude() << " " << fixed << std::setprecision(12) << Coordinate.getHeight() << endl;
+				strm << startPositionTag << " " << fixed << std::setprecision(12) << startPosition.getGeodeticLatitude() << " " << fixed << std::setprecision(12) << startPosition.getLongitude() << " " << fixed << std::setprecision(12) << startPosition.getHeight() << endl;
 				strm.lineNumber++;
 			}
-
+			else {
+				strm << startPositionTag << " 0.0 0.0 0.0 "<< endl;
+				strm.lineNumber++;
+			}
 			return true;
 		}
 

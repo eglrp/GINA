@@ -25,6 +25,7 @@ include_directories( ${PINAPARSER_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS})
 # define src and include files needed to build library target
 set( PINAPARSER_SRC_FILES "" )
 set( PINAPARSER_INC_FILES "" )
+set( PINAPARSER_TEST_INC_DIRS "" )
 
 list( APPEND PINAPARSER_SRC_FILES ${PINAPARSER_CORE_SRC_FILES} )
 list( APPEND PINAPARSER_INC_FILES ${PINAPARSER_CORE_INC_FILES} )
@@ -32,10 +33,10 @@ list( APPEND PINAPARSER_INC_FILES ${PINAPARSER_CORE_INC_FILES} )
 # Test
 foreach( _headerFile ${PINAPARSER_TEST_INC_FILES} )
     get_filename_component( _dir ${_headerFile} PATH )
-    list( APPEND PINAPARSER_CORE_INC_DIRS ${_dir} )
+    list( APPEND PINAPARSER_TEST_INC_DIRS ${_dir} )
 endforeach()
 
-list( REMOVE_DUPLICATES PINAPARSER_CORE_INC_DIRS )
+list( REMOVE_DUPLICATES PINAPARSER_TEST_INC_DIRS )
 
 # Add every directory containing a header file
 # to the project(IMUSimulator) include_directories
@@ -62,11 +63,11 @@ include_directories( ${PINAPARSER_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS})
 if(test_PINAParser)
 	add_executable(test_PINAParser ${PINAPARSER_SRC_FILES} ${PINAPARSER_TEST_SRC} ${PINAPARSER_INC_FILES})
 	target_link_libraries (test_PINAParser PUBLIC gpstk)		
-	target_include_directories(test_PINAParser PUBLIC ${PINAPARSER_CORE_INC_DIRS} ${PINAPARSER_TEST_INC} ${GPSTK_CORE_INC_DIRS})	
+	target_include_directories(test_PINAParser PUBLIC ${PINAPARSER_CORE_INC_DIRS} ${PINAPARSER_TEST_INC_DIRS} ${PINAPARSER_TEST_INC} ${GPSTK_CORE_INC_DIRS})	
 endif()
 
 # PINAPArser library build target
-add_library(PINAParser	SHARED 	${PINAPARSER_LIB_CORE_SRC_FILES}
+add_library(PINAParser	STATIC 	${PINAPARSER_SRC_FILES}
 								${PINAPARSER_INC_FILES})
 target_link_libraries (PINAParser PUBLIC gpstk)		
 target_include_directories(PINAParser PUBLIC ${PINAPARSER_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS})	

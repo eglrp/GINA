@@ -8,6 +8,23 @@ namespace PINASimulator
 
 	const string TrajectoryData::startofDataTag = "START OF DATA";
 
+
+	TrajectoryData& TrajectoryData::operator=(I_TrajectoryData& data) {
+	
+
+		this->coorSys = gpstk::Position::CoordinateSystem::Cartesian;
+		this->pos = gpstk::Position(data.getECEF_X(), data.getECEF_Y(), data.getECEF_Z());
+
+		this->timeSys = gpstk::TimeSystem::Systems::GPS;
+		this->time = gpstk::GPSWeekSecond(data.getGPSWeek(), data.getGPSTow());
+
+		this->attitude[0] = data.getRoll();
+		this->attitude[1] = data.getPitch();
+		this->attitude[2] = data.getYaw();
+
+		return *this;
+	}
+
 	void TrajectoryData::reallyPutRecord(gpstk::FFStream& ffs) const
 		throw(std::exception, gpstk::FFStreamError,
 			gpstk::StringUtils::StringException) {
@@ -30,6 +47,10 @@ namespace PINASimulator
 			strm << timeGAL.getWeek() << "  ";
 			strm << fixed << std::setprecision(5) << timeGAL.getSOW() << "  ";
 		}
+		else {
+			strm << 0.0 << "  ";
+			strm << fixed << std::setprecision(5) << 0.0 << "  ";
+		}
 
 		if (coorSys == gpstk::Position::CoordinateSystem::Cartesian) {
 			strm << fixed << std::setprecision(5) << pos.getX() << "  ";
@@ -41,6 +62,12 @@ namespace PINASimulator
 			strm << fixed << std::setprecision(12) << pos.getLongitude() << "  ";
 			strm << fixed << std::setprecision(5) << pos.getAltitude() << "  ";
 		}
+		else {
+			strm << fixed << std::setprecision(12) << 0.0 << "  ";
+			strm << fixed << std::setprecision(12) << 0.0 << "  ";
+			strm << fixed << std::setprecision(5) << 0.0 << "  ";
+		}
+
 
 		if (attitude == nullptr) {
 			strm << "0.0" << "  ";
@@ -48,9 +75,27 @@ namespace PINASimulator
 			strm << "0.0" << "  ";
 		}
 		else {
-			strm << fixed << std::setprecision(5) << attitude[0] << "  ";
-			strm << fixed << std::setprecision(5) << attitude[1] << "  ";
-			strm << fixed << std::setprecision(5) << attitude[2] << "  ";
+			if (abs(attitude[0]) > 1e-5) {
+				strm << fixed << std::setprecision(5) << attitude[0] << "  ";
+			}
+			else {
+				strm << fixed << std::setprecision(5) << 0.0 << "  ";
+			}
+
+			if (abs(attitude[1]) > 1e-5) {
+				strm << fixed << std::setprecision(5) << attitude[1] << "  ";
+			}
+			else {
+				strm << fixed << std::setprecision(5) << 0.0 << "  ";
+			}
+
+			if (abs(attitude[2]) > 1e-5) {
+				strm << fixed << std::setprecision(5) << attitude[2] << "  ";
+			}
+			else {
+				strm << fixed << std::setprecision(5) << 0.0 << "  ";
+			}
+			
 		}
 		
 		strm << endl;
@@ -148,7 +193,15 @@ namespace PINASimulator
 		return *this;
 	}
 
+	double TrajectoryData::getGPSWeek(void) {
+		gpstk::GPSWeekSecond GPSTime(time);
+		return GPSTime.getWeek();
+	}
 
+	double TrajectoryData::getGPSToW(void) {
+		gpstk::GPSWeekSecond GPSTime(time);
+		return GPSTime.getSOW();
+	}
 	
 	void TrajectoryData::parseLine(std::string& currentLine)
 		throw(gpstk::StringUtils::StringException, gpstk::FFStreamError)

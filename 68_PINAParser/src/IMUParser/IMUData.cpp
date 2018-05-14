@@ -8,6 +8,28 @@ namespace PINASimulator
 
 	const string IMUData::startofDataTag = "START OF DATA";
 
+	IMUData& IMUData::operator=(I_IMUData& data) {
+
+		this->timeSys = gpstk::TimeSystem::Systems::GPS;
+		this->time = gpstk::GPSWeekSecond(data.getGPSWeek(), data.getGPSTow());
+
+		this->acceleration[0] = data.getAccX();
+		this->acceleration[1] = data.getAccY();
+		this->acceleration[2] = data.getAccZ();
+
+		this->angularRate[0] = data.getAngX();
+		this->angularRate[1] = data.getAngY();
+		this->angularRate[2] = data.getAngZ();
+
+		gpstk::GPSWeekSecond gpsTime;
+		gpsTime.week = data.getGPSWeek();
+		gpsTime.sow = data.getGPSTow();
+
+		this->time = gpsTime;
+
+		return *this;
+	}
+
 	void IMUData::reallyPutRecord(gpstk::FFStream& ffs) const
 		throw(std::exception, gpstk::FFStreamError,
 			gpstk::StringUtils::StringException) {
@@ -30,11 +52,14 @@ namespace PINASimulator
 			strm << timeGAL.getWeek() << "  ";
 			strm << fixed << std::setprecision(5) << timeGAL.getSOW() << "  ";
 		}
+		else {
+			strm << " ??? " << " ??? ";
+		}
 
 		
-		strm << fixed << std::setprecision(5) << acceleration[0] << "  ";
-		strm << fixed << std::setprecision(5) << acceleration[1] << "  ";
-		strm << fixed << std::setprecision(5) << acceleration[2] << "  ";
+		strm << fixed << std::setprecision(precision) << acceleration[0] << "  ";
+		strm << fixed << std::setprecision(precision) << acceleration[1] << "  ";
+		strm << fixed << std::setprecision(precision) << acceleration[2] << "  ";
 		
 
 		if (angularRate == nullptr) {
@@ -43,9 +68,9 @@ namespace PINASimulator
 			strm << "0.0" << "  ";
 		}
 		else {
-			strm << fixed << std::setprecision(5) << angularRate[0] << "  ";
-			strm << fixed << std::setprecision(5) << angularRate[1] << "  ";
-			strm << fixed << std::setprecision(5) << angularRate[2] << "  ";
+			strm << fixed << std::setprecision(precision) << angularRate[0] << "  ";
+			strm << fixed << std::setprecision(precision) << angularRate[1] << "  ";
+			strm << fixed << std::setprecision(precision) << angularRate[2] << "  ";
 		}
 		
 		strm << endl;
@@ -168,6 +193,15 @@ namespace PINASimulator
 		return *this;
 	}
 
+	double IMUData::getGPSWeek(void) {
+		gpstk::GPSWeekSecond GPSTime(time);
+		return GPSTime.getWeek();
+	}
+
+	double IMUData::getGPSToW(void) {
+		gpstk::GPSWeekSecond GPSTime(time);
+		return GPSTime.getSOW();
+	}
 	
 	void IMUData::parseLine(std::string& currentLine)
 		throw(gpstk::StringUtils::StringException, gpstk::FFStreamError)

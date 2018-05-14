@@ -1,10 +1,13 @@
 #pragma once
 
 #include "geoparam_wgs84.h"
-#include "strapdown_ECEF.h"
+#include "strapdown_ecef.h"
+#include "PositionData.h"
 #include "std_IMUSimulator.h"
 #include <iostream>
 #include <vector>
+
+#include "I_PINA_writer.hpp"
 
 namespace IMUSimulator {
 
@@ -21,15 +24,14 @@ namespace IMUSimulator {
 			void add_position(CoordiateFrame, double[], TimeFrame, int, double, double, double, double);
 			void add_position(CoordiateFrame, double[], TimeFrame, int, double);
 			void add_position(CoordiateFrame, TimeFrame, Position_IMU);
-			
 
 			void updateTime(TimeFrame, int, double);
 
 			friend std::ostream& operator<<(std::ostream&, Trajectory&);
-			friend std::ostream& operator<<(std::ostream&, Trajectory&);
 			friend std::ostream& operator<<(std::ostream&, const Position_IMU&);
 
-			friend Trajectory& operator<<(Trajectory&, strapdown_ecef&);
+			friend strapdown_ecef& operator>>(strapdown_ecef&, Trajectory&);
+			friend PositionData& operator>>(PositionData&, Trajectory&);
 
 		private:
 			void printf(std::ostream&);
@@ -37,7 +39,5 @@ namespace IMUSimulator {
 			void add_position(void);
 			void add_position(CoordiateFrame, TimeFrame);
 			void transform2missingCoordinateFrame(CoordiateFrame, TimeFrame);
-
 	};
-
 }

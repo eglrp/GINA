@@ -47,7 +47,7 @@ namespace PINASimulator {
 		bool TrajectoryHeader::valid;
 		gpstk::Position::CoordinateSystem coorSys;
 		gpstk::TimeSystem timeSys;
-		gpstk::Position Coordinate;
+		gpstk::Position startPosition;
 		gpstk::CommonTime startTime;
 		gpstk::CommonTime endTime;
 
