@@ -37,9 +37,9 @@ int main(void)
 
 	int argc = 3;
 	string argv[4];
-	argv[0] = "GNSS Competence Team Project";
-	argv[1] = "..\\..\\..\\..\\GNSS_Competence_Team\\Project1\\data\\brux0200.16o";
-	argv[2] = "..\\..\\..\\..\\GNSS_Competence_Team\\Project1\\data\\brux0200.16n";
+	argv[0] = "40_GNSS Competence Team Project";
+	argv[1] = "..\\..\\..\\..\\40_GNSS_Competence_Team\\Project1\\data\\brux0200.16o";
+	argv[2] = "..\\..\\..\\..\\40_GNSS_Competence_Team\\Project1\\data\\brux0200.16n";
 	argv[3] = "";
 
 
