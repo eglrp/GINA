@@ -1,3 +1,0 @@
-classdef ILogicMask < handle
-    
-end

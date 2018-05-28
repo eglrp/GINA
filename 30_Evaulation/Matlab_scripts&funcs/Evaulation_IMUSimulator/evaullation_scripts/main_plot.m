@@ -9,14 +9,14 @@
 clc;
 clear all;
 close all;
-fileName = 'example_trajectory_out_steady_state.pina';
+%fileName = '../pina_files/example_trajectory_out_steady_state.pina';
 
-fileName2 = 'example_trajectory_out_vx_1ms.pina';
+fileName = '../pina_files/new_traj.pina';
 
-fileName3 = 'example_trajectory_out_vx_1ms_yaw_1.51.pina'
+%fileName3 = '../pina_files/example_trajectory_out_vx_1ms_yaw_1.51.pina';
 
 %fileName = 'trajectory_corner.pina';
-t_data = create_data(fileName2);
+t_data = create_data(fileName);
 clc;    
 
 
