@@ -1,0 +1,44 @@
+START OF HEADER 
+TYPE PINA IMU BODY DATA
+																# Case sensitive. In th e header everythin shall be capital 
+										
+CREATOR	xxx	yyy													# This is optional. Format is optional				
+TIME OF CREATIONS mm-dd-yyyy									# This is optional. Format is optional	
+										
+TIME SYSTEM GPS													# TIME SYSTEM GPS | GALILEO but the time format is always shall be in WN and ToW format
+START TIME 1972 120000.000 										# Start time in Week Number Time of Week format. GPS Time. OPTIONAL
+END TIME 1972 120200.000 										# End time in Week Number Time of Week format. GPS Time	OPTIONAL
+
+POSITION FORMAT LLH												# Position format van be LLH or ECEF. POSITION FORMAT LLH	| POSITION FORMAT ECEF	
+START POSITION  47.4868066   19.0745065  110.0000				# Start position. LLH [rad] [rad] [m] | ECEF [m] [m] [m] OPTINONAL
+																# 1st coordinate at 15-28 carrier position
+																# 2nd coordinate at 29-42 carrier position
+																# 3rd coordinate at 43-56 carrier position
+
+START VELOCITY 1.0000 7.0080 0.0401								# vx [m/s] vy [m/s] vz [m/s] in local coordinate system OPTIONAL | if missing read as zeros
+START ATTITUDE 0.0001 0.0003 0.0002								# Start attitude in the local frame. Units are in rad [rad]. roll pitch yaw OPTIONAL | if missing read as zeros
+EPOCH TIME 0.1000		 										# This is optional. This shall be in seconds [s]
+
+END OF HEADER 
+
+# Observation data format.
+# WN in 1-4 carrier position		
+# ToW in 5-18 carrier position			[s]
+# 1st coor in 20-33 carrier position	[m|rad] 
+# 2nd coor in 34-47 carrier position	[m|rad]
+# 3rd coor in 48-61 carrier position	[m]
+# roll in 62-74 carrier position		[rad]
+# pitch in 75-87 carrier position		[rad]
+# yaw in 88-100 carrier position		[rad]
+# The attitude values are optional. If they are missing, we read them as zeros.
+
+# Observation Data start right after the START OF DATA flag.
+#TIME(1,2)          LAT             LON         H               yaw         pitch       roll
+START OF DATA
+1956	120000.0000	47.4868066	19.0745065	110.000
+1956	120000.1000	47.4861873	19.0691117	110.000
+1956	120000.2000	47.4851287	19.07304927	110.000
+1956	120000.3000	47.4851287	19.0730492	110.000
+1956	120000.3000	47.4851287	19.0730492	110.000
+1956	120000.3000	47.4851287	19.0730492	110.000
+1956	120000.3000	47.4851287	19.0730492	110.000
