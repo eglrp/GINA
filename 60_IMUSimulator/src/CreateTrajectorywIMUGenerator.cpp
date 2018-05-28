@@ -15,9 +15,14 @@ void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFil
 
 	ab << 0.0, 0.0, 0;
 	wb << 0, 0, 0.0;
-	llh << 0, 0, 0;
-	rollpitchyaw << 0.0, 0.0, 1.51;
-	Vb << 1.0, 0.0, 0.0;
+	llh <<	0.0 / 360.0*2.0*EIGEN_PI, 
+			0.0 / 360.0*2.0*EIGEN_PI,
+			0;
+
+	rollpitchyaw << 0.0 / 360.0*2.0*EIGEN_PI, 
+					0.0 / 360.0*2.0*EIGEN_PI, 
+					0.0/360.0*2.0*EIGEN_PI;
+	Vb << 1., 0.0, 0.0;
 
 	typedef std::numeric_limits< double > dbl;
 	std::cout.precision(dbl::max_digits10);
@@ -52,7 +57,7 @@ void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFil
 
 	trajFileOut << trajHeader;
 	imuFileOut << imuHeader;
-
+	
 	for (time = startTime; time < endTime; time += dt) {
 
 		generatetrajectory(	imuGenerator, str_e,
@@ -144,7 +149,13 @@ void generatetrajectory(IMUSimulator::IMUSignalGenerator& imuGenerator,
 	meas = imuGenerator.calculate(ab, wb, Vb, llh, local_angle);
 	meas.wn = gpsWeek;
 	meas.tow = gpsToW;
-
+	/*meas.a[0] = 0.0;
+	meas.a[1] = 0.0;
+	meas.a[2] = -9.78032533590;
+	meas.w[0] = 0.00007292115;
+	meas.w[1] = 0.0;
+	meas.w[2] = 0.0;*/
+	
 	str_e.update(meas, timeIncrement);
 	str_e >> posData;
 }

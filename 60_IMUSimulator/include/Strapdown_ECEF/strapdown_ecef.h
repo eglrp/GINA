@@ -19,28 +19,29 @@ namespace IMUSimulator {
 			double wie_e;
 
 			Eigen::Vector3d ecef;
-			Eigen::Vector3d llh;
+			//Eigen::Vector3d llh;
+			Eigen::Vector3d rollpitchyaw;
 			WGS84Ellipsoid wgs84;
-			Eigen::Matrix3d Cne;
-			Eigen::Matrix3d Cbe;
-			Eigen::Matrix3d Cnb;
+			//Eigen::Matrix3d Cne;
+			//Eigen::Matrix3d Cbe;
+			//Eigen::Matrix3d Cnb;
 			Eigen::Vector3d Ve;
 
 			/*Constructor*/
 			strapdown_ecef(Eigen::Vector3d&);
 			strapdown_ecef(Eigen::Vector3d&, Eigen::Vector3d&);
-			strapdown_ecef(Eigen::Matrix3d&, Eigen::Vector3d&, Eigen::Vector3d&);
+			//strapdown_ecef(Eigen::Matrix3d&, Eigen::Vector3d&, Eigen::Vector3d&);
 			strapdown_ecef(Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&);
 
 			void update(Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, double);
-			void update(Eigen::Matrix3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, double);
+			//void update(Eigen::Matrix3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, double);
 			void strapdown_ecef::update(Measure_IMU&, double);
 			void update(Eigen::Vector3d&, Eigen::Vector3d&, double);
 
-			void setParams(Eigen::Matrix3d&, Eigen::Vector3d&, Eigen::Vector3d&);
+			void setParams(Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&);
 			void setTime(unsigned int&, double&);
 
-			Eigen::Vector3d getLLH(void);
+			Eigen::Vector3d const getLLH(void);
 			Eigen::Vector3d getVbody(void);
 			Eigen::Vector3d getLocalAngle(void);
 
@@ -53,6 +54,9 @@ namespace IMUSimulator {
 			Eigen::Matrix3d strapdown_ecef::skew(Eigen::Vector3d&);
 			Eigen::Vector3d strapdown_ecef::transform_ecef2llh(Eigen::Vector3d&);
 			Eigen::Matrix3d pos2Cne(double&, double&);
+			Eigen::Matrix3d strapdown_ecef::pos2Cne(Eigen::Vector3d&);
+			Eigen::Matrix3d strapdown_ecef::getCbe(void);
+			Eigen::Matrix3d strapdown_ecef::calculateCbe(Eigen::Vector3d, Eigen::Vector3d);
 			
 	};
 }

@@ -98,12 +98,11 @@ namespace IMUSimulator {
 
 	strapdown_ecef& operator >> (strapdown_ecef& str, Trajectory& traj) {
 
-		Eigen::Vector3d& local_angle = IMUSimulator::Lib::dcm2euler(str.Cnb);
-
+		Eigen::Vector3d	llh = str.getLLH();
 		traj.add_position(	str.ecef[0], str.ecef[1], str.ecef[2],
-							str.llh[0], str.llh[1], str.llh[2],
+							llh[0], llh[1], llh[2],
 							0.0, 0.0,
-							local_angle(0), local_angle(1), local_angle(2));
+							str.rollpitchyaw[0], str.rollpitchyaw[1], str.rollpitchyaw[2]);
 
 		return str;
 	}

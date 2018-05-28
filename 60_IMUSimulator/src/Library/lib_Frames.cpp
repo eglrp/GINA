@@ -9,7 +9,7 @@ namespace IMUSimulator {
 	namespace Lib {
 
 
-		Eigen::Vector3d transform_ecef2llh(Eigen::Vector3d& ecef) {
+		const Eigen::Vector3d transform_ecef2llh(Eigen::Vector3d& ecef) {
 
 			Eigen::Vector3d llh;
 
@@ -79,6 +79,8 @@ namespace IMUSimulator {
 
 		Eigen::Matrix3d pos2Cne(double& lat, double& lon) {
 
+			// given lat and lon computes ned to e dcm
+
 			Eigen::Matrix3d Cne;
 
 			double sL = std::sin(lat);
@@ -115,6 +117,9 @@ namespace IMUSimulator {
 
 		Eigen::Matrix3d euler2dcm(Eigen::Vector3d eul) {
 				
+			//eul defined in "n": rotate "n" to obtain "b"
+			//result : Cbn(from b to n)
+
 			double cr = cos(eul(0)); double sr = sin(eul(0));	//roll
 			double cp = cos(eul(1)); double sp = sin(eul(1));	//pitch
 			double ch = cos(eul(2)); double sh = sin(eul(2));	//heading

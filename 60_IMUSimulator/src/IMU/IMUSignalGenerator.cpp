@@ -28,29 +28,31 @@ namespace IMUSimulator {
 	
 		update_gravitiy(llh[0], llh[1], llh[2]);
 
-		Eigen::Vector3d Vn, gn, an, wn, an_rot, wn_rot, we_rot;
+		Eigen::Vector3d Vn, Ve, gn, an, ae, wn, we, an_rot, ae_rot, wn_rot, we_rot, ge;
 
-		Eigen::Matrix3d Cnb = IMUSimulator::Lib::euler2dcm(attitude);
+		Eigen::Matrix3d Cbn = IMUSimulator::Lib::euler2dcm(attitude);
 		Eigen::Matrix3d Cne = pos2Cne(llh[0], llh[1]);
 
-		Eigen::Matrix3d Cbn = Cnb.transpose();
-
 		gn << 0, 0, -g;
+		ge = Cne * gn;
 
-		Vn = Cbn * V_body;
-		an = Cbn * a_body;
-		wn = Cbn * w_body;
+		Ve = Cne * (Cbn * V_body);
+		ae = Cne * (Cbn * a_body);
+		we = Cne * (Cbn * w_body);
+
+		//an += wn.cross(Vn); // Centripetal acc
 
 		we_rot << 0, 0, wie_e;
-		wn_rot = Cne.transpose()*we_rot;
+		//wn_rot = Cne.transpose()*we_rot;
 
-		an_rot = wn.cross(Vn); // acceleration from body rotation. centripetal force -sign?
-		an_rot +=  2 * wn_rot.cross(Vn); // TODO - sign right? corioli force
+		ae_rot << 0,0,0;
+		//an_rot = wn.cross(Vn); // acceleration from body rotation. centripetal force -sign?
+		ae_rot =  -2 * we_rot.cross(Ve); // TODO - sign right? corioli force
+		//an_rot += wn_rot.cross(wn_rot.cross(Vn))
+		ae += ge + ae_rot;
 
-		an += gn + an_rot;
-
-		a_body = Cnb*an;
-		w_body +=  Cnb*wn_rot;
+		a_body = Cbn.transpose()*(Cne.transpose() * ae);
+		w_body += Cbn.transpose()*Cne.transpose()*we_rot;
 
 		meas.a[0] = a_body(0);
 		meas.a[1] = a_body(1);
