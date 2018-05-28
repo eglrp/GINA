@@ -19,22 +19,16 @@ namespace IMUSimulator {
 			double wie_e;
 
 			Eigen::Vector3d ecef;
-			//Eigen::Vector3d llh;
 			Eigen::Vector3d rollpitchyaw;
 			WGS84Ellipsoid wgs84;
-			//Eigen::Matrix3d Cne;
-			//Eigen::Matrix3d Cbe;
-			//Eigen::Matrix3d Cnb;
 			Eigen::Vector3d Ve;
 
 			/*Constructor*/
 			strapdown_ecef(Eigen::Vector3d&);
 			strapdown_ecef(Eigen::Vector3d&, Eigen::Vector3d&);
-			//strapdown_ecef(Eigen::Matrix3d&, Eigen::Vector3d&, Eigen::Vector3d&);
 			strapdown_ecef(Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&);
 
 			void update(Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, double);
-			//void update(Eigen::Matrix3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, double);
 			void strapdown_ecef::update(Measure_IMU&, double);
 			void update(Eigen::Vector3d&, Eigen::Vector3d&, double);
 

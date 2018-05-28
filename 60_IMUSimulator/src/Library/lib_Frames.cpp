@@ -45,6 +45,7 @@ namespace IMUSimulator {
 
 		Eigen::Vector3d transform_llh2ecef(Eigen::Vector3d& llh) {
 
+			// lat long in degree
 			Eigen::Vector3d ecef;
 
 			gpstk::WGS84Ellipsoid wgs84;

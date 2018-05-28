@@ -8,8 +8,8 @@ function google_plot2(varargin)
             png_name = varargin{2};
             save_switch = true;
     end
-    lat = t_data.lat;
-    lon = t_data.lon;
+    lat = t_data.lat*180/pi;
+    lon = t_data.lon*180/pi;
     f1 = figure('Name','Google plot');
     hold on
     p1 = plot(lon, lat, '-*', 'MarkerSize', 10,'LineWidth', 5, 'Color','g');
@@ -26,12 +26,12 @@ function google_plot2(varargin)
     range_x = max(lon)-min(lon);
     
     if(range_x == 0)
-    	range_x = 1;
+    	range_x = 0.1;
     end
-        
-    xlim([min(lon)-(range_x*0.1) max(lon)+(range_x*0.55)])
+    
+    xlim([min(lon)-(range_x*0.55) max(lon)+(range_x*0.55)])
     legend(h,'Start pont','Vég pont')
-    plot_google_map('maptype','hybrid','MapScale',1);
+    plot_google_map('maptype','hybrid','MapScale',1, 'autoaxis', 1, 'refresh', 1);
 
     if save_switch == true
         folder_of_save = '\result\';

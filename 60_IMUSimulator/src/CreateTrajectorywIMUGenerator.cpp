@@ -15,13 +15,15 @@ void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFil
 
 	ab << 0.0, 0.0, 0;
 	wb << 0, 0, 0.0;
-	llh <<	0.0 / 360.0*2.0*EIGEN_PI, 
-			0.0 / 360.0*2.0*EIGEN_PI,
-			0;
+	llh <<	47.464405,// / 360.0*2.0*EIGEN_PI,
+			19.154166,// / 360.0*2.0*EIGEN_PI,
+			100;
+	// Bosch coordinates
+	// 47.464405, 19.154166
 
-	rollpitchyaw << 0.0 / 360.0*2.0*EIGEN_PI, 
-					0.0 / 360.0*2.0*EIGEN_PI, 
-					0.0/360.0*2.0*EIGEN_PI;
+	rollpitchyaw << 45.0 / 360.0*2.0*EIGEN_PI, 
+					45.0 / 360.0*2.0*EIGEN_PI, 
+					90.0/ 360.0*2.0*EIGEN_PI;
 	Vb << 1., 0.0, 0.0;
 
 	typedef std::numeric_limits< double > dbl;

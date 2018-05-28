@@ -47,7 +47,7 @@ namespace IMUSimulator {
 
 		ae_rot << 0,0,0;
 		//an_rot = wn.cross(Vn); // acceleration from body rotation. centripetal force -sign?
-		ae_rot =  -2 * we_rot.cross(Ve); // TODO - sign right? corioli force
+		ae_rot =  2*we_rot.cross(Ve); // TODO - sign right? corioli force
 		//an_rot += wn_rot.cross(wn_rot.cross(Vn))
 		ae += ge + ae_rot;
 

@@ -12,25 +12,25 @@ end
     f1 = figure('name','roll pitch yaw');
     title('Roll,pitch és yaw szögek')
     subplot(3,1,1);
-    plot(t_data.roll);
+    plot(t_data.roll*180/pi);
     
     xlabel('Idõlépés');% idõlépés-> idõ [s] vagy valami 
-    ylabel('Roll [rad]');
+    ylabel('Roll [fok]');
     title('Roll');
     grid on;
 
     subplot(3,1,2);
-    plot(t_data.pitch);
+    plot(t_data.pitch*180/pi);
     xlabel('Idõlépés');
-    ylabel('Pitch [rad]');
+    ylabel('Pitch [fok]');
     title('Pitch');
     grid on;
     
     
     subplot(3,1,3);
-    plot(t_data.yaw);
+    plot(t_data.yaw*180/pi);
     xlabel('Idõlépés');
-    ylabel('Yaw [rad]');
+    ylabel('Yaw [fok]');
     title('Yaw');
     grid on;
 % varargin varargout = functuon overload 

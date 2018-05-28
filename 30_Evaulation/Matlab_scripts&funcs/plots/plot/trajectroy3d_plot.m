@@ -25,16 +25,16 @@ function trajectroy3d_plot(t_data,varargin)
             title('Lateral Longitudnila High')
             subplot(3,1,1);
             %Plot 
-            plot(t_data.lat);
+            plot(t_data.lat*180/pi);
             %Lables&Title
             xlabel('Idõ[s]');
-            ylabel('Lat [rad]');
+            ylabel('Lat [fok]');
             title('Lat');
             grid on;
 
             subplot(3,1,2);
             %Plot
-            plot(t_data.lon);
+            plot(t_data.lon*180/pi);
             %Lables&Title
             xlabel('Idõ');
             ylabel('Lon [rad]');
@@ -51,8 +51,8 @@ function trajectroy3d_plot(t_data,varargin)
             grid on;
         end
         if strcmp('2D',mod) == 1
-            lat = t_data.lat;
-            lon = t_data.lon;
+            lat = t_data.lat*180/pi;
+            lon = t_data.lon*180/pi;
             h = t_data.h;
 
             f1 = figure('name','lat lon h');
@@ -82,8 +82,8 @@ function trajectroy3d_plot(t_data,varargin)
         
         
         if strcmp('3D',mod) == 1
-            lat = t_data.lat;
-            lon = t_data.lon;
+            lat = t_data.lat*180/pi;
+            lon = t_data.lon*180/pi;
             h = t_data.h;
 
             f1 = figure('name','lat lon h');

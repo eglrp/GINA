@@ -133,7 +133,7 @@ namespace IMUSimulator {
 		/*Update Cnb matrix. navigation to body*/
 		Eigen::Matrix3d Cnb = Cne.transpose()*Cbe;
 
-		this->rollpitchyaw = IMUSimulator::Lib::dcm2euler(Cnb);
+		this->rollpitchyaw = IMUSimulator::Lib::dcm2euler(Cnb); // TODO maybe we shall use 
 
 		/*Update Velocity*/
 		vel_inc1 = Cbe * ab *dt;
