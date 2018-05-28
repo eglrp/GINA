@@ -55,7 +55,7 @@ function trajectroy3d_plot(t_data,varargin)
             lon = t_data.lon;
             h = t_data.h;
 
-            f1 = figure('name',"lat lon h");
+            f1 = figure('name','lat lon h');
            
            
             p1 = plot(lat,lon, '-*', 'MarkerSize', 10,'LineWidth', 5, 'Color','g');
