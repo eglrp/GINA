@@ -3,8 +3,8 @@ clear all;
 close all;
 addpath(fullfile(pwd,'plot'))
 addpath(fullfile(pwd,'pinaFiles'))
-addpath(fullfile(pwd, 'read'))
-addpath(fullfile(pwd,'read', 'calculations'))
+addpath(fullfile(pwd, 'parse'))
+addpath(fullfile(pwd,'parse', 'calculations'))
 
 t_data = create_data('new_traj.pina');
 i_data = create_data('new_imu.pina');
@@ -17,8 +17,8 @@ trajectroy3d_plot(t_data,'llh','llh','new_trajectroy3d_llh_llh_plot');
 trajectroy3d_plot(t_data,'llh','2D','new_trajectroy3d_llh_2D_plot');
 trajectroy3d_plot(t_data,'llh','3D','new_trajectroy3d_llh_3D_plot');
 
-trajectroy3d_plot(t_data,'ecef','xyz','new_trajectroy3d_llh_plot');
-trajectroy3d_plot(t_data,'ecef','3D','new_trajectroy3d_llh_plot');
+trajectroy3d_plot(t_data,'ecef','xyz','new_trajectroy3d_ecef_xyz_plot');
+trajectroy3d_plot(t_data,'ecef','3D','new_trajectroy3d_ecef_3D_plot');
 
 attitude_plot(t_data,'new_attitude_plot');
 google_plot2(t_data,'new_google_plot2');
