@@ -1,10 +1,10 @@
 clc;
 clear all;
 close all;
-addpath('C:\Users\ACER\Desktop\szakdolgozat\plots\plot')
-addpath('C:\Users\ACER\Desktop\szakdolgozat\plots\pinaFiles')
-addpath('C:\Users\ACER\Desktop\szakdolgozat\plots\read')
-addpath('C:\Users\ACER\Desktop\szakdolgozat\plots\read\calculations')
+addpath(fullfile(pwd,'plot'))
+addpath(fullfile(pwd,'pinaFiles'))
+addpath(fullfile(pwd, 'read'))
+addpath(fullfile(pwd,'read', 'calculations'))
 
 ciricle_trajectory = 'ciricle_trajectory.pina';
 t_data = create_data(ciricle_trajectory);
