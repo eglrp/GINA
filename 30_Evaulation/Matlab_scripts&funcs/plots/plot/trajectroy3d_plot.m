@@ -170,9 +170,10 @@ function trajectroy3d_plot(t_data,varargin)
 
             h = [p2(1),p4(1)];
             legend(h,'Strat pont','Vég pont')  
+        end
     end
     
-     if save_function == true
+    if save_function == true
         %png_name = cell2mat(varargin(3));
         folder_of_save = '\result\';
         save_name_with_path = [pwd folder_of_save png_name];
