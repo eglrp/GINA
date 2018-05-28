@@ -49,8 +49,15 @@ function enu_plot(t_data,varargin) % ez jobb kezes ?
 
         %ranges
         range_x = max(e)-min(e);
+        
+        if(range_x == 0)
+            range_x = 1;
+        end
+        
         xlim([min(e)-(range_x*0.1) max(e)+(range_x*0.55)])
         legend(h,'Start pont','Vég pont')
+      
+        
     end
     
     if strcmp('3D',mod) == 1

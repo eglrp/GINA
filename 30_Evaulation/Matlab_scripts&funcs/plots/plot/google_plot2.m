@@ -25,6 +25,10 @@ function google_plot2(varargin)
     ylabel('lat [fok]')
     range_x = max(lon)-min(lon);
     
+    if(range_x == 0)
+    	range_x = 1;
+    end
+        
     xlim([min(lon)-(range_x*0.1) max(lon)+(range_x*0.55)])
     legend(h,'Start pont','Vég pont')
     plot_google_map('maptype','hybrid','MapScale',1);
