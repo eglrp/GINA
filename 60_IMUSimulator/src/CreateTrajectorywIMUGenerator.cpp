@@ -4,26 +4,26 @@
 
 void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFileNamewPath) {
 
-	double dt = 0.1;
+	double dt = 0.01;
 	double startTime = 0;
 	double time = 0.0;
-	double endTime = 100.0;
+	double endTime = 150.0;
 	unsigned int startWeek = 1956;
 	unsigned int endWeek = 1956;
 
 	Eigen::Vector3d ab, wb, Vb, ab_comp, wb_comp, Vb_comp, rollpitchyaw, ecef, llh;
 
 	ab << 0.0, 0.0, 0;
-	wb << 0, 0, 0.0;
-	llh <<	47.464405,// / 360.0*2.0*EIGEN_PI,
-			19.154166,// / 360.0*2.0*EIGEN_PI,
-			100;
+	wb << 0, 0, 0.05;
+	llh <<	0,// / 360.0*2.0*EIGEN_PI,
+			0,// / 360.0*2.0*EIGEN_PI,
+			0;
 	// Bosch coordinates
 	// 47.464405, 19.154166
 
-	rollpitchyaw << 45.0 / 360.0*2.0*EIGEN_PI, 
-					45.0 / 360.0*2.0*EIGEN_PI, 
-					90.0/ 360.0*2.0*EIGEN_PI;
+	rollpitchyaw << 0.0 / 360.0*2.0*EIGEN_PI, 
+					0.0 / 360.0*2.0*EIGEN_PI, 
+					0.0/ 360.0*2.0*EIGEN_PI;
 	Vb << 1., 0.0, 0.0;
 
 	typedef std::numeric_limits< double > dbl;

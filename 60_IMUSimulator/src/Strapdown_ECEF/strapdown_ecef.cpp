@@ -97,14 +97,14 @@ namespace IMUSimulator {
 						rot_skew;
 		Eigen::Vector3d	vel_inc1, vel_inc2;
 
-		Eigen::Vector3d ecef_new, Ve_new;
+		Eigen::Vector3d ecef_new, Ve_new, Vb;
 
 		//this->llh = this->transform_ecef2llh(ecef);
 		//this->Cne = this->pos2Cne(this->llh[0], this->llh[1]);
 		Eigen::Matrix3d Cne = this->pos2Cne(ecef);
 
-		gn << 0, 0, g;
-		ge =  - Cne * gn; //TODO sahll there be  a "-" ??
+		gn << 0, 0, -g;
+		ge =   Cne * gn; //TODO sahll there be  a "-" ??
 
 		/*Update attitude*/
 
@@ -139,6 +139,8 @@ namespace IMUSimulator {
 		vel_inc1 = Cbe * ab *dt;
 		vel_inc2 = (-ge + 2 * Ve.cross(rot_Earth_n))*dt;
 		Ve = Ve + vel_inc1 + vel_inc2;
+
+		Vb = Cbe.transpose() * Ve;
 
 		//Update_pos
 		ecef = ecef + Ve*dt;

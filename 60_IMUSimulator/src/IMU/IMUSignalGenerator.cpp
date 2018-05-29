@@ -28,7 +28,7 @@ namespace IMUSimulator {
 	
 		update_gravitiy(llh[0], llh[1], llh[2]);
 
-		Eigen::Vector3d Vn, Ve, gn, an, ae, wn, we, an_rot, ae_rot, wn_rot, we_rot, ge;
+		Eigen::Vector3d Vn, Ve, gn, an, ae, wn, we, an_rot, ae_rot, wn_rot, we_rot, ge, ab_cf, ae_cf;
 
 		Eigen::Matrix3d Cbn = IMUSimulator::Lib::euler2dcm(attitude);
 		Eigen::Matrix3d Cne = pos2Cne(llh[0], llh[1]);
@@ -49,7 +49,12 @@ namespace IMUSimulator {
 		//an_rot = wn.cross(Vn); // acceleration from body rotation. centripetal force -sign?
 		ae_rot =  2*we_rot.cross(Ve); // TODO - sign right? corioli force
 		//an_rot += wn_rot.cross(wn_rot.cross(Vn))
-		ae += ge + ae_rot;
+		
+		//body feels the centrifugal force due to turning
+		ab_cf= w_body.cross(V_body);
+		ae_cf = Cne * Cbn * ab_cf;
+
+		ae += ge + ae_rot + ae_cf;
 
 		a_body = Cbn.transpose()*(Cne.transpose() * ae);
 		w_body += Cbn.transpose()*Cne.transpose()*we_rot;

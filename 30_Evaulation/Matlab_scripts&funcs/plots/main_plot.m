@@ -21,7 +21,7 @@ trajectroy3d_plot(t_data,'ecef','xyz','new_trajectroy3d_ecef_xyz_plot');
 trajectroy3d_plot(t_data,'ecef','3D','new_trajectroy3d_ecef_3D_plot');
 
 attitude_plot(t_data,'new_attitude_plot');
-google_plot2(t_data,'new_google_plot2');
+%google_plot2(t_data,'new_google_plot2');
 
 vector_plot(t_data,i_data,'new_vector_plot')
 

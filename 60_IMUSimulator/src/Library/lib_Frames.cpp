@@ -9,7 +9,7 @@ namespace IMUSimulator {
 	namespace Lib {
 
 
-		const Eigen::Vector3d transform_ecef2llh(Eigen::Vector3d& ecef) {
+		Eigen::Vector3d transform_ecef2llh(Eigen::Vector3d& ecef) {
 
 			Eigen::Vector3d llh;
 
