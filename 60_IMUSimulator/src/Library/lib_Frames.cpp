@@ -23,7 +23,7 @@ namespace IMUSimulator {
 
 			Coordinates.asGeodetic();
 
-			llh[0] = Coordinates.geocentricLatitude();
+			llh[0] = Coordinates.geodeticLatitude();
 			llh[1] = Coordinates.longitude();
 			llh[2] = Coordinates.height();
 
