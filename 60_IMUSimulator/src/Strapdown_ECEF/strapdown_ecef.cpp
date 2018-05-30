@@ -18,7 +18,7 @@ namespace IMUSimulator {
 		/*Calculate default Cbe from Cne*/
 		Eigen::Vector3d llh_new;
 		
-		llh_new = this->transform_ecef2llh(ecef_new);
+		llh_new = this->transform_ecef2llh_DEG(ecef_new);
 		//this->Cne = this->pos2Cne(llh_new[0], llh_new[1]);
 
 		//Eigen::Matrix3d Cbe_new;
@@ -36,7 +36,7 @@ namespace IMUSimulator {
 		/*Calculate default Cbe from Cne*/
 		//Eigen::Vector3d llh_new;
 
-		//llh_new = transform_ecef2llh(ecef_new);
+		//llh_new = transform_ecef2llh_DEG(ecef_new);
 		//Cne = pos2Cne(llh_new[0], llh_new[1]);
 		//Eigen::Matrix3d Cbe_new;
 		//Cbe_new = Cne;
@@ -53,14 +53,16 @@ namespace IMUSimulator {
 		// TODO it can be done simpler
 		Eigen::Matrix3d Cbn = IMUSimulator::Lib::euler2dcm(attitude);
 
-		Eigen::Vector3d llh_new = transform_ecef2llh(ecef_new);
-		Eigen::Matrix3d Cne = pos2Cne(llh_new[0], llh_new[1]);
+		Eigen::Vector3d llh_new = transform_ecef2llh_DEG(ecef_new);
+		llh_new *= EIGEN_PI / 180.0;
+		Eigen::Matrix3d Cne = pos2Cne_RAD(llh_new[0], llh_new[1]);
 
 		Eigen::Matrix3d Cbe = Cne * Cbn;
 		Eigen::Vector3d Ve_new = Cbe*Vb;
 
 		/*Set new params*/
 		this->setParams(attitude, Ve_new, ecef_new);
+
 	}
 
 	/*Update step*/
@@ -84,7 +86,7 @@ namespace IMUSimulator {
 
 	void strapdown_ecef::update(Eigen::Vector3d& ab, Eigen::Vector3d& wb, double dt) {
 
-		this->update_gravitiy(transform_ecef2llh(this->ecef));
+		this->update_gravitiy(transform_ecef2llh_DEG(this->ecef));
 
 		Eigen::Vector3d gn, ge;
 		Eigen::Vector3d rot_Earth_n;
@@ -95,16 +97,16 @@ namespace IMUSimulator {
 		Eigen::Matrix3d eye = Eigen::Matrix3d::Identity();
 		Eigen::Matrix3d	mx_a, mx_b,
 						rot_skew;
-		Eigen::Vector3d	vel_inc1, vel_inc2;
+		Eigen::Vector3d	vel_inc1, vel_inc2, temp;
 
-		Eigen::Vector3d ecef_new, Ve_new, Vb;
+		Eigen::Vector3d ecef_new, Ve_new, Vb, Ve_update;
 
 		//this->llh = this->transform_ecef2llh(ecef);
 		//this->Cne = this->pos2Cne(this->llh[0], this->llh[1]);
-		Eigen::Matrix3d Cne = this->pos2Cne(ecef);
+		Eigen::Matrix3d Cne = this->pos2Cne_ECEF(ecef);
 
 		gn << 0, 0, -g;
-		ge =   Cne * gn; //TODO sahll there be  a "-" ??
+		ge =   Cne * gn; 
 
 		/*Update attitude*/
 
@@ -131,14 +133,17 @@ namespace IMUSimulator {
 		Cbe = mx_b*(Cbe*mx_a);
 		
 		/*Update Cnb matrix. navigation to body*/
-		Eigen::Matrix3d Cnb = Cne.transpose()*Cbe;
+		Eigen::Matrix3d Cbn = Cne.transpose()*Cbe;
 
-		this->rollpitchyaw = IMUSimulator::Lib::dcm2euler(Cnb); // TODO maybe we shall use 
+		this->rollpitchyaw = IMUSimulator::Lib::dcm2euler(Cbn); // TODO maybe we shall use 
+
+		temp = IMUSimulator::Lib::dcm2euler(Cne)*180./EIGEN_PI;
 
 		/*Update Velocity*/
 		vel_inc1 = Cbe * ab *dt;
 		vel_inc2 = (-ge + 2 * Ve.cross(rot_Earth_n))*dt;
-		Ve = Ve + vel_inc1 + vel_inc2;
+		Ve_update = vel_inc1 + vel_inc2;
+		Ve += Ve_update;
 
 		Vb = Cbe.transpose() * Ve;
 
@@ -159,15 +164,15 @@ namespace IMUSimulator {
 		//this->llh = this->transform_ecef2llh(ecef_new );
 	}
 
-	const Eigen::Vector3d strapdown_ecef::getLLH(void){
-		return transform_ecef2llh(this->ecef);
+	const Eigen::Vector3d strapdown_ecef::getLLH_in_DEG(void){
+		return transform_ecef2llh_DEG(this->ecef);
 	}
 
 	Eigen::Vector3d strapdown_ecef::getVbody(void) {
 	
 		Eigen::Matrix3d Cbn = IMUSimulator::Lib::euler2dcm(this->rollpitchyaw);
 
-		Eigen::Matrix3d Cne = this->pos2Cne(this->ecef);
+		Eigen::Matrix3d Cne = this->pos2Cne_ECEF(this->ecef);
 		Eigen::Matrix3d Cbe = Cne * Cbn;
 
 		return Cbe.transpose() * Ve;
@@ -178,21 +183,23 @@ namespace IMUSimulator {
 		return rollpitchyaw;
 	}
 
-	void strapdown_ecef::update_gravitiy(Eigen::Vector3d llh) {
+	void strapdown_ecef::update_gravitiy(Eigen::Vector3d llh_deg) {
 
-		double llh_array[3];
-		llh_array[0] = llh[0];
-		llh_array[1] = llh[1];
-		llh_array[2] = llh[2];
+		// llh in DEG
 
-		this->wgs84.setCoordinates(llh_array, IMUSimulator::CoordiateFrame::LLH_Frame);
+		double llh_array_deg[3];
+		llh_array_deg[0] = llh_deg[0];
+		llh_array_deg[1] = llh_deg[1];
+		llh_array_deg[2] = llh_deg[2];
+
+		this->wgs84.setCoordinates(llh_array_deg, IMUSimulator::CoordiateFrame::LLH_Frame);
 		this->wgs84.get_Gravity_and_WIE_E(this->g, this->wie_e);
 	}
 
 	std::ostream& operator<<(std::ostream& os, strapdown_ecef& str_e) {
 	
 		Eigen::Vector3d llh;
-		llh = str_e.getLLH();
+		llh = str_e.getLLH_in_DEG();
 		os << "LLH: " << std::endl << llh << std::endl;
 		os << "ECEF: " << std::endl << str_e.ecef << std::endl;
 
@@ -237,20 +244,30 @@ namespace IMUSimulator {
 	}
 
 	/*Utility methods*/
-	Eigen::Matrix3d strapdown_ecef::pos2Cne(double& lat, double& lon) {
-	
+	Eigen::Matrix3d strapdown_ecef::pos2Cne_RAD(double& lat, double& lon) {
+		// lat long in rad
 		return IMUSimulator::Lib::pos2Cne(lat, lon);
 	}
 
-	Eigen::Matrix3d strapdown_ecef::pos2Cne(Eigen::Vector3d& ecef) {
-
-		Eigen::Vector3d llh = this->transform_ecef2llh(this->ecef);
+	Eigen::Matrix3d strapdown_ecef::pos2Cne_RAD(Eigen::Vector3d& llh) {
+		// lat long in rad
 		return IMUSimulator::Lib::pos2Cne(llh(0), llh(1));
 	}
 
-	Eigen::Vector3d strapdown_ecef::transform_ecef2llh(Eigen::Vector3d& ecef) {
+	Eigen::Matrix3d strapdown_ecef::pos2Cne_ECEF(Eigen::Vector3d& ecef) {
+		// lat long shall be in rad
+		Eigen::Vector3d llh = this->transform_ecef2llh_DEG(this->ecef)*EIGEN_PI/180.0;
+		return IMUSimulator::Lib::pos2Cne(llh(0), llh(1));
+	}
+
+	Eigen::Vector3d strapdown_ecef::transform_ecef2llh_DEG(Eigen::Vector3d& ecef) {
 
 		return IMUSimulator::Lib::transform_ecef2llh(ecef);
+	}
+
+	Eigen::Vector3d strapdown_ecef::transform_ecef2llh_RAD(Eigen::Vector3d& ecef) {
+
+		return IMUSimulator::Lib::transform_ecef2llh(ecef) *EIGEN_PI / 180;
 	}
 
 	Eigen::Matrix3d strapdown_ecef::skew(Eigen::Vector3d& v) {
@@ -269,8 +286,8 @@ namespace IMUSimulator {
 		// TODO it can be done simpler
 		Eigen::Matrix3d Cbn = IMUSimulator::Lib::euler2dcm(attitude);
 
-		Eigen::Vector3d llh_new = transform_ecef2llh(ecef_in);
-		Eigen::Matrix3d Cne = pos2Cne(llh_new[0], llh_new[1]);
+		Eigen::Vector3d llh_new = transform_ecef2llh_DEG(ecef_in)*EIGEN_PI/180.0;
+		Eigen::Matrix3d Cne = pos2Cne_RAD(llh_new[0], llh_new[1]);
 
 		return Cne * Cbn;
 	}

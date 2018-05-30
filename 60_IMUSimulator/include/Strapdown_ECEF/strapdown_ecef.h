@@ -35,7 +35,7 @@ namespace IMUSimulator {
 			void setParams(Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&);
 			void setTime(unsigned int&, double&);
 
-			Eigen::Vector3d const getLLH(void);
+			Eigen::Vector3d const getLLH_in_DEG(void);
 			Eigen::Vector3d getVbody(void);
 			Eigen::Vector3d getLocalAngle(void);
 
@@ -46,9 +46,11 @@ namespace IMUSimulator {
 
 		private:
 			Eigen::Matrix3d strapdown_ecef::skew(Eigen::Vector3d&);
-			Eigen::Vector3d strapdown_ecef::transform_ecef2llh(Eigen::Vector3d&);
-			Eigen::Matrix3d pos2Cne(double&, double&);
-			Eigen::Matrix3d strapdown_ecef::pos2Cne(Eigen::Vector3d&);
+			Eigen::Vector3d strapdown_ecef::transform_ecef2llh_DEG(Eigen::Vector3d&);
+			Eigen::Vector3d strapdown_ecef::transform_ecef2llh_RAD(Eigen::Vector3d&);
+			Eigen::Matrix3d strapdown_ecef::pos2Cne_RAD(double&, double&);
+			Eigen::Matrix3d strapdown_ecef::pos2Cne_RAD(Eigen::Vector3d&);
+			Eigen::Matrix3d strapdown_ecef::pos2Cne_ECEF(Eigen::Vector3d&);
 			Eigen::Matrix3d strapdown_ecef::getCbe(void);
 			Eigen::Matrix3d strapdown_ecef::calculateCbe(Eigen::Vector3d, Eigen::Vector3d);
 			

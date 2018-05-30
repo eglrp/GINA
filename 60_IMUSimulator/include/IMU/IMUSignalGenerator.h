@@ -26,7 +26,7 @@ namespace IMUSimulator {
 		private:
 
 			void IMUSignalGenerator::update_gravitiy(double, double, double);
-			Eigen::Matrix3d IMUSignalGenerator::pos2Cne(double& lat, double& lon);
+			Eigen::Matrix3d IMUSignalGenerator::pos2Cne_RAD(double& lat, double& lon);
 
 	};
 

@@ -98,7 +98,7 @@ namespace IMUSimulator {
 
 	strapdown_ecef& operator >> (strapdown_ecef& str, Trajectory& traj) {
 
-		Eigen::Vector3d	llh = str.getLLH();
+		Eigen::Vector3d	llh = str.getLLH_in_DEG();
 		traj.add_position(	str.ecef[0], str.ecef[1], str.ecef[2],
 							llh[0], llh[1], llh[2],
 							0.0, 0.0,

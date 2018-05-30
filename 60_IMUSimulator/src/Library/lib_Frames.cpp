@@ -10,7 +10,7 @@ namespace IMUSimulator {
 
 
 		Eigen::Vector3d transform_ecef2llh(Eigen::Vector3d& ecef) {
-
+			// llh output is in DEG
 			Eigen::Vector3d llh;
 
 			gpstk::WGS84Ellipsoid wgs84;
@@ -20,8 +20,6 @@ namespace IMUSimulator {
 										gpstk::Position::CoordinateSystem::Cartesian,
 										&wgs84,
 										gpstk::ReferenceFrame::WGS84);
-
-			Coordinates.asGeodetic();
 
 			llh[0] = Coordinates.geodeticLatitude();
 			llh[1] = Coordinates.longitude();
@@ -58,9 +56,9 @@ namespace IMUSimulator {
 
 			Coordinates.asECEF();
 
-			ecef[0] = Coordinates.getX();
-			ecef[1] = Coordinates.getY();
-			ecef[2] = Coordinates.getZ();
+			ecef[0] = Coordinates.X();
+			ecef[1] = Coordinates.Y();
+			ecef[2] = Coordinates.Z();
 
 			return ecef;
 		}
@@ -81,6 +79,7 @@ namespace IMUSimulator {
 		Eigen::Matrix3d pos2Cne(double& lat, double& lon) {
 
 			// given lat and lon computes ned to e dcm
+			// lat long in rad
 
 			Eigen::Matrix3d Cne;
 
