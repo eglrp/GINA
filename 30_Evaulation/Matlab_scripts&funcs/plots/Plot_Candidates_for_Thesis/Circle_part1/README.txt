@@ -1,7 +1,7 @@
 
 IMU Generator params
 
-	dt = 0.001;
+	dt = 0.1;
 	startTime = 0;
 	time = 0.0;
 	endTime = 150.0;
