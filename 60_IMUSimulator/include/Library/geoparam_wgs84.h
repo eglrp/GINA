@@ -7,8 +7,13 @@
 #include <fstream>
 #include <algorithm>
 #include <ctime>
+#include <math.h>
 
 #include "std_IMUSimulator.h"
+
+#ifndef DEG2RAD
+#define DEG2RAD 0.017453292519943295769222
+#endif // !DEG2RAD
 
 namespace IMUSimulator {
 
@@ -31,7 +36,7 @@ namespace IMUSimulator {
 			WGS84Ellipsoid(void);
 			WGS84Ellipsoid(double[], CoordiateFrame);
 
-			
+			// LLH in degree ECEF in m
 			void setCoordinates(double[], CoordiateFrame);
 			void getParams(double&, double&, double&, double&, double&, double&);
 			void get_Gravity_and_WIE_E(double&, double&);

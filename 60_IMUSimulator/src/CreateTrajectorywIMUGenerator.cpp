@@ -4,20 +4,27 @@
 
 void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFileNamewPath) {
 
-	double dt = 0.1;
+	double dt = 0.01;
 	double startTime = 0;
 	double time = 0.0;
-	double endTime = 100.0;
+	double endTime = 150.0;
 	unsigned int startWeek = 1956;
 	unsigned int endWeek = 1956;
 
 	Eigen::Vector3d ab, wb, Vb, ab_comp, wb_comp, Vb_comp, rollpitchyaw, ecef, llh;
 
 	ab << 0.0, 0.0, 0;
-	wb << 0, 0, 0.0;
-	llh << 0, 0, 0;
-	rollpitchyaw << 0.0, 0.0, 1.51;
-	Vb << 1.0, 0.0, 0.0;
+	wb << 0, 0, 0.1;
+	llh <<	47.464405,
+			19.154166,// / 360.0*2.0*EIGEN_PI,
+			0;
+	// Bosch coordinates
+	// 47.464405, 19.154166
+
+	rollpitchyaw << 0.0 / 180.0*EIGEN_PI, 
+					0.0 / 180.0*EIGEN_PI, 
+					0.0/ 180.0*EIGEN_PI;
+	Vb << 5., 0., 1.;
 
 	typedef std::numeric_limits< double > dbl;
 	std::cout.precision(dbl::max_digits10);
@@ -52,7 +59,7 @@ void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFil
 
 	trajFileOut << trajHeader;
 	imuFileOut << imuHeader;
-
+	
 	for (time = startTime; time < endTime; time += dt) {
 
 		generatetrajectory(	imuGenerator, str_e,
@@ -138,13 +145,19 @@ void generatetrajectory(IMUSimulator::IMUSignalGenerator& imuGenerator,
 	double timeIncrement) {
 
 	Eigen::Vector3d Vb = str_e.getVbody();
-	Eigen::Vector3d llh = str_e.getLLH();
+	Eigen::Vector3d llh = str_e.getLLH_in_DEG();
 	Eigen::Vector3d local_angle = str_e.getLocalAngle();
 
 	meas = imuGenerator.calculate(ab, wb, Vb, llh, local_angle);
 	meas.wn = gpsWeek;
 	meas.tow = gpsToW;
-
+	/*meas.a[0] = 0.0;
+	meas.a[1] = 0.0;
+	meas.a[2] = -9.78032533590;
+	meas.w[0] = 0.00007292115;
+	meas.w[1] = 0.0;
+	meas.w[2] = 0.0;*/
+	
 	str_e.update(meas, timeIncrement);
 	str_e >> posData;
 }

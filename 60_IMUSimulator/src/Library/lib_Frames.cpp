@@ -10,7 +10,7 @@ namespace IMUSimulator {
 
 
 		Eigen::Vector3d transform_ecef2llh(Eigen::Vector3d& ecef) {
-
+			// llh output is in DEG
 			Eigen::Vector3d llh;
 
 			gpstk::WGS84Ellipsoid wgs84;
@@ -21,9 +21,7 @@ namespace IMUSimulator {
 										&wgs84,
 										gpstk::ReferenceFrame::WGS84);
 
-			Coordinates.asGeodetic();
-
-			llh[0] = Coordinates.geocentricLatitude();
+			llh[0] = Coordinates.geodeticLatitude();
 			llh[1] = Coordinates.longitude();
 			llh[2] = Coordinates.height();
 
@@ -45,6 +43,7 @@ namespace IMUSimulator {
 
 		Eigen::Vector3d transform_llh2ecef(Eigen::Vector3d& llh) {
 
+			// lat long in degree
 			Eigen::Vector3d ecef;
 
 			gpstk::WGS84Ellipsoid wgs84;
@@ -57,9 +56,9 @@ namespace IMUSimulator {
 
 			Coordinates.asECEF();
 
-			ecef[0] = Coordinates.getX();
-			ecef[1] = Coordinates.getY();
-			ecef[2] = Coordinates.getZ();
+			ecef[0] = Coordinates.X();
+			ecef[1] = Coordinates.Y();
+			ecef[2] = Coordinates.Z();
 
 			return ecef;
 		}
@@ -78,6 +77,9 @@ namespace IMUSimulator {
 		}
 
 		Eigen::Matrix3d pos2Cne(double& lat, double& lon) {
+
+			// given lat and lon computes ned to e dcm
+			// lat long in rad
 
 			Eigen::Matrix3d Cne;
 
@@ -115,6 +117,9 @@ namespace IMUSimulator {
 
 		Eigen::Matrix3d euler2dcm(Eigen::Vector3d eul) {
 				
+			//eul defined in "n": rotate "n" to obtain "b"
+			//result : Cbn(from b to n)
+
 			double cr = cos(eul(0)); double sr = sin(eul(0));	//roll
 			double cp = cos(eul(1)); double sp = sin(eul(1));	//pitch
 			double ch = cos(eul(2)); double sh = sin(eul(2));	//heading

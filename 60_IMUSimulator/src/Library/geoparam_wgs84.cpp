@@ -47,7 +47,7 @@ namespace IMUSimulator{
 
 				Coordinates.asGeodetic();
 
-				this->llh[0] = Coordinates.geocentricLatitude();
+				this->llh[0] = Coordinates.geodeticLatitude();
 				this->llh[1] = Coordinates.getLongitude();
 				this->llh[2] = Coordinates.getHeight();
 			}
@@ -71,9 +71,9 @@ namespace IMUSimulator{
 
 	void WGS84Ellipsoid::getParams(double& Rn, double& Re, double& g, double& sL, double& cL, double& wie_e) {
 		
-		sL = std::sin(llh[0]);
-		cL = std::cos(llh[0]);
-		double h = llh[2];
+		sL = std::sin(this->llh[0] * DEG2RAD);
+		cL = std::cos(this->llh[0] * DEG2RAD);
+		double h = this->llh[2] * DEG2RAD;
 		Rn = 6335439.327292829 / (std::sqrt(1.0 - E_SQR*sL*sL)*(1.0 - E_SQR*sL*sL));
 		Re = SM_AXIS / (std::sqrt(1.0 - E_SQR*sL*sL));
 		double g1 = NORMAL_GRV*(1 + GRV_CONS*sL*sL) / (std::sqrt(1.0 - E_SQR*sL*sL));
