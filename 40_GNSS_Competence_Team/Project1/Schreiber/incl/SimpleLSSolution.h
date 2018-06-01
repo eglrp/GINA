@@ -19,10 +19,12 @@ namespace simpleLS {
 
 	void setConvLimit(double val);
 
-	void corrW_Sagnac(VectorXd & prvec);
+	void corrW_Sagnac(double rho, Triple* PVT);
 
 	void calcCorrections(VectorXd & prvec, vector<SatID> prnvec, CommonTime time);
 
 	Xvt getSatXVT(CommonTime time, SatID sat);
 
+	double getClockBias(SatID, CommonTime);
+	double getSatRelCorr(SatID, CommonTime);
 }

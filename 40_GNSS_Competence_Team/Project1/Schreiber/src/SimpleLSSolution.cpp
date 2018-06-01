@@ -15,7 +15,9 @@ void simpleLS::calculateSolution(CommonTime time, vector<SatID>& prnVec, vector<
 	int numSats = calculatePRNsize(prnVec);
 	SatID tempSat;
 	double temprho;
-	Triple tempSatPos;
+	double temp_clockbias, temp_satRelCorr;
+	Triple tempSatPos,temp_OldSatPos;
+
 
 	MatrixXd designMatrix(numSats,4);
 	MatrixXd covMatrix(numSats,4);
@@ -25,6 +27,10 @@ void simpleLS::calculateSolution(CommonTime time, vector<SatID>& prnVec, vector<
 
 	VectorXd prObservations = VectorXd::Zero(numSats);
 	VectorXd geometricDistance = VectorXd::Zero(numSats);
+	double temp_distance, sigTTime = 0.0, sigTTime_old = 0.0;
+	GPSWeekSecond timeOfTransmission;
+	double tempTime;
+	int WN;
 
 	solution = VectorXd::Zero(4);
 
@@ -45,10 +51,30 @@ void simpleLS::calculateSolution(CommonTime time, vector<SatID>& prnVec, vector<
 				tempSatPos = Triple(0, 0, 0);
 				continue;
 			}
-			// Iterate satellite position
-			calcCorrections(prObservations, prnVec, time);
+			// Iterate satellite position with the signal travel time
+			timeOfTransmission = ((GPSWeekSecond)time);
+			temp_OldSatPos = tempSatPos;
+
+			for (int it = 0; it < 5;it++) {
+				temp_distance = getGeometricDistance(solution, tempSatPos);
+				
+				sigTTime_old = sigTTime;
+				sigTTime = temp_distance / C_MPS;
+
+				tempSatPos = bceStore.getXvt(tempSat, timeOfTransmission).getPos();
+
+				timeOfTransmission.sow = ((GPSWeekSecond)time).sow - sigTTime;
+				tempSatPos = bceStore.getXvt(tempSat, timeOfTransmission).getPos();
+
+			}
+			tempTime = (CommonTime)timeOfTransmission - time;
+			corrW_Sagnac(tempTime, &tempSatPos);
 
 			geometricDistance[i] = getGeometricDistance(solution, tempSatPos);
+
+			temp_clockbias = getClockBias(tempSat, timeOfTransmission);
+			temp_satRelCorr = getSatRelCorr(tempSat, timeOfTransmission);
+			prObservations(i) += (temp_clockbias + temp_satRelCorr) * C_MPS;
 
 			for (int j = 0; j < 3;j++)			//Create Design Matrix
 			{
@@ -101,11 +127,21 @@ void simpleLS::setConvLimit(double val)
 	//convergenceLimitLS = val;
 }
 
-void simpleLS::corrW_Sagnac(VectorXd & prvec)
+void simpleLS::corrW_Sagnac(double rho, Triple* PVT)
 {
+	double wt;
+	Triple svxyz[3];
 	GPSEllipsoid ell;
-	double wt = ell.angVelocity();
-	//MatrixXd rotMatrix = 
+	
+
+	wt = ell.angVelocity()*rho;             // radians
+	svxyz[0] = ::cos(wt)*PVT[0] + ::sin(wt)*PVT[1];
+	svxyz[1] = -::sin(wt)*PVT[0] + ::cos(wt)*PVT[1];
+	svxyz[2] = PVT[2];
+
+	PVT[0] = svxyz[0];
+	PVT[1] = svxyz[1];
+	PVT[2] = svxyz[2];
 }
 
 void simpleLS::calcCorrections(VectorXd & prvec,vector<SatID> prn, CommonTime time)
@@ -129,4 +165,40 @@ void simpleLS::calcCorrections(VectorXd & prvec,vector<SatID> prn, CommonTime ti
 Xvt simpleLS::getSatXVT(CommonTime time, SatID sat)
 {
 	return getStore().getXvt(sat,time);
+}
+
+double simpleLS::getClockBias(SatID id, CommonTime time)
+{
+	double clockBias;
+
+	Xvt satXVT;
+
+	try
+	{
+		satXVT = getSatXVT(time, id);
+		clockBias = satXVT.getClockBias();
+	}
+	catch (const std::exception&)
+	{
+		return 0;
+	}
+	return clockBias;
+}
+
+double simpleLS::getSatRelCorr(SatID id, CommonTime time)
+{
+	double relcorr;
+
+	Xvt satXVT;
+
+	try
+	{
+		satXVT = getSatXVT(time, id);
+		relcorr = satXVT.getRelativityCorr();
+	}
+	catch (const std::exception&)
+	{
+		return 0;
+	}
+	return relcorr;
 }

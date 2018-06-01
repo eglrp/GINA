@@ -127,7 +127,14 @@ int main(int argc, char *argv[])
 		rnffs >> hdr;
 
 		// Storing the ephemeris in "bcstore"
-		while (rnffs >> rne) bcestore.addEphemeris(rne);
+		while (rnffs >> rne) try
+		{
+			bcestore.addEphemeris(rne);
+		}
+		catch (Exception& e)
+		{
+			cerr << e;
+		}
 
 		// Setting the criteria for looking up ephemeris
 		bcestore.SearchNear();
