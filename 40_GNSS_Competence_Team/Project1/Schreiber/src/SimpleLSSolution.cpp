@@ -29,7 +29,7 @@ void simpleLS::calculateSolution(CommonTime time, vector<SatID>& prnVec, vector<
 	solution = VectorXd::Zero(4);
 
 	prObservations = stripSatSysfromObservations(prnVec, rangeVec, SatID::systemGlonass);
-	calcCorrections(prObservations, prnVec, time);
+	
 
 	// Iteration
 	do {
@@ -45,7 +45,9 @@ void simpleLS::calculateSolution(CommonTime time, vector<SatID>& prnVec, vector<
 				tempSatPos = Triple(0, 0, 0);
 				continue;
 			}
-			
+			// Iterate satellite position
+			calcCorrections(prObservations, prnVec, time);
+
 			geometricDistance[i] = getGeometricDistance(solution, tempSatPos);
 
 			for (int j = 0; j < 3;j++)			//Create Design Matrix
