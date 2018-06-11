@@ -1,0 +1,410 @@
+
+     TORP Site Information Form (site log)
+     International GNSS Service
+     See Instructions at:
+       ftp://igs.org/pub/station/general/sitelog_instr.txt
+
+0.   Form
+
+     Prepared by (full name)  : David Maggert
+     Date Prepared            : 2017-02-24
+     Report Type              : UPDATE
+     If Update:
+      Previous Site Log       : torp_20151119.log
+      Modified/Added Sections : 3.9, 3.10
+
+
+1.   Site Identification of the GNSS Monument
+
+     Site Name                : Torrance Airport
+     Four Character ID        : TORP
+     Monument Inscription     : 
+     IERS DOMES Number        : 49912M001
+     CDP Number               : 
+     Monument Description     : Wyatt/Agnew driven-braced
+       Height of the Monument : 
+       Monument Foundation    : 
+       Foundation Depth       : 
+     Marker Description       : drilled hole in SE verical pipe
+     Date Installed           : 1997-03-03T00:00Z
+     Geologic Characteristic  : Consolodated marine sediments
+       Bedrock Type           : 
+       Bedrock Condition      : 
+       Fracture Spacing       : 
+       Fault zones nearby     : 
+         Distance/activity    : 
+     Additional Information   : Antenna is attached to a machined adjustable 
+                              : adaptor on top of a Scripps designed and 
+                              : installed drilled quadpod monument located at 
+                              : the southeast end of the main runway. Antenna
+                              : cover is an Ashtech SNOW dome that is attached 
+                              : by velcro onto the antenna itself (it is 
+                              : shaped like a missile cone, rather than 
+                              : hemispherical).
+                              : SCIGN - Southern California Integrated GPS 
+                              : Network
+
+
+2.   Site Location Information
+
+     City or Town             : Torrance
+     State or Province        : California
+     Country                  : United States of America
+     Tectonic Plate           : NORTH AMERICAN
+     Approximate Position (ITRF)
+       X coordinate (m)       : -2517894.5535
+       Y coordinate (m)       : -4670259.8838
+       Z coordinate (m)       : 3527827.6264
+       Latitude (N is +)      : +334752.07
+       Longitude (E is +)     : -1181950.17
+       Elevation (m,ellips.)  : -5.22
+     Additional Information   : Site is located at Torrance Airport
+                              : Los Angeles County.
+
+
+3.   GNSS Receiver Information
+
+3.1  Receiver Type            : ROGUE SNR-8000
+     Satellite System         : GPS
+     Serial Number            : T 03601 (JPL)
+     Firmware Version         : 3.2
+     Elevation Cutoff Setting : 
+     Date Installed           : 1997-02-28T00:00Z
+     Date Removed             : 1999-01-06T00:00Z
+     Temperature Stabiliz.    : 
+     Additional Information   : First measurements
+
+3.2  Receiver Type            : ASHTECH Z-XII3
+     Satellite System         : GPS
+     Serial Number            : LP02880
+     Firmware Version         : CB00
+     Elevation Cutoff Setting : 
+     Date Installed           : 1999-01-06T00:00Z
+     Date Removed             : 1999-07-12T00:00Z
+     Temperature Stabiliz.    : 
+     Additional Information   : 
+
+3.3  Receiver Type            : ASHTECH Z-XII3
+     Satellite System         : GPS
+     Serial Number            : LP02880
+     Firmware Version         : CC00
+     Elevation Cutoff Setting : 10 deg
+     Date Installed           : 1999-07-12T00:00Z
+     Date Removed             : 2008-12-19T20:00Z
+     Temperature Stabiliz.    : 
+     Additional Information   : Firmware upgrade for GPS week 
+                              : rollover-compliance.
+
+3.4  Receiver Type            : ASHTECH Z-XII3
+     Satellite System         : GPS
+     Serial Number            : LP03217
+     Firmware Version         : CD00
+     Elevation Cutoff Setting : 
+     Date Installed           : 2008-12-20T00:00Z
+     Date Removed             : 2011-01-06T02:52Z
+     Temperature Stabiliz.    : 
+     Additional Information   : 
+
+3.5  Receiver Type            : TPS NET-G3A
+     Satellite System         : GPS
+     Serial Number            : 618-01074
+     Firmware Version         : 3.5 May 06,2010
+     Elevation Cutoff Setting : 5 deg
+     Date Installed           : 2011-01-06T03:20Z
+     Date Removed             : 2012-01-22T23:59Z
+     Temperature Stabiliz.    : 
+     Additional Information   : 
+
+3.6  Receiver Type            : TPS NET-G3A
+     Satellite System         : GPS
+     Serial Number            : 618-01074
+     Firmware Version         : 3.5 Aug,24,2011 p3b2
+     Elevation Cutoff Setting : 5 deg
+     Date Installed           : 2012-01-23T00:00Z
+     Date Removed             : 2012-05-10T23:59Z
+     Temperature Stabiliz.    : 
+     Additional Information   : 
+
+3.7  Receiver Type            : TPS NET-G3A
+     Satellite System         : GPS
+     Serial Number            : 618-01074
+     Firmware Version         : 3.6 Feb,28,2012 p1
+     Elevation Cutoff Setting : 5 deg
+     Date Installed           : 2012-05-11T00:00Z
+     Date Removed             : 2013-06-03T22:43Z
+     Temperature Stabiliz.    : 
+     Additional Information   : 
+
+3.8  Receiver Type            : TPS NET-G3A
+     Satellite System         : GPS
+     Serial Number            : 618-01074
+     Firmware Version         : 4.0 Dec,21,2012 p1
+     Elevation Cutoff Setting : 5 deg
+     Date Installed           : 2013-06-03T23:32Z
+     Date Removed             : 2015-11-18T21:33Z
+     Temperature Stabiliz.    : 
+     Additional Information   : 
+
+3.9  Receiver Type            : TPS NET-G3A
+     Satellite System         : GPS+GLO
+     Serial Number            : 618-01074
+     Firmware Version         : 4.5 Dec,29,2014
+     Elevation Cutoff Setting : 5 deg
+     Date Installed           : 2015-11-18T21:38Z
+     Date Removed             : 2017-02-22T19:55Z
+     Temperature Stabiliz.    : 
+     Additional Information   : 
+
+3.10 Receiver Type            : TPS NET-G3A
+     Satellite System         : GPS
+     Serial Number            : 618-01074
+     Firmware Version         : 4.7 Oct,18,2016 p2
+     Elevation Cutoff Setting : 5 deg
+     Date Installed           : 2017-02-22T19:55Z
+     Date Removed             : CCYY-MM-DDThh:mmZ
+     Temperature Stabiliz.    : 
+     Additional Information   : 
+
+3.x  Receiver Type            : (A20, from rcvr_ant.tab; see instructions)
+     Satellite System         : (GPS+GLO+GAL+BDS+QZSS+SBAS)
+     Serial Number            : (A20, but note the first A5 is used in SINEX)
+     Firmware Version         : (A11)
+     Elevation Cutoff Setting : (deg)
+     Date Installed           : (CCYY-MM-DDThh:mmZ)
+     Date Removed             : (CCYY-MM-DDThh:mmZ)
+     Temperature Stabiliz.    : (none or tolerance in degrees C)
+     Additional Information   : (multiple lines)
+
+
+4.   GNSS Antenna Information
+
+4.1  Antenna Type             : AOAD/M_T        SNOW
+     Serial Number            : 296
+     Antenna Reference Point  : BPA
+     Marker->ARP Up Ecc. (m)  : 0.1145
+     Marker->ARP North Ecc(m) : 0.0000
+     Marker->ARP East Ecc(m)  : 0.0000
+     Alignment from True N    : 
+     Antenna Radome Type      : SNOW
+     Radome Serial Number     : 
+     Antenna Cable Type       : 
+     Antenna Cable Length     : 
+     Date Installed           : 1997-02-28T00:00Z
+     Date Removed             : 2011-01-07T23:45Z
+     Additional Information   : Vertical datum is a drilled hole in the
+                              : vertical pipe and faces southeast.
+
+4.2  Antenna Type             : TPSCR.G3        SCIS
+     Serial Number            : 383-1827
+     Antenna Reference Point  : BPA
+     Marker->ARP Up Ecc. (m)  : 0.1145
+     Marker->ARP North Ecc(m) : 0.0000
+     Marker->ARP East Ecc(m)  : 0.0000
+     Alignment from True N    : 0 deg
+     Antenna Radome Type      : SCIS
+     Radome Serial Number     : 
+     Antenna Cable Type       : 
+     Antenna Cable Length     : 
+     Date Installed           : 2011-01-07T23:45Z
+     Date Removed             : CCYY-MM-DDThh:mmZ
+     Additional Information   : Vertical datum is a drilled hole in the
+                              : vertical pipe and faces southeast.
+
+4.x  Antenna Type             : (A20, from rcvr_ant.tab; see instructions)
+     Serial Number            : (A*, but note the first A5 is used in SINEX)
+     Antenna Reference Point  : (BPA/BCR/XXX from "antenna.gra"; see instr.)
+     Marker->ARP Up Ecc. (m)  : (F8.4)
+     Marker->ARP North Ecc(m) : (F8.4)
+     Marker->ARP East Ecc(m)  : (F8.4)
+     Alignment from True N    : (deg; + is clockwise/east)
+     Antenna Radome Type      : (A4 from rcvr_ant.tab; see instructions)
+     Radome Serial Number     : 
+     Antenna Cable Type       : (vendor & type number)
+     Antenna Cable Length     : (m)
+     Date Installed           : (CCYY-MM-DDThh:mmZ)
+     Date Removed             : (CCYY-MM-DDThh:mmZ)
+     Additional Information   : (multiple lines)
+
+
+5.   Surveyed Local Ties
+
+5.x  Tied Marker Name         : 
+     Tied Marker Usage        : (SLR/VLBI/LOCAL CONTROL/FOOTPRINT/etc)
+     Tied Marker CDP Number   : (A4)
+     Tied Marker DOMES Number : (A9)
+     Differential Components from GNSS Marker to the tied monument (ITRS)
+       dx (m)                 : (m)
+       dy (m)                 : (m)
+       dz (m)                 : (m)
+     Accuracy (mm)            : (mm)
+     Survey method            : (GPS CAMPAIGN/TRILATERATION/TRIANGULATION/etc)
+     Date Measured            : (CCYY-MM-DDThh:mmZ)
+     Additional Information   : (multiple lines)
+
+
+6.   Frequency Standard
+
+6.1  Standard Type            : INTERNAL
+       Input Frequency        : 
+       Effective Dates        : 1997-03-03/CCYY-MM-DD
+       Notes                  : 
+
+6.x  Standard Type            : (INTERNAL or EXTERNAL H-MASER/CESIUM/etc)
+       Input Frequency        : (if external)
+       Effective Dates        : (CCYY-MM-DD/CCYY-MM-DD)
+       Notes                  : (multiple lines)
+
+
+7.   Collocation Information
+
+7.x  Instrumentation Type     : (GPS/GLONASS/DORIS/PRARE/SLR/VLBI/TIME/etc)
+       Status                 : (PERMANENT/MOBILE)
+       Effective Dates        : (CCYY-MM-DD/CCYY-MM-DD)
+       Notes                  : (multiple lines)
+
+
+8.   Meteorological Instrumentation
+
+8.1.x  Humidity Sensor Model  : 
+       Manufacturer           : 
+       Serial Number          : 
+       Data Sampling Interval : (sec)
+       Accuracy (% rel h)     : (% rel h)
+       Aspiration             : (UNASPIRATED/NATURAL/FAN/etc)
+       Height Diff to Ant     : (m)
+       Calibration date       : (CCYY-MM-DD)
+       Effective Dates        : (CCYY-MM-DD/CCYY-MM-DD)
+       Notes                  : (multiple lines)
+
+8.2.x  Pressure Sensor Model  : 
+       Manufacturer           : 
+       Serial Number          : 
+       Data Sampling Interval : (sec)
+       Accuracy               : (hPa)
+       Height Diff to Ant     : (m)
+       Calibration date       : (CCYY-MM-DD)
+       Effective Dates        : (CCYY-MM-DD/CCYY-MM-DD)
+       Notes                  : (multiple lines)
+
+8.3.x  Temp. Sensor Model     : 
+       Manufacturer           : 
+       Serial Number          : 
+       Data Sampling Interval : (sec)
+       Accuracy               : (deg C)
+       Aspiration             : (UNASPIRATED/NATURAL/FAN/etc)
+       Height Diff to Ant     : (m)
+       Calibration date       : (CCYY-MM-DD)
+       Effective Dates        : (CCYY-MM-DD/CCYY-MM-DD)
+       Notes                  : (multiple lines)
+
+8.4.x  Water Vapor Radiometer : 
+       Manufacturer           : 
+       Serial Number          : 
+       Distance to Antenna    : (m)
+       Height Diff to Ant     : (m)
+       Calibration date       : (CCYY-MM-DD)
+       Effective Dates        : (CCYY-MM-DD/CCYY-MM-DD)
+       Notes                  : (multiple lines)
+
+8.5.x  Other Instrumentation  : (multiple lines)
+
+
+9.   Local Ongoing Conditions Possibly Affecting Computed Position
+
+9.1.x  Radio Interferences    : (TV/CELL PHONE ANTENNA/RADAR/etc)
+       Observed Degradations  : (SN RATIO/DATA GAPS/etc)
+       Effective Dates        : (CCYY-MM-DD/CCYY-MM-DD)
+       Additional Information : (multiple lines)
+
+9.2.x  Multipath Sources      : (METAL ROOF/DOME/VLBI ANTENNA/etc)
+       Effective Dates        : (CCYY-MM-DD/CCYY-MM-DD)
+       Additional Information : (multiple lines)
+
+9.3.x  Signal Obstructions    : (TREES/BUILDINGS/etc)
+       Effective Dates        : (CCYY-MM-DD/CCYY-MM-DD)
+       Additional Information : (multiple lines)
+
+
+10.  Local Episodic Effects Possibly Affecting Data Quality
+
+10.x Date                     : (CCYY-MM-DD/CCYY-MM-DD)
+     Event                    : (TREE CLEARING/CONSTRUCTION/etc)
+
+11.  On-Site, Point of Contact Agency Information
+
+     Agency                   : USGS
+     Preferred Abbreviation   : USGS
+     Mailing Address          : USGS Pasadena Field Office
+                              : 525 South Wilson Avenue
+                              : Pasadena, CA. 91107
+     Primary Contact
+       Contact Name           : Ken Hudnut
+       Telephone (primary)    : 626-583-7232
+       Telephone (secondary)  : 
+       Fax                    : 626-583-7827
+       E-mail                 : hudnut@usgs.gov
+     Secondary Contact
+       Contact Name           : Dan Determan
+       Telephone (primary)    : 626-583-6729
+       Telephone (secondary)  : 
+       Fax                    : 
+       E-mail                 : ddeterman@usgs.gov
+     Additional Information   : 
+
+
+12.  Responsible Agency (if different from 11.)
+
+     Agency                   : 
+     Preferred Abbreviation   : 
+     Mailing Address          : 
+     Primary Contact
+       Contact Name           : 
+       Telephone (primary)    : 
+       Telephone (secondary)  : 
+       Fax                    : 
+       E-mail                 : 
+     Secondary Contact
+       Contact Name           : 
+       Telephone (primary)    : 
+       Telephone (secondary)  : 
+       Fax                    : 
+       E-mail                 : 
+     Additional Information   : 
+
+13.  More Information
+
+     Primary Data Center      : CDDIS
+     Secondary Data Center    : IGN
+     URL for More Information : http://www.unavco.org
+     Hardcopy on File
+       Site Map               : 
+       Site Diagram           : 
+       Horizon Mask           : 
+       Monument Description   : 
+       Site Pictures          : 
+     Additional Information   : 
+     Antenna Graphics with Dimensions
+
+                             
+TPSCR.G3
+
+                       +-------+
+                     /           \
+                    |             |
+  +-----------------+-------------+-----------------+     <--  0.1015  TCR
+  |                                                 |
+  |                                                 |
+  |                                                 |
+  |                                                 |
++-+-------------------------------------------------+-+
++-------------------+-------------+-------------------+   <--  0.0345  BCR
+                    |             |
+                    |             |
+                    +------x------+                       <--  0.0000  BPA=ARP
+
+                    <--  0.2380 -->
+<--                      0.3800                     -->
+ 
+
+
+
