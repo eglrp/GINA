@@ -53,8 +53,7 @@ namespace IMUSimulator {
 		// TODO it can be done simpler
 		Eigen::Matrix3d Cbn = IMUSimulator::Lib::euler2dcm(attitude);
 
-		Eigen::Vector3d llh_new = transform_ecef2llh_DEG(ecef_new);
-		llh_new *= EIGEN_PI / 180.0;
+		Eigen::Vector3d llh_new = transform_ecef2llh_DEG(ecef_new) * EIGEN_PI / 180.0;
 		Eigen::Matrix3d Cne = pos2Cne_RAD(llh_new[0], llh_new[1]);
 
 		Eigen::Matrix3d Cbe = Cne * Cbn;

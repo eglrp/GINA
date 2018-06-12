@@ -13,16 +13,18 @@ PseudoRangeCalculator::~PseudoRangeCalculator()
 
 void PseudoRangeCalculator::ProcessTrajectoryFile(const char* fileNamewPath) {
 
-	TrajectoryStream trajFileIn(fileNamewPath); //("..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
-	TrajectoryHeader trajHeader;
-	TrajectoryData trajData;
+	PINASimulator::TrajectoryStream trajFileIn(fileNamewPath); //("..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
+	PINASimulator::TrajectoryHeader trajHeader;
+	PINASimulator::TrajectoryData trajData;
+	TrajectoryData trajDataCompatible;
 
 	isTrajectoryRead = false;
 	trajFileIn >> trajHeader;
 
 	while (trajFileIn >> trajData) {
 		try { 
-			trajStore.addPosition(trajData); 
+			trajDataCompatible = trajData;
+			trajStore.addPosition(trajDataCompatible);
 		} 
 		catch(...){
 			cout << "Reading Trajectory data was not successfull "<< endl;

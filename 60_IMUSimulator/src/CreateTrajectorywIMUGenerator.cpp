@@ -1,30 +1,28 @@
-
 #include "CreateTrajectorywIMUGenerator.hpp"
-
 
 void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFileNamewPath) {
 
-	double dt = 0.01;
-	double startTime = 0;
-	double time = 0.0;
-	double endTime = 150.0;
-	unsigned int startWeek = 1956;
-	unsigned int endWeek = 1956;
+	double dt = 0.1;
+	double startTime = 413329;
+	double time;
+	double endTime = 413329 + 150;
+	unsigned int startWeek = 1992;
+	unsigned int endWeek = 1992;
 
 	Eigen::Vector3d ab, wb, Vb, ab_comp, wb_comp, Vb_comp, rollpitchyaw, ecef, llh;
 
 	ab << 0.0, 0.0, 0;
-	wb << 0, 0, 0.1;
+	wb << 0, 0, 0.05;
 	llh <<	47.464405,
-			19.154166,// / 360.0*2.0*EIGEN_PI,
-			0;
+			19.154166,
+			120;
 	// Bosch coordinates
 	// 47.464405, 19.154166
 
 	rollpitchyaw << 0.0 / 180.0*EIGEN_PI, 
 					0.0 / 180.0*EIGEN_PI, 
 					0.0/ 180.0*EIGEN_PI;
-	Vb << 5., 0., 1.;
+	Vb << 1., 0., 0.;
 
 	typedef std::numeric_limits< double > dbl;
 	std::cout.precision(dbl::max_digits10);
@@ -76,7 +74,6 @@ void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFil
 	imuFileOut.close();
 
 	return;
-
 }
 
 void setPINAParsers(const PINASimulator::TrajectoryStream& trajFileOut,
@@ -151,12 +148,6 @@ void generatetrajectory(IMUSimulator::IMUSignalGenerator& imuGenerator,
 	meas = imuGenerator.calculate(ab, wb, Vb, llh, local_angle);
 	meas.wn = gpsWeek;
 	meas.tow = gpsToW;
-	/*meas.a[0] = 0.0;
-	meas.a[1] = 0.0;
-	meas.a[2] = -9.78032533590;
-	meas.w[0] = 0.00007292115;
-	meas.w[1] = 0.0;
-	meas.w[2] = 0.0;*/
 	
 	str_e.update(meas, timeIncrement);
 	str_e >> posData;

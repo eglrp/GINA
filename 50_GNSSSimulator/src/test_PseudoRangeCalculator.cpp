@@ -2,6 +2,9 @@
 #include "test_PseudoRangeCalculator.h"
 #include <string>
 #include "SatID.hpp"
+
+
+
 using namespace std;
 
 int PseudoRangeCalculator_test1(void) {
@@ -390,34 +393,38 @@ int PseudoRangeCalculator_test7(void) {
 
 	gnsssim_utils gnsssimUtils;
 
-	//string trajFileNamewPath = "..\\..\\GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_Generated_Fullday.txt";
-	string trajFileNamewPath = "C:\\Local WorkSpace\\00_VMPS\\LocalRepo\\Main\\Results\\20180424T100258\\trajectory.txt";
-	//string navFileNamewPath("..\\..\\GNSSSimulator\\RinexFiles\\brdc2530.17n");
-	string navFileNamewPath("..\\..\\GNSSSimulator\\RinexFiles\\brdc3130.17n");//CSsim traj
+	string trajFileNamewPath = "C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s.pina";
+	string referenceObsFilewPath = "C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s.18o";
+	
+	string navFileNamewPath("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\RinexFiles\\brdc0740.18n");//CSsim traj
 
-	ofstream ostrm("..\\..\\GNSSSimulator\\TrajectoryTestFiles\\output_RaimSolution_test.txt", std::ios::out);	//Output file
-	ofstream ostrm_sattraj("..\\..\\GNSSSimulator\\TrajectoryTestFiles\\output_satTrajectory.txt", std::ios::out);
+	ofstream ostrm("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\output_Solution_test.txt", std::ios::out);	//Output file
+	ofstream ostrm_sattraj("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\output_satTrajectory.txt", std::ios::out);
 
 	PseudoRangeCalculator psdRangeCalc;
 	psdRangeCalc.ProcessTrajectoryFile(trajFileNamewPath.c_str());
 	psdRangeCalc.ProcessEphemerisFile(navFileNamewPath.c_str());
 
 
-	TrajectoryStream trajFileIn(trajFileNamewPath.c_str()); //("..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
-	TrajectoryHeader trajHeader;
+	PINASimulator::TrajectoryStream trajFileInPINA(trajFileNamewPath.c_str(), std::ios::in); //("..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
+	TrajectoryStream trajFileInTest;
+	TrajectoryStream trajFileIn(trajFileNamewPath.c_str());
+	PINASimulator::TrajectoryHeader trajHeader;
+	PINASimulator::TrajectoryData trajDataPINA;
 	TrajectoryData trajData;
-	TrajectoryStore test_trajStore = psdRangeCalc.trajStore;
+	TrajectoryStore test_trajStore;// = psdRangeCalc.trajStore;
 
-	trajFileIn >> trajHeader;
+	trajFileInPINA >> trajHeader;
 
-	/*while (trajFileIn >> trajData) {
+	while (trajFileInPINA >> trajDataPINA) {
 		try {
+			trajData = trajDataPINA;
 			test_trajStore.addPosition(trajData);
 		}
 		catch (...) {
 			cout << "Reading Trajectory data was not successfull " << endl;
 		}
-	}*/
+	}
 	vector<GPSWeekSecond> traj_time = test_trajStore.listTime();
 
 	CommonTime comTime = traj_time[0].convertToCommonTime();
@@ -538,7 +545,7 @@ int PseudoRangeCalculator_test7(void) {
 	}
 	gnsssimUtils.prepareRinexObsFile(psdRangeCalc.obsContainer);
 	//gnsssimUtils.createRinexObsFile();
-	gnsssimUtils.createRinexObsFile1();
+	gnsssimUtils.createRinexObsFile(referenceObsFilewPath.c_str());
 	ostrm.close();
 
 	return true;

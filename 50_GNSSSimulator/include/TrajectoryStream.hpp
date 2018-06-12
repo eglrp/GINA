@@ -19,7 +19,7 @@ namespace gnsssimulator {
 		virtual ~TrajectoryStream();
 
 		/// overrides open to reset the header
-		virtual void open(const char* fn, std::ios::openmode mode);
+		void open(const char* fn, std::ios::openmode mode);
 
 		/// RINEX NAV header for this file.
 		TrajectoryHeader header;

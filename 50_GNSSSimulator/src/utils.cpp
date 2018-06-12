@@ -85,9 +85,9 @@ void gnsssim_utils::createRinexObsFile()
 }
 
 
-void gnsssim_utils::createRinexObsFile1() {
+void gnsssim_utils::createRinexObsFile(const char* fileNamewPath) {
 	
-	gpstk::Rinex3ObsStream outStream("..\\..\\GNSSSimulator\\TrajectoryTestFiles\\output_createdRinexObsScratch.17o", std::ios::out);
+	gpstk::Rinex3ObsStream outStream(fileNamewPath, std::ios::out);
 
 	SystemTime sysTime;
 	gpstk::Rinex3ObsHeader ref_head;
@@ -96,7 +96,7 @@ void gnsssim_utils::createRinexObsFile1() {
 	ref_head.valid = 0;
 	ref_head.version = 3.01;
 	
-	ref_head.fileProgram = "GNSS Simulator";
+	ref_head.fileProgram = "GINA GNSS Simulator";
 	ref_head.fileAgency = "Robert Bosch Gmbh.";
 	
 	string currDate = printTime(sysTime, "%04Y%02m%02d %02H%02M%02S %P");
@@ -209,11 +209,12 @@ void gnsssim_utils::createRinexObsFile1() {
 		ref_data.clockOffset = 0.0;
 		ref_data.epochFlag = 0;
 		ref_data.numSVs = time_it.second.first.size();
-		ref_data.putRecord(outStream);
+		//ref_data.putRecord(outStream);
 		datumvec.clear();
-		//outStream << ref_data;
+		outStream << ref_data;
+		
 	}
-
+	outStream.close();
 #pragma endregion
 }
 
