@@ -390,10 +390,10 @@ int PseudoRangeCalculator_test7(void) {
 
 	gnsssim_utils gnsssimUtils;
 
-	//string trajFileNamewPath = "..\\..\\GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_Generated_Fullday.txt";
-	string trajFileNamewPath = "C:\\Local WorkSpace\\00_VMPS\\LocalRepo\\Main\\Results\\20180424T100258\\trajectory.txt";
-	//string navFileNamewPath("..\\..\\GNSSSimulator\\RinexFiles\\brdc2530.17n");
-	string navFileNamewPath("..\\..\\GNSSSimulator\\RinexFiles\\brdc3130.17n");//CSsim traj
+	string trajFileNamewPath = "..\\..\\50_GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_Generated_Fullday.txt";
+	//string trajFileNamewPath = "C:\\Local WorkSpace\\00_VMPS\\LocalRepo\\Main\\Results\\20180424T100258\\trajectory.txt";
+	string navFileNamewPath("..\\..\\50_GNSSSimulator\\RinexFiles\\brdc2530.17n");
+	//string navFileNamewPath("..\\..\\GNSSSimulator\\RinexFiles\\brdc3130.17n");//CSsim traj
 
 	ofstream ostrm("..\\..\\GNSSSimulator\\TrajectoryTestFiles\\output_RaimSolution_test.txt", std::ios::out);	//Output file
 	ofstream ostrm_sattraj("..\\..\\GNSSSimulator\\TrajectoryTestFiles\\output_satTrajectory.txt", std::ios::out);
