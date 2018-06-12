@@ -383,7 +383,7 @@ int PseudoRangeCalculator_test6(void) {
 			ostrm << "Rover " << roverPos[0] << " " << roverPos[1] << " " << roverPos[2] << endl;
 	}
 	ostrm.close();
-
+	
 	return true;
 }
 
@@ -398,8 +398,8 @@ int PseudoRangeCalculator_test7(void) {
 	
 	string navFileNamewPath("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\RinexFiles\\brdc0740.18n");//CSsim traj
 
-	ofstream ostrm("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\output_Solution_test.txt", std::ios::out);	//Output file
-	ofstream ostrm_sattraj("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\output_satTrajectory.txt", std::ios::out);
+	ofstream ostrm("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s_Solution.txt", std::ios::out);	//Output file
+	ofstream ostrm_sattraj("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s_satTrajectory.txt", std::ios::out);
 
 	PseudoRangeCalculator psdRangeCalc;
 	psdRangeCalc.ProcessTrajectoryFile(trajFileNamewPath.c_str());
@@ -547,6 +547,6 @@ int PseudoRangeCalculator_test7(void) {
 	//gnsssimUtils.createRinexObsFile();
 	gnsssimUtils.createRinexObsFile(referenceObsFilewPath.c_str());
 	ostrm.close();
-
+	ostrm_sattraj.close();
 	return true;
 }
