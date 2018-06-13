@@ -393,7 +393,7 @@ int PseudoRangeCalculator_test7(void) {
 
 	gnsssim_utils gnsssimUtils;
 
-	string trajFileNamewPath = "C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s.pina";
+	string trajFileNamewPath = "C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s___TRAJ.pina";
 	string referenceObsFilewPath = "C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s.18o";
 	
 	string navFileNamewPath("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\RinexFiles\\brdc0740.18n");//CSsim traj
