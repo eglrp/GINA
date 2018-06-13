@@ -38,10 +38,10 @@ namespace gnsssimulator
 
 		// The next four lines is our common interface
 		/// RinexNavData is "data" so this function always returns true.
-		virtual bool isData() const { return true; }
+		bool isData() const { return true; }
 
 		/// Outputs the record to the FFStream \a s.
-		virtual void reallyPutRecord(gpstk::FFStream& s) const
+		void reallyPutRecord(gpstk::FFStream& s) const
 			throw(std::exception, gpstk::FFStreamError,
 				gpstk::StringUtils::StringException);
 

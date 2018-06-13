@@ -29,8 +29,8 @@ void gnsssimulator::PRsolution::createRinexFile(void)
 {
 	gpstk::Rinex3ObsHeader ref_head;
 	gpstk::Rinex3ObsData ref_data;
-	gpstk::Rinex3ObsStream ref_stream_in("..\\SimulatorTest\\TestFiles\\RINEX_obs\\mobs2530.17o");
-	gpstk::Rinex3ObsStream out_stream("..\\Simulator\\TrajectoryTestFiles\\generatedRINEX.11o",std::ios::out);
+	gpstk::Rinex3ObsStream ref_stream_in("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\RinexFiles\\obe40740.18o");
+	gpstk::Rinex3ObsStream out_stream("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\results\\inputTrajectory\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\generatedRINEX_0740.18o",std::ios::out);
 	
 	ref_stream_in >> ref_head;
 
@@ -40,7 +40,7 @@ void gnsssimulator::PRsolution::createRinexFile(void)
 
 	ref_head.commentList.clear();
 	ref_head.commentList.push_back("C1 modelled using GNSSSIM");
-	ref_head.commentList.push_back("https://github.com/GNSSSim/GNSSSimulator");
+	ref_head.commentList.push_back("https://github.com/PINAProject/PINA");
 	ref_head.commentList.push_back("Header contents might be invalid. Only C1 is important.");
 	ref_head.obsTypeList.clear();
 

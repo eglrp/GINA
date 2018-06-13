@@ -26,7 +26,7 @@ public:
 	void createRinexObsFile();
 	/* Create Observation File from scratch
 	*/
-	void createRinexObsFile1();
+	void createRinexObsFile(const char*);
 	/* Pass Container structure to Utils
 	*/
 	void prepareRinexObsFile(map < CommonTime, pair<vector<SatID>, vector<double>>>& obsContainer);

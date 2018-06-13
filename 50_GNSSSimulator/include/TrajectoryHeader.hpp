@@ -26,7 +26,7 @@ namespace gnsssimulator {
 		virtual ~TrajectoryHeader() {}
 
 		/// Rinex3NavHeader is a "header" so this function always returns true.
-		virtual bool isHeader(void) const{
+		bool isHeader(void) const{
 			return true;
 		}
 

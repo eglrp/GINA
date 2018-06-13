@@ -8,6 +8,10 @@
 #include "Test_simulatePseudoRange.hpp"
 #include "test_PseudoRangeCalculator.h"
 
+#include "..\68_PINAParser\include\TrajectoryParser\TrajectoryData.hpp"
+#include "..\68_PINAParser\include\TrajectoryParser\TrajectoryStream.hpp"
+#include "..\68_PINAParser\include\IMUParser\IMUData.hpp"
+
 const int ProcessRinex = 1;
 const int ProcessTrajectory = 1;
 const int gSolution_to_RINEX = 1;
@@ -30,15 +34,11 @@ std::default_random_engine generator(time(0));
 std::normal_distribution<double> dist(0.0, 0.01);		// Needs an initial non-NULL value, else throws an exception, we can set a proper value later in the program.
 
 
-
-
 int _tmain(int argc, _TCHAR* argv[]) {
-
 
 	PseudoRangeCalculator_test7();
 	return 0;
 }
-
 
 
 

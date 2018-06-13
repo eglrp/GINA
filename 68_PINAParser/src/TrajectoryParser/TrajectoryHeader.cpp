@@ -382,11 +382,17 @@ namespace PINASimulator {
 		if (line.find(creatorOfFileTag) != string::npos) {
 			
 			std::size_t index = line.find("#");
-			if (index > 0) {
+			
+			if (index > 0 && index != std::string::npos) {
 				Creator = line.substr(creatorOfFileTag.length() + 1, index - creatorOfFileTag.length()-1);
 			}
 			else {
-				Creator = line.substr(creatorOfFileTag.length() + 1, -1);
+				if (line.length() > creatorOfFileTag.length()) {
+					Creator = line.substr(creatorOfFileTag.length() + 1, -1);
+				}
+				else {
+					Creator = "Anonymus";
+				}
 			}
 
 			gpstk::StringUtils::stripTrailing(Creator, std::string(1, ' '), std::string::npos);
@@ -404,11 +410,16 @@ namespace PINASimulator {
 		if (line.find(timeofCreationTag) != string::npos) {
 
 			std::size_t index = line.find("#");
-			if (index > 0) {
+			if (index > 0 && index != std::string::npos) {
 				timeOfCreation = line.substr(timeofCreationTag.length() + 1, index - timeofCreationTag.length()-1);
 			}
 			else {
-				timeOfCreation = line.substr(timeofCreationTag.length() + 1, -1);
+				if (line.length() > timeofCreationTag.length()) {
+					timeOfCreation = line.substr(timeofCreationTag.length() + 1, -1);
+				}
+				else {
+					timeOfCreation = "at the Dawn of the Gods";
+				}
 			}
 
 			gpstk::StringUtils::stripTrailing(timeOfCreation, std::string(1, ' '), std::string::npos);
