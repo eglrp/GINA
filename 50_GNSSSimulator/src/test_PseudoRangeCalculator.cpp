@@ -398,7 +398,7 @@ int PseudoRangeCalculator_test7(void) {
 	
 	string navFileNamewPath("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\RinexFiles\\brdc0740.18n");//CSsim traj
 
-	ofstream ostrm("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s_Solution.txt", std::ios::out);	//Output file
+	ofstream ostrm("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s_Solution.txt", std::ios::out);	//Output file
 	ofstream ostrm_sattraj("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s_satTrajectory.txt", std::ios::out);
 
 	PseudoRangeCalculator psdRangeCalc;
