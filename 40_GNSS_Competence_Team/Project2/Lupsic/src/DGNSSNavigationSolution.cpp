@@ -1,5 +1,5 @@
 
-#include "simpleNavigationSolution.h"
+#include "DGNSSNavigationSolution.h"
 #include "utility.h"
 
 

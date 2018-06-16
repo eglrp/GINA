@@ -1,6 +1,6 @@
 
 #include "utility.h"
-#include "simpleNavigationSolution.h"
+#include "DGNSSNavigationSolution.h"
 
 static GPSEphemerisStore bcestore;
 
@@ -9,7 +9,7 @@ void set_bcestore(GPSEphemerisStore in_bcestore) {
 	bcestore = in_bcestore;
 }
 
-void setSimpleNaviagtionCalculator(gpstk::CommonTime time, vector<SatID> vid, vector<double> prv) {
+void setDGNSSNaviagtionCalculator(gpstk::CommonTime time, vector<SatID> vid, vector<double> prv) {
 
 	GPSWeekSecond gpstime(time);
 
