@@ -200,7 +200,8 @@ int main(void)
 				// Differential GNSS navigation solution //
 				////////////////////////////////
 				// Set parameters
-				setDGNSSNaviagtionCalculator(rodBase.time, prnVecBase, rangeVecBase);
+				setDGNSSNaviagtionCalculator_Rover(rodRover.time, prnVecRover, rangeVecRover);
+				setDGNSSNaviagtionCalculator_Base(rodBase.time, prnVecBase, rangeVecBase);
 
 				// Calculate position
 				calculatePosition();

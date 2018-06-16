@@ -6,11 +6,17 @@ void get_Result(double[]);
 
 void print_Result(void);
 
-void set_time(int, double);
+void set_time_Rover(int, double);
 
-void set_satId(int*, int);
+void set_time_Base(int, double);
 
-void set_pseudoRange(double*, int);
+void set_satId_Rover(int*, int);
+
+void set_satId_Base(int*, int);
+
+void set_pseudoRange_Rover(double*, int);
+
+void set_pseudoRange_Base(double*, int);
 
 void calculatePosition(void);
 

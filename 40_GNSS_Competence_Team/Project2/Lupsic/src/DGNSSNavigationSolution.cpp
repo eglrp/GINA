@@ -9,11 +9,14 @@
 
 using namespace Eigen;
 
-static int WN;
-static double ToW;
-static int satId[MAXSATNUMBER] = { -1 };
-static double pr[MAXSATNUMBER] = { -1 };
-static int vectorSize = 0;
+static int WNRover, WNBase;
+static double ToWRover, ToWBase;
+static int satIdRover[MAXSATNUMBER] = { -1 };
+static int satIdBase[MAXSATNUMBER] = { -1 };
+static double prRover[MAXSATNUMBER] = { -1 };
+static double prBase[MAXSATNUMBER] = { -1 };
+static int vectorSizeRover = 0;
+static int vectorSizeBase = 0;
 
 static const double wie_e = 7.292115e-5;
 static const double c_mps = 299792458;
@@ -38,12 +41,17 @@ void print_Result(void) {
 	cout << "Clock bias: " << roverPos[3] << endl;
 }
 
-void set_time(int wn, double tow) {
-	WN = wn;
-	ToW = tow;
+void set_time_Rover(int wn, double tow) {
+	WNRover = wn;
+	ToWRover = tow;
 }
 
-void set_satId(int* id, int size) {
+void set_time_Base(int wn, double tow) {
+	WNBase = wn;
+	ToWBase = tow;
+}
+
+void set_satId_Rover(int* id, int size) {
 
 	for (int i = 0; i < size; i++) {
 
@@ -51,13 +59,13 @@ void set_satId(int* id, int size) {
 			break;
 		}
 
-		satId[i] = id[i];
+		satIdRover[i] = id[i];
 	}
 
-	vectorSize = size;
+	vectorSizeRover = size;
 }
 
-void set_pseudoRange(double* psoudoRange, int size) {
+void set_satId_Base(int* id, int size) {
 
 	for (int i = 0; i < size; i++) {
 
@@ -65,10 +73,38 @@ void set_pseudoRange(double* psoudoRange, int size) {
 			break;
 		}
 
-		pr[i] = psoudoRange[i];
+		satIdBase[i] = id[i];
 	}
 
-	vectorSize = size;
+	vectorSizeBase = size;
+}
+
+void set_pseudoRange_Rover(double* psoudoRange, int size) {
+
+	for (int i = 0; i < size; i++) {
+
+		if (i >= MAXSATNUMBER) {
+			break;
+		}
+
+		prRover[i] = psoudoRange[i];
+	}
+
+	vectorSizeRover = size;
+}
+
+void set_pseudoRange_Base(double* psoudoRange, int size) {
+
+	for (int i = 0; i < size; i++) {
+
+		if (i >= MAXSATNUMBER) {
+			break;
+		}
+
+		prRover[i] = psoudoRange[i];
+	}
+
+	vectorSizeBase = size;
 }
 
 void calculatePosition(void) {
@@ -82,7 +118,7 @@ static double updatePosition(void) {
 	//vectorSize = getNumberofVisibleSatelites(WN, ToW);
 	double rho = 0;
 
-	satId[0];
+	satIdRover[0];
 	double temp_satPos[3], temp_iter_satPos[3];
 	double temp_satClock, temp_satRelCorr;
 	double time_of_transmission, time_of_arrival;
@@ -90,24 +126,24 @@ static double updatePosition(void) {
 	double temp_dist;
 
 	MatrixXd covMatrix = MatrixXd::Zero(4,4);
-	MatrixXd designMatrix(vectorSize, 4);
-	VectorXd geometryDistance = VectorXd::Zero(vectorSize);
-	VectorXd PRObservations = VectorXd::Zero(vectorSize);
-	VectorXd y(vectorSize);
+	MatrixXd designMatrix(vectorSizeRover, 4);
+	VectorXd geometryDistance = VectorXd::Zero(vectorSizeRover);
+	VectorXd PRObservations = VectorXd::Zero(vectorSizeRover);
+	VectorXd y(vectorSizeRover);
 	VectorXd x(4);
 	
 	for (int i = 0; i < MAXSATNUMBER; i++) {
 		
-		if (satId[i] < 0) {
+		if (satIdRover[i] < 0) {
 			continue;
 		}
 
 		// Get i. satelite position at given time
-		if (get_satPos(WN, ToW, satId[i], temp_satPos) == 0) {
+		if (get_satPos(WNRover, ToWRover, satIdRover[i], temp_satPos) == 0) {
 			continue;
 		}
 
-		PRObservations(i) = pr[i];
+		PRObservations(i) = prRover[i];
 	
 		// Calculate geometry distance from i. svh
 		// Calculate normal vector to i. svh
@@ -119,8 +155,8 @@ static double updatePosition(void) {
 		temp_iter_satPos[1] = temp_satPos[1];
 		temp_iter_satPos[2] = temp_satPos[2];
 
-		time_of_arrival = ToW;
-		time_of_transmission = ToW;
+		time_of_arrival = ToWRover;
+		time_of_transmission = ToWRover;
 		for (int iter = 0; iter < 2; iter++) {
 
 			temp_dist = calculateDistance(roverPos, temp_iter_satPos);
@@ -128,13 +164,13 @@ static double updatePosition(void) {
 			travelTime_old = travelTime;
 			travelTime = temp_dist / c_mps;
 
-			get_satPos(WN, time_of_transmission, satId[i], temp_satPos);
+			get_satPos(WNRover, time_of_transmission, satIdRover[i], temp_satPos);
 
 			
 			time_of_transmission = time_of_arrival - travelTime;							// TODO we shall check week rollover
-			get_satRelCorr(WN, time_of_transmission, satId[i], temp_satRelCorr);
-			get_satClock(WN, time_of_transmission, satId[i], temp_satClock);
-			get_satPos(WN, time_of_transmission, satId[i], temp_satPos);
+			get_satRelCorr(WNRover, time_of_transmission, satIdRover[i], temp_satRelCorr);
+			get_satClock(WNRover, time_of_transmission, satIdRover[i], temp_satClock);
+			get_satPos(WNRover, time_of_transmission, satIdRover[i], temp_satPos);
 			
 
 			if ( (travelTime - travelTime_old) * c_mps < 0.01) break;
@@ -150,8 +186,8 @@ static double updatePosition(void) {
 		geometryDistance(i) = calculateDistance(roverPos, temp_satPos);
 
 		// Correct the PR with clock correction
-		get_satClock(WN, time_of_transmission, satId[i], temp_satClock);
-		get_satRelCorr(WN, time_of_transmission, satId[i], temp_satRelCorr);
+		get_satClock(WNRover, time_of_transmission, satIdRover[i], temp_satClock);
+		get_satRelCorr(WNRover, time_of_transmission, satIdRover[i], temp_satRelCorr);
 		PRObservations(i) += (temp_satClock + temp_satRelCorr) * c_mps;
 
 		// Set up design matrix
@@ -186,9 +222,13 @@ static double updatePosition(void) {
 static void reset(void) {
 
 	for (int i = 0; i < MAXSATNUMBER; i++) {
-		satId[i] = 0;
-		pr[i] = 0;
-		vectorSize = 0;
+		satIdRover[i] = 0;
+		prRover[i] = 0;
+		vectorSizeRover = 0;
+
+		satIdBase[i] = 0;
+		prBase[i] = 0;
+		vectorSizeBase = 0;
 	}
 }
 

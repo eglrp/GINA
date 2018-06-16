@@ -38,7 +38,9 @@ using namespace gpstk;
 
 void set_bcestore(GPSEphemerisStore);
 
-void setDGNSSNaviagtionCalculator(CommonTime, vector<SatID>, vector<double>);
+void setDGNSSNaviagtionCalculator_Rover(CommonTime, vector<SatID>, vector<double>);
+
+void setDGNSSNaviagtionCalculator_Base(CommonTime, vector<SatID>, vector<double>);
 
 int get_satPos(int, double, int, double*);
 

@@ -9,7 +9,7 @@ void set_bcestore(GPSEphemerisStore in_bcestore) {
 	bcestore = in_bcestore;
 }
 
-void setDGNSSNaviagtionCalculator(gpstk::CommonTime time, vector<SatID> vid, vector<double> prv) {
+void setDGNSSNaviagtionCalculator_Base(gpstk::CommonTime time, vector<SatID> vid, vector<double> prv) {
 
 	GPSWeekSecond gpstime(time);
 
@@ -33,9 +33,38 @@ void setDGNSSNaviagtionCalculator(gpstk::CommonTime time, vector<SatID> vid, vec
 		}
 	}
 
-	set_time(gpstime.week, gpstime.sow);
-	set_satId(satId, vsize);
-	set_pseudoRange(pr, vsize);
+	set_time_Base(gpstime.week, gpstime.sow);
+	set_satId_Base(satId, vsize);
+	set_pseudoRange_Base(pr, vsize);
+}
+
+void setDGNSSNaviagtionCalculator_Rover(gpstk::CommonTime time, vector<SatID> vid, vector<double> prv) {
+
+	GPSWeekSecond gpstime(time);
+
+	int vsize = 0;
+
+	for (int i = 0; i < vid.size(); i++) {
+		if (vid[i].system == SatID::systemGPS) {
+			vsize++;
+		}
+	}
+	int* satId;
+	double* pr;
+
+	satId = (int*)malloc(sizeof(int)*vsize);
+	pr = (double*)malloc(sizeof(double)*vsize);
+
+	for (int i = 0; i < vsize; i++) {
+		if (vid[i].system == SatID::systemGPS) {
+			satId[i] = vid[i].id;
+			pr[i] = prv[i];
+		}
+	}
+
+	set_time_Rover(gpstime.week, gpstime.sow);
+	set_satId_Rover(satId, vsize);
+	set_pseudoRange_Rover(pr, vsize);
 }
 
 int get_satPos(int wn, double tow, int satId, double* pos) {
