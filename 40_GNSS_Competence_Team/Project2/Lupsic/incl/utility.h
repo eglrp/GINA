@@ -40,7 +40,7 @@ void set_bcestore(GPSEphemerisStore);
 
 void setDGNSSNaviagtionCalculator_Rover(CommonTime, vector<SatID>, vector<double>);
 
-void setDGNSSNaviagtionCalculator_Base(CommonTime, vector<SatID>, vector<double>);
+void setDGNSSNaviagtionCalculator_Base(CommonTime, vector<SatID>, vector<double>, double[3]);
 
 int get_satPos(int, double, int, double*);
 

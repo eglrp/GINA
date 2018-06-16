@@ -6,6 +6,8 @@ void get_Result(double[]);
 
 void print_Result(void);
 
+void set_position_of_Base(double[3]);
+
 void set_time_Rover(int, double);
 
 void set_time_Base(int, double);

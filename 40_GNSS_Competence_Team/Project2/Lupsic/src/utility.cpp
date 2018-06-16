@@ -9,7 +9,7 @@ void set_bcestore(GPSEphemerisStore in_bcestore) {
 	bcestore = in_bcestore;
 }
 
-void setDGNSSNaviagtionCalculator_Base(gpstk::CommonTime time, vector<SatID> vid, vector<double> prv) {
+void setDGNSSNaviagtionCalculator_Base(gpstk::CommonTime time, vector<SatID> vid, vector<double> prv, double basePosition[3]) {
 
 	GPSWeekSecond gpstime(time);
 
@@ -32,7 +32,7 @@ void setDGNSSNaviagtionCalculator_Base(gpstk::CommonTime time, vector<SatID> vid
 			pr[i] = prv[i];
 		}
 	}
-
+	set_position_of_Base(basePosition);
 	set_time_Base(gpstime.week, gpstime.sow);
 	set_satId_Base(satId, vsize);
 	set_pseudoRange_Base(pr, vsize);

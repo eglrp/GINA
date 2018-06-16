@@ -34,16 +34,26 @@ void setPRNVectorandSatIdVect(const Rinex3ObsData&, const int&, vector<SatID>&, 
 
 int main(void)
 {
-
-	int argc = 3;
-	string argv[4];
-	argv[0] = "40_GNSS Competence Team Project";
-	argv[1] = "..\\..\\..\\..\\40_GNSS_Competence_Team\\Project2\\data\\holp2620.17o";
-	argv[2] = "..\\..\\..\\..\\40_GNSS_Competence_Team\\Project2\\data\\lbch2620.17o";
-	argv[3] = "..\\..\\..\\..\\40_GNSS_Competence_Team\\Project2\\data\\brdc2620.17n";
-	
-	
-	argv[4] = "";
+	string RoverObsFilewPath = "..\\..\\..\\..\\40_GNSS_Competence_Team\\Project2\\data\\holp2620.17o";
+	string BaseObsFilewPath = "..\\..\\..\\..\\40_GNSS_Competence_Team\\Project2\\data\\lbch2620.17o";
+	string BrdEphFilewPath = "..\\..\\..\\..\\40_GNSS_Competence_Team\\Project2\\data\\brdc2620.17n";
+	double basePosition[3] = {  -2507798.7984,
+								-4676369.6918,
+								 3526890.8008 };
+		
+		/*lbch site*/
+		/*City or Town             : Long Beach
+		State or Province : California
+		Country : United States
+		Tectonic Plate : NORTH AMERICAN
+		Approximate Position(ITRF)
+		X coordinate(m) : -2507798.7984
+		Y coordinate(m) : -4676369.6918
+		Z coordinate(m) : 3526890.8008
+		Latitude(N is + ) : +334715.97
+		Longitude(E is + ) : -1181212.04
+		Elevation(m, ellips.) : -27.58
+		Additional Information : Los Angeles County.*/
 
 	// Declaration of objects for storing ephemerides and handling RAIM
 	GPSEphemerisStore bcestore; // This is now static
@@ -61,23 +71,11 @@ int main(void)
 	// to the void model by default
 	TropModel *tropModelPtr = &noTropModel;
 
-	// This verifies the ammount of command-line parameters given and
-	// prints a help message, if necessary
-	if ((argc < 4) || (argc > 5))
-	{
-		cerr << "Usage:" << endl;
-		cerr << "   " << argv[0].c_str()
-			<< " <RINEX Obs file>  <RINEX Nav file>  [<RINEX Met file>]"
-			<< endl;
-
-		exit(-1);
-	}
-
 	try
 	{
 
 		// Read nav file and store unique list of ephemerides
-		Rinex3NavStream rnffs(argv[3].c_str());    // Open ephemerides data file
+		Rinex3NavStream rnffs(BrdEphFilewPath.c_str());    // Open ephemerides data file
 		Rinex3NavData rne;
 		Rinex3NavHeader hdr;
 
@@ -102,8 +100,8 @@ int main(void)
 		   // Open and read the observation file one epoch at a time.
 		   // For each epoch, compute and print a position solution
 
-		Rinex3ObsStream roffsBase(argv[1]);    // Open observations data file
-		Rinex3ObsStream roffsRover(argv[2]);    // Open observations data file
+		Rinex3ObsStream roffsBase(BaseObsFilewPath.c_str());    // Open observations data file
+		Rinex3ObsStream roffsRover(RoverObsFilewPath.c_str());    // Open observations data file
 
 										   // In order to throw exceptions, it is necessary to set the failbit
 		roffsBase.exceptions(ios::failbit);
@@ -201,7 +199,7 @@ int main(void)
 				////////////////////////////////
 				// Set parameters
 				setDGNSSNaviagtionCalculator_Rover(rodRover.time, prnVecRover, rangeVecRover);
-				setDGNSSNaviagtionCalculator_Base(rodBase.time, prnVecBase, rangeVecBase);
+				setDGNSSNaviagtionCalculator_Base(rodBase.time, prnVecBase, rangeVecBase, basePosition);
 
 				// Calculate position
 				calculatePosition();

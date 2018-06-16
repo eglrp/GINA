@@ -18,6 +18,8 @@ static double prBase[MAXSATNUMBER] = { -1 };
 static int vectorSizeRover = 0;
 static int vectorSizeBase = 0;
 
+static double basePosition[3];
+
 static const double wie_e = 7.292115e-5;
 static const double c_mps = 299792458;
 
@@ -39,6 +41,14 @@ void print_Result(void) {
 	cout << " " << roverPos[1] << " ";
 	cout << " " << roverPos[2] << "	";
 	cout << "Clock bias: " << roverPos[3] << endl;
+}
+
+
+void set_position_of_Base(double pos[3]) {
+
+	basePosition[0] = pos[0];
+	basePosition[1] = pos[1];
+	basePosition[2] = pos[2];
 }
 
 void set_time_Rover(int wn, double tow) {
