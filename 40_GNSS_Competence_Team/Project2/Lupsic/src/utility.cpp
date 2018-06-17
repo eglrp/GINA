@@ -33,6 +33,7 @@ void setDGNSSNaviagtionCalculator_Base(gpstk::CommonTime time, vector<SatID> vid
 		}
 	}
 	set_position_of_Base(basePosition);
+	set_position_of_Rover(basePosition); // The first poision guess for Rover is the Base Station
 	set_time_Base(gpstime.week, gpstime.sow);
 	set_satId_Base(satId, vsize);
 	set_pseudoRange_Base(pr, vsize);

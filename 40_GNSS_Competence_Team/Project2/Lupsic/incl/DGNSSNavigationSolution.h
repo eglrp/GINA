@@ -1,12 +1,17 @@
 #pragma once
 
 #include <Eigen/Dense>
+#include <vector>
 
 void get_Result(double[]);
 
 void print_Result(void);
 
+void get_Pos_Result(double[3]);
+
 void set_position_of_Base(double[3]);
+
+void set_position_of_Rover(double[3]);
 
 void set_time_Rover(int, double);
 
@@ -35,3 +40,11 @@ static double calculateDistance(double*, double*);
 static double Norm(double*);
 
 static double Norm(Eigen::VectorXd);
+
+static void setCommonSatIdandPRNvector(std::vector<int>&, std::vector<double>&, std::vector<double>&);
+
+static void addTime2ToW_WeekRollOverChecked(int&, const double, double&, const double);
+
+static void checkSatValidity(int, double, int[]);
+
+static void calculateGeometryDistance(int, double, int, double[], double&, int&, double&);

@@ -30,6 +30,7 @@
 using namespace std;
 using namespace gpstk;
 
+static void print_Solution(const int, const double, const double[3], const double[3], const double[3]);
 void setPRNVectorandSatIdVect(const Rinex3ObsData&, const int&, vector<SatID>&, vector<double>&);
 
 int main(void)
@@ -40,20 +41,40 @@ int main(void)
 	double basePosition[3] = {  -2507798.7984,
 								-4676369.6918,
 								 3526890.8008 };
-		
+	double referenceRoverPosition[3] = {	-2500946.0962,
+											-4670472.9515,
+											 3539500.5469 };
+	
+	double GPSTKsolutionRoverPosition[3];
+	double DGNSSsolutionRoverPosition[3];
+
 		/*lbch site*/
-		/*City or Town             : Long Beach
-		State or Province : California
-		Country : United States
-		Tectonic Plate : NORTH AMERICAN
+		/*City or Town				: Long Beach
+		State or Province			: California
+		Country						: United States
+		Tectonic Plate				: NORTH AMERICAN
 		Approximate Position(ITRF)
-		X coordinate(m) : -2507798.7984
-		Y coordinate(m) : -4676369.6918
-		Z coordinate(m) : 3526890.8008
-		Latitude(N is + ) : +334715.97
-		Longitude(E is + ) : -1181212.04
-		Elevation(m, ellips.) : -27.58
-		Additional Information : Los Angeles County.*/
+			X coordinate(m)			: -2507798.7984
+			Y coordinate(m)			: -4676369.6918
+			Z coordinate(m)			: 3526890.8008
+			Latitude(N is + )		: +334715.97
+			Longitude(E is + )		: -1181212.04
+			Elevation(m, ellips.)	: -27.58
+		Additional Information		: Los Angeles County.*/
+		
+		/*holp*/
+		/*City or Town				: Hollydale
+		State or Province			: California
+		Country						: United States of America
+		Tectonic Plate				: PACIFIC
+		Approximate Position(ITRF)
+			X coordinate(m)			: -2500946.0962
+			Y coordinate(m)			: -4670472.9515
+			Z coordinate(m)			: 3539500.5469
+			Latitude(N is + )		: +335528.34
+			Longitude(E is + )		: -1181005.41
+			Elevation(m, ellips.)	: -6.71
+		Additional Information		: Los Angeles County.*/
 
 	// Declaration of objects for storing ephemerides and handling RAIM
 	GPSEphemerisStore bcestore; // This is now static
@@ -194,9 +215,9 @@ int main(void)
 				}  // End of 'if( raimSolver.isValid() )'
 
 
-				////////////////////////////////
-				// Differential GNSS navigation solution //
-				////////////////////////////////
+				  ///////////////////////////////////////////
+				 // Differential GNSS navigation solution //
+				///////////////////////////////////////////
 				// Set parameters
 				setDGNSSNaviagtionCalculator_Rover(rodRover.time, prnVecRover, rangeVecRover);
 				setDGNSSNaviagtionCalculator_Base(rodBase.time, prnVecBase, rangeVecBase, basePosition);
@@ -205,8 +226,19 @@ int main(void)
 				calculatePosition();
 
 				// Print result
-				print_Result();
+				cout << endl;
+				cout << "Next epoch" << endl;
 
+				get_Pos_Result(DGNSSsolutionRoverPosition);
+
+				GPSTKsolutionRoverPosition[0] = raimSolver.Solution[0];
+				GPSTKsolutionRoverPosition[1] = raimSolver.Solution[1];
+				GPSTKsolutionRoverPosition[2] = raimSolver.Solution[2];
+
+				GPSWeekSecond gpstime(rodRover.time);
+				print_Solution(gpstime.week, gpstime.sow, referenceRoverPosition, GPSTKsolutionRoverPosition, DGNSSsolutionRoverPosition);
+				cout << endl;
+				
 			} // End of 'if( rod.epochFlag == 0 || rod.epochFlag == 1 )'
 
 		}  // End of 'while( roffs >> rod )'
@@ -222,6 +254,38 @@ int main(void)
 	}
 
 	exit(0);
+
+}
+static void print_Solution(const int WN, const double ToW, const double referenceRoverPosition[3], const double GPSTKsolutionRoverPosition[3], const double DGNSSsolutionRoverPosition[3]) {
+
+	
+	cout << setprecision(12);
+	cout << "Time: " << WN << " " << ToW << endl;
+	cout << "GPSTK solution: " << endl;
+	cout << GPSTKsolutionRoverPosition[0] << " ";
+	cout << GPSTKsolutionRoverPosition[1] << " ";
+	cout << GPSTKsolutionRoverPosition[2];
+	cout << endl;
+
+	cout << "DGNSS solution: " << endl;
+	cout << DGNSSsolutionRoverPosition[0] << " ";
+	cout << DGNSSsolutionRoverPosition[1] << " ";
+	cout << DGNSSsolutionRoverPosition[2];
+	cout << endl;
+
+	cout << "GPSTK-Reference solution: " << endl;
+	cout << GPSTKsolutionRoverPosition[0] - referenceRoverPosition[0] << " ";
+	cout << GPSTKsolutionRoverPosition[1] - referenceRoverPosition[1] << " ";
+	cout << GPSTKsolutionRoverPosition[2] - referenceRoverPosition[2];
+	cout << endl;
+
+	cout << "DGNSS-Reference solution: " << endl;
+	cout << DGNSSsolutionRoverPosition[0] - referenceRoverPosition[0] << " ";
+	cout << DGNSSsolutionRoverPosition[1] - referenceRoverPosition[1] << " ";
+	cout << DGNSSsolutionRoverPosition[2] - referenceRoverPosition[2];
+	cout << endl;
+
+	cout << endl;
 
 }
 
