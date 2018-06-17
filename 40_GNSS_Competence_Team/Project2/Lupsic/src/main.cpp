@@ -30,8 +30,8 @@
 using namespace std;
 using namespace gpstk;
 
-static void print_Solution(const int, const double, const double[3], const double[3], const double[3]);
-void setPRNVectorandSatIdVect(const Rinex3ObsData&, const int&, vector<SatID>&, vector<double>&);
+static void print_Solution(const int, const double, const double[3], const double[3], const double[3], const double[3]);
+void setPRNVectorandSatIdVect(const Rinex3ObsData&, const int&, const int&, vector<SatID>&, vector<double>&);
 
 int main(void)
 {
@@ -44,8 +44,11 @@ int main(void)
 	double referenceRoverPosition[3] = {	-2500946.0962,
 											-4670472.9515,
 											 3539500.5469 };
-	
+	const double latDegree = 33.5528;
+	const int day = 75;
+
 	double GPSTKsolutionRoverPosition[3];
+	double GPSTKsolutionRoverPositionIonoFree[3];
 	double DGNSSsolutionRoverPosition[3];
 
 		/*lbch site*/
@@ -87,10 +90,12 @@ int main(void)
 	// Object for GG-type tropospheric model (Goad and Goodman, 1974)
 	// Default constructor => default values for model
 	GGTropModel ggTropModel;
+	SaasTropModel ssTropModel(latDegree,day);
+	ssTropModel.setWeather(23,1013.25,70);
 
 	// Pointer to one of the two available tropospheric models. It points
 	// to the void model by default
-	TropModel *tropModelPtr = &noTropModel;
+	TropModel *tropModelPtr = &ssTropModel;
 
 	try
 	{
@@ -140,16 +145,27 @@ int main(void)
 		// The following lines fetch the corresponding indexes for some
 		// observation types we are interested in. Given that old-style
 		// observation types are used, GPS is assumed.
-		int indexP1Base, indexP1Rover;
+		int indexC1Base, indexC1Rover;
 		try
 		{
-			indexP1Rover = rohRover.getObsIndex("C1");
-			indexP1Base = rohBase.getObsIndex("C1");
+			indexC1Rover = rohRover.getObsIndex("C1");
+			indexC1Base = rohBase.getObsIndex("C1");
 		}
 		catch (...)
 		{
-			cerr << "The observation file doesn't have P1 pseudoranges." << endl;
+			cerr << "The observation file doesn't have C1 pseudoranges." << endl;
 			exit(1);
+		}
+
+		int indexC2Rover;
+		try
+		{
+			indexC2Rover = rohRover.getObsIndex("C2");
+		}
+		catch (...)
+		{
+			cerr << "The observation file doesn't have P2 pseudoranges." << endl;
+			indexC2Rover = -1;
 		}
 
 		// Let's process one line of observation data
@@ -161,8 +177,8 @@ int main(void)
 				rodRover.epochFlag == 0 || rodRover.epochFlag == 1 )  // Begin usable data
 			{
 
-				vector<SatID> prnVecRover;
-				vector<double> rangeVecRover;
+				vector<SatID> prnVecRover, prnVecRoverIonoFree;
+				vector<double> rangeVecRover, rangeVecRoverIonoFree;
 				vector<SatID> prnVecBase;
 				vector<double> rangeVecBase;
 
@@ -171,8 +187,9 @@ int main(void)
 				// into "prnVec" and "rangeVec"; "obs" is a public attribute of
 				// Rinex3ObsData to get the map of observations
 
-				setPRNVectorandSatIdVect(rodBase, indexP1Base, prnVecBase, rangeVecBase);
-				setPRNVectorandSatIdVect(rodRover, indexP1Rover, prnVecRover, rangeVecRover);
+				setPRNVectorandSatIdVect(rodBase, indexC1Base, -1, prnVecBase, rangeVecBase);
+				setPRNVectorandSatIdVect(rodRover, indexC1Rover, -1, prnVecRover, rangeVecRover);
+				setPRNVectorandSatIdVect(rodRover, indexC1Rover, 3, prnVecRoverIonoFree, rangeVecRoverIonoFree);
 
 				   // The default constructor for PRSolution2 objects (like
 				   // "raimSolver") is to set a RMSLimit of 6.5. We change that
@@ -188,10 +205,24 @@ int main(void)
 				// ranges, the object containing satellite ephemerides, and a
 				// pointer to the tropospheric model to be applied
 				raimSolver.RAIMCompute(	rodRover.time,
+										prnVecRoverIonoFree,
+										rangeVecRoverIonoFree,
+										bcestore,
+										tropModelPtr);
+
+				GPSTKsolutionRoverPositionIonoFree[0] = raimSolver.Solution[0];
+				GPSTKsolutionRoverPositionIonoFree[1] = raimSolver.Solution[1];
+				GPSTKsolutionRoverPositionIonoFree[2] = raimSolver.Solution[2];
+
+				raimSolver.RAIMCompute(	rodRover.time,
 										prnVecRover,
 										rangeVecRover,
 										bcestore,
 										tropModelPtr);
+
+				GPSTKsolutionRoverPosition[0] = raimSolver.Solution[0];
+				GPSTKsolutionRoverPosition[1] = raimSolver.Solution[1];
+				GPSTKsolutionRoverPosition[2] = raimSolver.Solution[2];
 
 				// Note: Given that the default constructor sets public
 				// attribute "Algebraic" to FALSE, a linearized least squares
@@ -207,10 +238,10 @@ int main(void)
 					// Vector "Solution" holds the coordinates, expressed in
 					// meters in an Earth Centered, Earth Fixed (ECEF) reference
 					// frame. The order is x, y, z  (as all ECEF objects)
-					cout << setprecision(12) << raimSolver.Solution[0] << " ";
+					/*cout << setprecision(12) << raimSolver.Solution[0] << " ";
 					cout << raimSolver.Solution[1] << " ";
 					cout << raimSolver.Solution[2];
-					cout << endl;
+					cout << endl;*/
 
 				}  // End of 'if( raimSolver.isValid() )'
 
@@ -231,12 +262,10 @@ int main(void)
 
 				get_Pos_Result(DGNSSsolutionRoverPosition);
 
-				GPSTKsolutionRoverPosition[0] = raimSolver.Solution[0];
-				GPSTKsolutionRoverPosition[1] = raimSolver.Solution[1];
-				GPSTKsolutionRoverPosition[2] = raimSolver.Solution[2];
+				
 
 				GPSWeekSecond gpstime(rodRover.time);
-				print_Solution(gpstime.week, gpstime.sow, referenceRoverPosition, GPSTKsolutionRoverPosition, DGNSSsolutionRoverPosition);
+				print_Solution(gpstime.week, gpstime.sow, referenceRoverPosition, GPSTKsolutionRoverPosition, GPSTKsolutionRoverPositionIonoFree, DGNSSsolutionRoverPosition);
 				cout << endl;
 				
 			} // End of 'if( rod.epochFlag == 0 || rod.epochFlag == 1 )'
@@ -256,9 +285,12 @@ int main(void)
 	exit(0);
 
 }
-static void print_Solution(const int WN, const double ToW, const double referenceRoverPosition[3], const double GPSTKsolutionRoverPosition[3], const double DGNSSsolutionRoverPosition[3]) {
+static void print_Solution(const int WN, const double ToW, const double referenceRoverPosition[3], const double GPSTKsolutionRoverPosition[3], const double GPSTKsolutionRoverPositionIonoFree[3], const double DGNSSsolutionRoverPosition[3]) {
 
-	
+	double absDifferenGPSTK_Ref;
+	double absDifferenDGNSS_Ref;
+	double absDifferenGPSTKIonoFree_Ref;
+
 	cout << setprecision(12);
 	cout << "Time: " << WN << " " << ToW << endl;
 	cout << "GPSTK solution: " << endl;
@@ -279,17 +311,43 @@ static void print_Solution(const int WN, const double ToW, const double referenc
 	cout << GPSTKsolutionRoverPosition[2] - referenceRoverPosition[2];
 	cout << endl;
 
+	cout << "GPSTK Iono Free-Reference solution: " << endl;
+	cout << GPSTKsolutionRoverPositionIonoFree[0] - referenceRoverPosition[0] << " ";
+	cout << GPSTKsolutionRoverPositionIonoFree[1] - referenceRoverPosition[1] << " ";
+	cout << GPSTKsolutionRoverPositionIonoFree[2] - referenceRoverPosition[2];
+	cout << endl;
+
+	
 	cout << "DGNSS-Reference solution: " << endl;
 	cout << DGNSSsolutionRoverPosition[0] - referenceRoverPosition[0] << " ";
 	cout << DGNSSsolutionRoverPosition[1] - referenceRoverPosition[1] << " ";
 	cout << DGNSSsolutionRoverPosition[2] - referenceRoverPosition[2];
 	cout << endl;
 
+	absDifferenDGNSS_Ref = sqrt(pow((DGNSSsolutionRoverPosition[0] - referenceRoverPosition[0]), 2) +
+								pow((DGNSSsolutionRoverPosition[1] - referenceRoverPosition[1]), 2) +
+								pow((DGNSSsolutionRoverPosition[2] - referenceRoverPosition[2]), 2));
+
+	absDifferenGPSTK_Ref = sqrt(pow((GPSTKsolutionRoverPosition[0] - referenceRoverPosition[0]), 2) +
+								pow((GPSTKsolutionRoverPosition[1] - referenceRoverPosition[1]), 2) +
+								pow((GPSTKsolutionRoverPosition[2] - referenceRoverPosition[2]), 2));
+
+	absDifferenGPSTKIonoFree_Ref = sqrt(pow((GPSTKsolutionRoverPositionIonoFree[0] - referenceRoverPosition[0]), 2) +
+										pow((GPSTKsolutionRoverPositionIonoFree[1] - referenceRoverPosition[1]), 2) +
+										pow((GPSTKsolutionRoverPositionIonoFree[2] - referenceRoverPosition[2]), 2));
+
+	cout << endl;
+	cout << "Absolute error w GPSTK				: " << absDifferenGPSTK_Ref << endl;
+	cout << "Absolute error w GPSTK Iono Free	: " << absDifferenGPSTKIonoFree_Ref << endl;
+	cout << "Absolute error w DGNSS				: " << absDifferenDGNSS_Ref << endl;
 	cout << endl;
 
 }
 
-void setPRNVectorandSatIdVect(const Rinex3ObsData& rod, const int &indexP1, vector<SatID> &prnVec, vector<double> &rangeVec) {
+void setPRNVectorandSatIdVect(const Rinex3ObsData& rod, const int &indexC1, const int &indexC2, vector<SatID> &prnVec, vector<double> &rangeVec) {
+
+	// Let's compute an useful constant (also found in "GNSSconstants.hpp")
+	const double gamma = (L1_FREQ_GPS / L2_FREQ_GPS)*(L1_FREQ_GPS / L2_FREQ_GPS);
 
 	// Define the "it" iterator to visit the observations PRN map. 
 	// Rinex3ObsData::DataMap is a map from RinexSatID to
@@ -309,12 +367,39 @@ void setPRNVectorandSatIdVect(const Rinex3ObsData& rod, const int &indexP1, vect
 		double P1(0.0);
 		try
 		{
-			P1 = rod.getObs((*it).first, indexP1).data;
+			P1 = rod.getObs((*it).first, indexC1).data;
 		}
 		catch (...)
 		{
 			// Ignore this satellite if P1 is not found
 			continue;
+		}
+
+
+		double ionocorr(0.0);
+
+		// If there are P2 observations, let's try to apply the
+		// ionospheric corrections
+		if (indexC2 >= 0)
+		{
+
+			// The RINEX file may have P2 observations, but the
+			// current satellite may not have them.
+			double P2(0.0);
+			try
+			{
+				P2 = rod.getObs((*it).first, indexC2).data;
+			}
+			catch (...)
+			{
+				// Ignore this satellite if P1 is not found
+				continue;
+			}
+
+			// Vector 'vecData' contains RinexDatum, whose public
+			// attribute "data" indeed holds the actual data point
+			ionocorr = 1.0 / (1.0 - gamma) * (P1 - P2);
+
 		}
 
 		// Now, we include the current PRN number in the first part
@@ -325,7 +410,7 @@ void setPRNVectorandSatIdVect(const Rinex3ObsData& rod, const int &indexP1, vect
 
 		// The same is done for the vector of doubles holding the
 		// corrected ranges
-		rangeVec.push_back(P1);
+		rangeVec.push_back(P1 - ionocorr);
 
 		// WARNING: Please note that so far no further correction
 		// is done on data: Relativistic effects, tropospheric
