@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "linalg.h"
 #include "GPSWeekSecond.hpp"
 
 #include <Eigen/Dense>
@@ -17,8 +16,8 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-
-	typedef std::numeric_limits< double > dbl;
+	/*This test shall be refined*/
+	/*typedef std::numeric_limits< double > dbl;
 	std::cout.precision(dbl::max_digits10);
 
 	double llh_array[3] = { 0,0,0 };
@@ -63,5 +62,5 @@ int main(int argc, char **argv) {
 		traj.updateTime(IMUSimulator::TimeFrame::GPSTime, 1956, time);
 	}
 
-	std::cout << traj;
+	std::cout << traj;*/
 }

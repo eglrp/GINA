@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "linalg.h"
 
 #include "GPSWeekSecond.hpp"
 
@@ -29,7 +28,8 @@ int main(int argc, char **argv) {
 
 
 void test1(void) {
-
+	/*Refine this test*/
+	/*
 	typedef std::numeric_limits< double > dbl;
 	std::cout.precision(dbl::max_digits10);
 
@@ -69,7 +69,8 @@ void test1(void) {
 	double dt = 0.1;
 	double time = 0.0;
 	double time_max = 10.0;
-
+	*/
+	/*
 	for (time = 0; time < time_max; time += dt) {
 
 	std:cout << endl;
@@ -79,9 +80,9 @@ void test1(void) {
 
 		Vb = str_e.getVbody();
 		llh = str_e.getLLH();
-
+		*/
 		/*Calculate what acc and ang vel value should be added to the dummy acc and w inputs. Dummy means without g, wie_e, and cetripetal force compenstation*/
-		meas = imuGenerator.calculate(ab, wb, Vb, llh, local_angle);
+		/*meas = imuGenerator.calculate(ab, wb, Vb, llh, local_angle);
 
 		meas.wn = 1956;
 		meas.tow = time;
@@ -106,12 +107,12 @@ void test1(void) {
 
 	getchar();
 	return;
-
+	*/
 }
 
 void test2(void) {
-
-	typedef std::numeric_limits< double > dbl;
+	/*Refine this test*/
+	/*typedef std::numeric_limits< double > dbl;
 	std::cout.precision(dbl::max_digits10);
 
 	double llh_array[3] = { 0,0,0 };
@@ -157,19 +158,19 @@ void test2(void) {
 		std::cout << "Roll, pitch, yaw: " << nav2ecef_angle << std::endl;
 		bode2ecef_angle = IMUSimulator::Lib::dcm2euler(str_e.Cbe);
 		std::cout << "Roll, pitch, yaw: " << bode2ecef_angle << std::endl;*/
-
+		/*
 		Cnb = str_e.Cne.transpose()*str_e.Cbe;
 		local_angle = IMUSimulator::Lib::dcm2euler(Cnb);
 
 		Vb = str_e.getVbody();
 		llh = str_e.getLLH();
-
+		*/
 		/*std::cout << "Acc body: " << std::endl << ab << std::endl;
 		std::cout << "Angular rate body: " << std::endl << wb << std::endl;
 		std::cout << "Velocity body: " << std::endl << Vb << std::endl;
 		std::cout << "Lat lon height: " << std::endl << llh << std::endl;
 		std::cout << "Roll, pitch, yaw: " << std::endl << local_angle << std::endl;*/
-
+		/*
 		meas = imuGenerator.calculate(ab, wb, Vb, llh, local_angle);
 
 		meas.wn = 1956;
@@ -193,5 +194,5 @@ void test2(void) {
 
 
 	getchar();
-	return;
+	return;*/
 }
