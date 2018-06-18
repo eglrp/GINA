@@ -1,3 +1,3 @@
-Precise Integrated Navigation Algorithm
-PINA Project
+Global Integrated Navigation Algorithm
+GINA Project
 

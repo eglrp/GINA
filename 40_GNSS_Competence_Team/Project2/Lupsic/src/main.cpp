@@ -23,7 +23,7 @@
 
 // GPSTk example program #4
 
-// Project 1. Simple Navigation Calculator
+// Project 2. DGNSS Navigation Calculator
 #include "DGNSSNavigationSolution.h"
 #include "utility.h"
 
