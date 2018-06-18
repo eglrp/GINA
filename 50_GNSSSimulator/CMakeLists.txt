@@ -25,8 +25,8 @@ include_directories (include)
 add_executable(GNSSSimulator ${GNSSSIM_SRC} ${GNSSSIM_INCL} )
 target_link_libraries (GNSSSimulator	PUBLIC ${GPSTK_LIBS}
 										PUBLIC gpstk 
-										PUBLIC PINAParser)
-target_include_directories(GNSSSimulator PUBLIC ${GNSSSim_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${GPSTK_EXT_INC_DIRS} ${PINAPARSER_CORE_INC_DIRS} )
+										PUBLIC GINAParser)
+target_include_directories(GNSSSimulator PUBLIC ${GNSSSim_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${GPSTK_EXT_INC_DIRS} ${GINAPARSER_CORE_INC_DIRS} )
 
 # Create VS Filters	
 set( GNSS_All_FILES "" )	

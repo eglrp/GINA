@@ -1,5 +1,5 @@
 function google_plot(t_data,file_name)
-    if strcmp(t_data.type,'PINA TRAJECTORY')~=1
+    if strcmp(t_data.type,'GINA TRAJECTORY')~=1
         disp('Wrong type of data! Only trajectory type possible.')  
     end
 

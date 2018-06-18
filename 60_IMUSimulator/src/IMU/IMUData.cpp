@@ -43,7 +43,7 @@ namespace IMUSimulator {
 		return new_node;
 	}
 
-	IMUData& IMUData::operator=(PINASimulator::IMUData& node) {
+	IMUData& IMUData::operator=(GINASimulator::IMUData& node) {
 		
 		IMUData new_node;
 		

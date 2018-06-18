@@ -1,8 +1,8 @@
 clc;
 clear all;
 close all;
-fileName1 = 'example_trajectory_out_steady_state.pina';
-fileName2 = 'example_imu_out_steady_state.pina';
+fileName1 = 'example_trajectory_out_steady_state.gina';
+fileName2 = 'example_imu_out_steady_state.gina';
 t_data = create_data(fileName1);
 %p_data = create_data(fileName2);
 

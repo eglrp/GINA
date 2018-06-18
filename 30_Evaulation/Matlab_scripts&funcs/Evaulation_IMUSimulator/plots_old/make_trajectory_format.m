@@ -1,5 +1,5 @@
 function  t_data = make_trajectory_format(d_data,h_data)
-if strcmp('PINA TRAJECTORY',h_data.type) == 1
+if strcmp('GINA TRAJECTORY',h_data.type) == 1
     if strcmp('LLH',h_data.positionFormat) == 1
         
         t_data.t_time = [d_data(:,1) d_data(:,2)]
@@ -44,7 +44,7 @@ if strcmp('PINA TRAJECTORY',h_data.type) == 1
     end
 end
 
-if strcmp('PINA IMU BODY DATAS',h_data.type) == 1
+if strcmp('GINA IMU BODY DATAS',h_data.type) == 1
         t_data.t_time = [d_data(:,1) d_data(:,2)]
 
         t_data.ax = d_data(:,3);

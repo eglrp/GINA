@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.91.0)
-project (PINA)
+project (GINA)
 
 set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}")
 
@@ -29,8 +29,8 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 # configure a header file to pass some of the CMake settings
 # to the source code
 configure_file (
-  "${PROJECT_SOURCE_DIR}/PINAConfig.h.in"
-  "${PROJECT_BINARY_DIR}/PINAConfig.h"
+  "${PROJECT_SOURCE_DIR}/GINAConfig.h.in"
+  "${PROJECT_BINARY_DIR}/GINAConfig.h"
   )
 
 # add the binary tree to the search path for include files
@@ -96,11 +96,11 @@ add_subdirectory (20_GPSTk-master)
 set (EXTRA_LIBS ${EXTRA_LIBS} gpstk_extra)
 set (GPSTK_LIBS ${GPSTK_LIBS} gpstk)
 
-#PINAPArser
+#GINAPArser
 ##############################################################
-option( test_PINAParser "HELP: Build test of Pina Parser: SWITCH, Default = ON, Build the PINAPArser" OFF )
-add_subdirectory (68_PINAPArser) 
-get_property(PINAPARSER_CORE_INC_DIRS DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/68_PINAParser" PROPERTY PINAPARSER_CORE_INC_DIRS)
+option( test_GINAParser "HELP: Build test of GINA Parser: SWITCH, Default = ON, Build the GINAPArser" OFF )
+add_subdirectory (68_GINAPArser) 
+get_property(GINAPARSER_CORE_INC_DIRS DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/68_GINAParser" PROPERTY GINAPARSER_CORE_INC_DIRS)
 # message("Property for root directory root read from GNSSSIM_INCLUDE_DIRS: " ${GNSSSIM_INCLUDE_DIRS})
 
 #GNSSsimulator
@@ -121,7 +121,7 @@ option( GNSS_Competence_Team_Project_1 "HELP: BUILD_EXC1: SWITCH, Default = ON, 
 option( GNSS_Competence_Team_Project_2 "HELP: BUILD_EXC1: SWITCH, Default = ON, Build the GNSS Competence Team - 2nd exercise" OFF )
 add_subdirectory (40_GNSS_Competence_Team) 
 
-add_subdirectory (69_PINA)
+add_subdirectory (69_GINA)
 
 
 

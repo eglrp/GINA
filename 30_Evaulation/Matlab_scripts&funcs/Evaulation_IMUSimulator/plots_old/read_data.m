@@ -22,12 +22,12 @@
 %%És az adatok sorok között sem lehet üres sor!
 function data = read_data(fileName)
 format long;
-pinaFile = fopen(fileName);
+ginaFile = fopen(fileName);
 key_word = 'START OF DATA'; % érzékeny a spcaekre !!!! a fileban 
 data_switch = 0; 
 row = 1;
-while ~feof(pinaFile)
-    line = fgetl(pinaFile);
+while ~feof(ginaFile)
+    line = fgetl(ginaFile);
     if data_switch == 1
        data_cells = strsplit(line);
        for col = 1:length(data_cells)
@@ -39,7 +39,7 @@ while ~feof(pinaFile)
         data_switch = 1;
     end
 end
-fclose(pinaFile);
+fclose(ginaFile);
 end
 
 

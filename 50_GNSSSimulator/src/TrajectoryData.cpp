@@ -83,7 +83,7 @@ namespace gnsssimulator
 		return *this;
 	}
 
-	TrajectoryData& TrajectoryData::operator=(PINASimulator::TrajectoryData& trajData) {
+	TrajectoryData& TrajectoryData::operator=(GINASimulator::TrajectoryData& trajData) {
 		this->pos = trajData.pos;
 		this->coorSys = trajData.coorSys;
 		this->gpsTime = gpstk::GPSWeekSecond(trajData.time);
@@ -103,8 +103,8 @@ namespace gnsssimulator
 				gpsTime.week = asInt(currentLine.substr(0, 4));
 				gpsTime.sow = asDouble(currentLine.substr(6, 7));
 
-			}// TODO: Implement Pina format
-			else if ((this->strm)->header.formatSpec == (this->strm)->header.isFormatPINA)
+			}// TODO: Implement Gina format
+			else if ((this->strm)->header.formatSpec == (this->strm)->header.isFormatGINA)
 			{
 				gpsTime.week = asInt(currentLine.substr(0, 4));
 				gpsTime.sow = asDouble(currentLine.substr(6, 7));
@@ -138,8 +138,8 @@ namespace gnsssimulator
 
 				this->pos = gpstk::Position(coor1, coor2, coor3, coorSys, NULL);
 				this->pos = this->pos.transformTo(this->coorSys);
-			}//TODO: Implement Pina data
-			if ((this->strm)->header.formatSpec == (this->strm)->header.isFormatPINA)
+			}//TODO: Implement Gina data
+			if ((this->strm)->header.formatSpec == (this->strm)->header.isFormatGINA)
 			{
 
 			}

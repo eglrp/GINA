@@ -22,9 +22,9 @@
 #include "IMUStore.h"
 #include "IMUData.h"
 
-#include "..\68_PINAParser\include\TrajectoryParser\TrajectoryData.hpp"
+#include "..\68_GINAParser\include\TrajectoryParser\TrajectoryData.hpp"
 
-// PINAParser
+// GINAParser
 #include "IMUBase.hpp"
 #include "IMUData.hpp"
 #include "IMUHeader.hpp"
@@ -40,10 +40,10 @@
 
 void IMUGeneratorForTrajectory(std::string, std::string);
 
-void setPINAParsers(const PINASimulator::TrajectoryStream&,
-					PINASimulator::TrajectoryHeader&,
-					const PINASimulator::IMUStream&,
-					PINASimulator::IMUHeader&,
+void setGINAParsers(const GINASimulator::TrajectoryStream&,
+					GINASimulator::TrajectoryHeader&,
+					const GINASimulator::IMUStream&,
+					GINASimulator::IMUHeader&,
 					const Eigen::Vector3d&,
 					const Eigen::Vector3d&,
 					const unsigned int&, const double&,
@@ -60,5 +60,5 @@ void generatetrajectory(IMUSimulator::IMUSignalGenerator&,
 						double,
 						double);
 
-PINASimulator::TrajectoryData convert2PINAcompatible(IMUSimulator::PositionData&);
-PINASimulator::IMUData convert2PINAcompatible(IMUSimulator::Measure_IMU&);
+GINASimulator::TrajectoryData convert2GINAcompatible(IMUSimulator::PositionData&);
+GINASimulator::IMUData convert2GINAcompatible(IMUSimulator::Measure_IMU&);

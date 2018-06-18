@@ -393,32 +393,32 @@ int PseudoRangeCalculator_test7(void) {
 
 	gnsssim_utils gnsssimUtils;
 
-	string trajFileNamewPath = "C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s___TRAJ.pina";
-	string referenceObsFilewPath = "C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s.18o";
+	string trajFileNamewPath = "C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\50_GNSSSimulator\\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s___TRAJ.gina";
+	string referenceObsFilewPath = "C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\50_GNSSSimulator\\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s.18o";
 	
-	string navFileNamewPath("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\RinexFiles\\brdc0740.18n");//CSsim traj
+	string navFileNamewPath("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\50_GNSSSimulator\\RinexFiles\\brdc0740.18n");//CSsim traj
 
-	ofstream ostrm("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s_Solution.txt", std::ios::out);	//Output file
-	ofstream ostrm_sattraj("C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\50_GNSSSimulator\\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s_satTrajectory.txt", std::ios::out);
+	ofstream ostrm("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\50_GNSSSimulator\\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s_Solution.txt", std::ios::out);	//Output file
+	ofstream ostrm_sattraj("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\50_GNSSSimulator\\results\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s_satTrajectory.txt", std::ios::out);
 
 	PseudoRangeCalculator psdRangeCalc;
 	psdRangeCalc.ProcessTrajectoryFile(trajFileNamewPath.c_str());
 	psdRangeCalc.ProcessEphemerisFile(navFileNamewPath.c_str());
 
 
-	PINASimulator::TrajectoryStream trajFileInPINA(trajFileNamewPath.c_str(), std::ios::in); //("..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
+	GINASimulator::TrajectoryStream trajFileInGINA(trajFileNamewPath.c_str(), std::ios::in); //("..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
 	TrajectoryStream trajFileInTest;
 	TrajectoryStream trajFileIn(trajFileNamewPath.c_str());
-	PINASimulator::TrajectoryHeader trajHeader;
-	PINASimulator::TrajectoryData trajDataPINA;
+	GINASimulator::TrajectoryHeader trajHeader;
+	GINASimulator::TrajectoryData trajDataGINA;
 	TrajectoryData trajData;
 	TrajectoryStore test_trajStore;// = psdRangeCalc.trajStore;
 
-	trajFileInPINA >> trajHeader;
+	trajFileInGINA >> trajHeader;
 
-	while (trajFileInPINA >> trajDataPINA) {
+	while (trajFileInGINA >> trajDataGINA) {
 		try {
-			trajData = trajDataPINA;
+			trajData = trajDataGINA;
 			test_trajStore.addPosition(trajData);
 		}
 		catch (...) {

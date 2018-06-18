@@ -1,0 +1,42 @@
+START OF HEADER
+TYPE GINA IMU BODY DATA											# This strictly shall follow the first line
+																# Case sensitive. In th e header everythin shall be capital 
+										
+CREATOR	xxx														# This is optional. Format is optional				
+TIME OF CREATIONS mm-dd-yyyy									# This is optional. Format is optional	
+										
+TIME SYSTEM GPS													# TIME SYSTEM GPS | GALILEO but the time format is always shall be in WN and ToW format
+START TIME 1972 120000.000 										# Start time in Week Number Time of Week format. GPS Time	OPTIONAL
+END TIME 1972 120200.000 										# End time in Week Number Time of Week format. GPS Time	OPTIONAL
+
+POSITION FORMAT LLH												# Position format van be LLH or ECEF || POSITION FORMAT LLH	|| POSITION FORMAT ECEF	
+START POSITION 1.510000000       1.510000000      110.0000		# Start position. LLH [rad] [rad] || [m] ECEF [m] [m] [m]
+																# 1st coordinate at 15-28 carrier position
+																# 2nd coordinate at 29-42 carrier position
+																# 3rd coordinate at 43-56 carrier position
+
+START VELOCITY 0.0000 0.0000 0.0000								# vx [m/s] vy [m/s] vz [m/s] in local coordinate system
+START ATTITUDE 0.0000 0.0000 0.0000								# Start attitude in the local frame. Units are in rad [rad]. roll pitch yaw
+EPOCH TIME 0.0100		 										# This is optional. This shall be in seconds [s]
+
+
+
+END OF HEADER       
+
+# Observation data format.
+# WN in 1-4 carrier position		
+# ToW in 5-18 carrier position	[s]
+# ax in 20-32 carrier position	[m/s2] 
+# ay in 33-45 carrier position	[m/s2]
+# az in 46-58 carrier position	[m/s2]
+# wx in 59-71 carrier position	[rad/s]
+# wy in 72-84 carrier position	[rad/s]
+# wz in 85-97 carrier position	[rad/s]
+# These are the values measured by the imu in body coordinates
+# Observation Data start right after the START OF DATA flag.
+
+START OF DATA
+1956 120000.1000   0.10000000   0.09000000   9.81000000   0.00000000   0.00000000   0.00000000
+1956 130000.2100   0.20000000   0.08000000   9.81000000   0.00000000   0.00000000   0.00000000
+1956 140000.3200   0.30000000   0.07000000   9.81000000   0.00000000   0.00000000   0.00000000
+1956 150000.4300   0.40000000   0.06000000   9.81000000   0.00000000   0.00000000   0.00000000

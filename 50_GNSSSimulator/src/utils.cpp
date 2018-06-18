@@ -105,7 +105,7 @@ void gnsssim_utils::createRinexObsFile(const char* fileNamewPath) {
 
 	ref_head.commentList.clear();
 	ref_head.commentList.push_back("C1 modelled using GNSS SIM");
-	ref_head.commentList.push_back("https://github.com/PINAProject/PINA");
+	ref_head.commentList.push_back("https://github.com/GINAProject/GINA");
 	ref_head.commentList.push_back("Header contents might be invalid in some cases.");
 
 	ref_head.markerName = "---";

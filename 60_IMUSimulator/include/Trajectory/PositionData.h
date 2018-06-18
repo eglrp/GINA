@@ -4,9 +4,9 @@
 #include <iostream>
 #include <vector>
 
-// PINAParser
+// GINAParser
 
-#include "I_PINA_writer.hpp"
+#include "I_GINA_writer.hpp"
 #include "TrajectoryData.hpp"
 
 
@@ -14,7 +14,7 @@ namespace IMUSimulator {
 
 	std::ostream& operator<<(std::ostream& os, const Position_IMU&);
 
-	class PositionData :public PINASimulator::I_TrajectoryData {
+	class PositionData :public GINASimulator::I_TrajectoryData {
 
 	public:
 
@@ -25,7 +25,7 @@ namespace IMUSimulator {
 		double ecef[3];
 		double attitude[3];
 
-		PositionData& operator=(PINASimulator::TrajectoryData&);
+		PositionData& operator=(GINASimulator::TrajectoryData&);
 		PositionData& operator=(Position_IMU&);
 		Position_IMU& operator=(PositionData&);
 

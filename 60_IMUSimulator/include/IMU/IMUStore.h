@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-// PINAParser
+// GINAParser
 //#include "IMUBase.hpp"
 #include "IMUData.hpp"
 #include "IMUHeader.hpp"

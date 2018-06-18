@@ -2,12 +2,12 @@ clc;
 clear all;
 close all;
 addpath(fullfile(pwd,'plot'))
-addpath(fullfile(pwd,'pinaFiles'))
+addpath(fullfile(pwd,'ginaFiles'))
 addpath(fullfile(pwd, 'parse'))
 addpath(fullfile(pwd,'parse', 'calculations'))
 
-t_data = create_data('new_traj.pina');
-i_data = create_data('new_imu.pina');
+t_data = create_data('new_traj.gina');
+i_data = create_data('new_imu.gina');
 
 enu_plot(t_data,'enu','new_enu_plot_enu');
 enu_plot(t_data,'2D','new_enu_plot_2d');
@@ -32,11 +32,11 @@ vector_plot(t_data,i_data,'new_vector_plot')
 %vector_plot(t_data,i_data)
 % gP_file_name.mode = 'kinematic' % or nothing
 % gP_file_name.name = 'googlePlotOutput'
-%fileName = 'example_trajectory_out_steady_state.pina';
-%fileName1 = 'example_trajectory_out_vx_1ms_yaw_1.51.pina';
-%fileName2 = 'example_imu_out_steady_state_1ms_yaw_1.51.pina';
+%fileName = 'example_trajectory_out_steady_state.gina';
+%fileName1 = 'example_trajectory_out_vx_1ms_yaw_1.51.gina';
+%fileName2 = 'example_imu_out_steady_state_1ms_yaw_1.51.gina';
 
-%fileName3 = 'example_trajectory_out_1ms_yaw_1.51.pina'
-%fileName2 = 'example_trajectory_out_vx_1ms.pina';
+%fileName3 = 'example_trajectory_out_1ms_yaw_1.51.gina'
+%fileName2 = 'example_trajectory_out_vx_1ms.gina';
 
-%steady_state_IMU_vx_1ms  = 'example_imu_out_steady_state_vx_1ms.pina';
+%steady_state_IMU_vx_1ms  = 'example_imu_out_steady_state_vx_1ms.gina';

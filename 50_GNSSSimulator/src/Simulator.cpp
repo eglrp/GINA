@@ -8,9 +8,9 @@
 #include "Test_simulatePseudoRange.hpp"
 #include "test_PseudoRangeCalculator.h"
 
-#include "..\68_PINAParser\include\TrajectoryParser\TrajectoryData.hpp"
-#include "..\68_PINAParser\include\TrajectoryParser\TrajectoryStream.hpp"
-#include "..\68_PINAParser\include\IMUParser\IMUData.hpp"
+#include "..\68_GINAParser\include\TrajectoryParser\TrajectoryData.hpp"
+#include "..\68_GINAParser\include\TrajectoryParser\TrajectoryStream.hpp"
+#include "..\68_GINAParser\include\IMUParser\IMUData.hpp"
 
 const int ProcessRinex = 1;
 const int ProcessTrajectory = 1;

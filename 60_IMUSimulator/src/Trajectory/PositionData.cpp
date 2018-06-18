@@ -61,7 +61,7 @@ namespace IMUSimulator {
 		return new_node;
 	}
 
-	PositionData& PositionData::operator=(PINASimulator::TrajectoryData& node) {
+	PositionData& PositionData::operator=(GINASimulator::TrajectoryData& node) {
 
 		PositionData new_node;
 

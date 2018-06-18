@@ -9,7 +9,7 @@
 clc;
 clear all;
 close all;
-fileName = 'trajectory_corner.pina';
+fileName = 'trajectory_corner.gina';
 t_data = create_data(fileName);
 clc;    
 

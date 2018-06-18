@@ -5,12 +5,12 @@
 #include <iostream>
 #include <vector>
 
-// PINAParser
+// GINAParser
 //#include "IMUBase.hpp"
 #include "IMUData.hpp"
 #include "IMUHeader.hpp"
 
-#include "I_PINA_writer.hpp"
+#include "I_GINA_writer.hpp"
 
 /*#include "IMUStream.hpp"
 #include "IMUStore.hpp"*/
@@ -25,7 +25,7 @@ namespace IMUSimulator {
 
 	std::ostream& operator<<(std::ostream& os, const Position_IMU&);
 
-	class IMUData:public PINASimulator::I_IMUData {
+	class IMUData:public GINASimulator::I_IMUData {
 
 	public:
 
@@ -36,7 +36,7 @@ namespace IMUSimulator {
 		double acceleration[3];
 		double angularRate[3];
 
-		IMUData& operator=(PINASimulator::IMUData&);
+		IMUData& operator=(GINASimulator::IMUData&);
 		IMUData& operator=(Measure_IMU&);
 		Measure_IMU& IMUData::operator=(IMUData&);
 

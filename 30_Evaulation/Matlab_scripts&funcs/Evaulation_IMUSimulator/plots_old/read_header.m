@@ -9,7 +9,7 @@ h_data.startVelocity = [NaN,NaN,NaN];
 h_data.startAttitude =[NaN,NaN,NaN];
 h_data.epochTime = NaN;
 
-pinaFile = fopen(fileName);
+ginaFile = fopen(fileName);
 
 keyword_start = 'START OF HEADER';
 keyword_end = 'END OF HEADER';
@@ -21,8 +21,8 @@ keywords = {'START TIME','END TIME',...
 
  header_switch = 0; 
 
-while ~feof(pinaFile) && header_switch ~= -1
-    line = fgetl(pinaFile);
+while ~feof(ginaFile) && header_switch ~= -1
+    line = fgetl(ginaFile);
     line = cut_comment(line);
     %multi whitspace remove, only one ws between the words
     line = regexprep(line,' +',' ');
@@ -40,7 +40,7 @@ while ~feof(pinaFile) && header_switch ~= -1
         header_switch = -1;
     end
 end
-fclose(pinaFile);
+fclose(ginaFile);
 end
 
 

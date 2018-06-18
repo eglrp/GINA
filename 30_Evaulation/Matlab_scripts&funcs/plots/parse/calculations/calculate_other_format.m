@@ -7,7 +7,7 @@ new_h_data.startPosition_ECEF = [ NaN, NaN, NaN ];
 new_h_data.startPosition_LLH = [ NaN, NaN, NaN ];
 
 disp(d_data) %t_data = d_data
-if strcmp('PINA TRAJECTORY',h_data.type) == 1
+if strcmp('GINA TRAJECTORY',h_data.type) == 1
     %%LLH -> ECF
     if strcmp('LLH',h_data.positionFormat) == 1
 
@@ -51,7 +51,7 @@ if strcmp('PINA TRAJECTORY',h_data.type) == 1
     end
 end
 
-if strcmp('PINA IMU BODY DATA',h_data.type) == 1
+if strcmp('GINA IMU BODY DATA',h_data.type) == 1
     %LLH -> ECEF
     if strcmp('LLH',h_data.positionFormat) == 1
         

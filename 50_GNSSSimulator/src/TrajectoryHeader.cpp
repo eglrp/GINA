@@ -11,7 +11,7 @@ namespace gnsssimulator {
 	const string TrajectoryHeader::positionFormatTypeLLH = "LLH";
 	const string TrajectoryHeader::positionFormatTypeECEF = "ECEF";
 	const string TrajectoryHeader::startofHeaderGnssSim = "GNSS Trajectory File";
-	const string TrajectoryHeader::startofHeaderPina = "START OF HEADER";
+	const string TrajectoryHeader::startofHeaderGina = "START OF HEADER";
 	const string TrajectoryHeader::startofHeaderCsSim = "Trajectory Header CSSIM";
 	const string TrajectoryHeader::endOfHeader = "END OF HEADER";
 	const string TrajectoryHeader::positionTypeLLHString = "Position LLH";
@@ -54,8 +54,8 @@ namespace gnsssimulator {
 					firstLineisRead = true;
 					break;
 				}
-				else if (line == startofHeaderPina)
-					formatSpec = isFormatPINA;
+				else if (line == startofHeaderGina)
+					formatSpec = isFormatGINA;
 
 				firstLineisRead = true;
 				continue;

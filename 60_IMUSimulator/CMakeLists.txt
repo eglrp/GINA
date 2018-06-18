@@ -34,16 +34,16 @@ list( APPEND IMU_INC_FILES ${EIGEN_INC_FILES} )
 add_library(IMUSimulator	STATIC 	${IMU_SRC_FILES}
 									${IMU_INC_FILES})
 target_link_libraries (IMUSimulator 	PUBLIC gpstk 
-										PUBLIC PINAParser)	
+										PUBLIC GINAParser)	
 										
-target_include_directories(IMUSimulator PUBLIC ${IMU_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${EIGEN_CORE_INC_DIRS} ${GNSSSIM_INCLUDE_DIRS} ${PINAPARSER_CORE_INC_DIRS} )
+target_include_directories(IMUSimulator PUBLIC ${IMU_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${EIGEN_CORE_INC_DIRS} ${GNSSSIM_INCLUDE_DIRS} ${GINAPARSER_CORE_INC_DIRS} )
 
 
 # add the executable
 add_executable(IMUSimulatorProject ${IMU_SRC_FILES} ${IMU_INC_FILES})
 target_link_libraries (IMUSimulatorProject 	PUBLIC gpstk 
-											PUBLIC PINAParser)
-target_include_directories(IMUSimulatorProject PUBLIC ${IMU_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${EIGEN_CORE_INC_DIRS} ${GNSSSIM_INCLUDE_DIRS} ${PINAPARSER_CORE_INC_DIRS} )
+											PUBLIC GINAParser)
+target_include_directories(IMUSimulatorProject PUBLIC ${IMU_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${EIGEN_CORE_INC_DIRS} ${GNSSSIM_INCLUDE_DIRS} ${GINAPARSER_CORE_INC_DIRS} )
 						
 
 # Create VS Filters	

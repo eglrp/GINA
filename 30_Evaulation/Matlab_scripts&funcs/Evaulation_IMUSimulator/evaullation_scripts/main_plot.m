@@ -9,13 +9,13 @@
 clc;
 clear all;
 close all;
-%fileName = '../pina_files/example_trajectory_out_steady_state.pina';
+%fileName = '../gina_files/example_trajectory_out_steady_state.gina';
 
-fileName = '../pina_files/new_traj.pina';
+fileName = '../gina_files/new_traj.gina';
 
-%fileName3 = '../pina_files/example_trajectory_out_vx_1ms_yaw_1.51.pina';
+%fileName3 = '../gina_files/example_trajectory_out_vx_1ms_yaw_1.51.gina';
 
-%fileName = 'trajectory_corner.pina';
+%fileName = 'trajectory_corner.gina';
 t_data = create_data(fileName);
 clc;    
 

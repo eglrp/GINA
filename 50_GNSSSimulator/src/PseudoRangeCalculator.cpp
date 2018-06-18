@@ -13,9 +13,9 @@ PseudoRangeCalculator::~PseudoRangeCalculator()
 
 void PseudoRangeCalculator::ProcessTrajectoryFile(const char* fileNamewPath) {
 
-	PINASimulator::TrajectoryStream trajFileIn(fileNamewPath); //("..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
-	PINASimulator::TrajectoryHeader trajHeader;
-	PINASimulator::TrajectoryData trajData;
+	GINASimulator::TrajectoryStream trajFileIn(fileNamewPath); //("..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
+	GINASimulator::TrajectoryHeader trajHeader;
+	GINASimulator::TrajectoryData trajData;
 	TrajectoryData trajDataCompatible;
 
 	isTrajectoryRead = false;

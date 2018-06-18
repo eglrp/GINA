@@ -7,7 +7,7 @@
 #include <iostream>
 #include <vector>
 
-#include "I_PINA_writer.hpp"
+#include "I_GINA_writer.hpp"
 
 namespace IMUSimulator {
 

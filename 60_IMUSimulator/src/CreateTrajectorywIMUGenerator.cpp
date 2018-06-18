@@ -35,20 +35,20 @@ void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFil
 	IMUSimulator::Measure_IMU meas;
 	IMUSimulator::IMUData imu_meas;
 
-	PINASimulator::TrajectoryStream trajFileOut(trajFileNamewPath.c_str(), std::ios::out);
-	PINASimulator::TrajectoryHeader trajHeader;
-	PINASimulator::TrajectoryData trajData;
+	GINASimulator::TrajectoryStream trajFileOut(trajFileNamewPath.c_str(), std::ios::out);
+	GINASimulator::TrajectoryHeader trajHeader;
+	GINASimulator::TrajectoryData trajData;
 
-	PINASimulator::IMUStream imuFileOut(imuFileNamewPath.c_str(), std::ios::out);
-	PINASimulator::IMUHeader imuHeader;
-	PINASimulator::IMUData imuData;
+	GINASimulator::IMUStream imuFileOut(imuFileNamewPath.c_str(), std::ios::out);
+	GINASimulator::IMUHeader imuHeader;
+	GINASimulator::IMUData imuData;
 
 	ecef = IMUSimulator::Lib::transform_llh2ecef(llh);
 	
 	IMUSimulator::IMUSignalGenerator imuGenerator;
 	IMUSimulator::strapdown_ecef str_e(rollpitchyaw, Vb, ecef);
 	
-	setPINAParsers(trajFileOut, trajHeader,
+	setGINAParsers(trajFileOut, trajHeader,
 					imuFileOut, imuHeader,
 					ecef, rollpitchyaw,
 					startWeek, startTime,
@@ -66,8 +66,8 @@ void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFil
 							startWeek, time,
 							dt);
 
-		trajFileOut << convert2PINAcompatible(posData);
-		imuFileOut << convert2PINAcompatible(meas);
+		trajFileOut << convert2GINAcompatible(posData);
+		imuFileOut << convert2GINAcompatible(meas);
 	}
 
 	trajFileOut.close();
@@ -76,10 +76,10 @@ void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFil
 	return;
 }
 
-void setPINAParsers(const PINASimulator::TrajectoryStream& trajFileOut,
-	PINASimulator::TrajectoryHeader& trajHeader,
-	const PINASimulator::IMUStream& imuFileOut,
-	PINASimulator::IMUHeader& imuHeader,
+void setGINAParsers(const GINASimulator::TrajectoryStream& trajFileOut,
+	GINASimulator::TrajectoryHeader& trajHeader,
+	const GINASimulator::IMUStream& imuFileOut,
+	GINASimulator::IMUHeader& imuHeader,
 	const Eigen::Vector3d& ecef,
 	const Eigen::Vector3d& local_angle,
 	const unsigned int& startWeek, const double& startTime,
@@ -153,17 +153,17 @@ void generatetrajectory(IMUSimulator::IMUSignalGenerator& imuGenerator,
 	str_e >> posData;
 }
 
-PINASimulator::TrajectoryData convert2PINAcompatible(IMUSimulator::PositionData &posData) {
+GINASimulator::TrajectoryData convert2GINAcompatible(IMUSimulator::PositionData &posData) {
 
-	PINASimulator::TrajectoryData trajData;
+	GINASimulator::TrajectoryData trajData;
 	trajData = posData;
 
 	return trajData;
 }
 
-PINASimulator::IMUData convert2PINAcompatible(IMUSimulator::Measure_IMU &meas) {
+GINASimulator::IMUData convert2GINAcompatible(IMUSimulator::Measure_IMU &meas) {
 
-	PINASimulator::IMUData imuData;
+	GINASimulator::IMUData imuData;
 	IMUSimulator::IMUData imu_meas;
 
 	imu_meas = meas;

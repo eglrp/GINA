@@ -45,13 +45,13 @@
 #include "GPSEphemeris.hpp"
 
 
-//#include "C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\68_PINAParser\\include\\TrajectoryParser\\TrajectoryData.hpp"
-//#include "C:\\Users\\LUS2BP\\Source\\Repos\\PINA\\68_PINAParser\\include\\TrajectoryParser\\TrajectoryStream.hpp"
+//#include "C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\68_GINAParser\\include\\TrajectoryParser\\TrajectoryData.hpp"
+//#include "C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\68_GINAParser\\include\\TrajectoryParser\\TrajectoryStream.hpp"
 
-//#include "C:\Users\LUS2BP\Source\Repos\PINA\68_PINAParser\include\TrajectoryParser\TrajectoryData.hpp"
-//#include "C:\Users\LUS2BP\Source\Repos\PINA\68_PINAParser\include\TrajectoryParser\TrajectoryStream.hpp"
+//#include "C:\Users\LUS2BP\Source\Repos\GINA\68_GINAParser\include\TrajectoryParser\TrajectoryData.hpp"
+//#include "C:\Users\LUS2BP\Source\Repos\GINA\68_GINAParser\include\TrajectoryParser\TrajectoryStream.hpp"
 
-//#include "..\68_PINAParser\include\TrajectoryParser\TrajectoryData.hpp"
-//#include "..\68_PINAParser\include\TrajectoryParser\TrajectoryStream.hpp"
+//#include "..\68_GINAParser\include\TrajectoryParser\TrajectoryData.hpp"
+//#include "..\68_GINAParser\include\TrajectoryParser\TrajectoryStream.hpp"
 
 void makeSimplePseudoRange(void);

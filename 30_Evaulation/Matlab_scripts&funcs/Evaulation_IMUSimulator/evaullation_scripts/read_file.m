@@ -30,14 +30,14 @@
 % ahogy más, más erõk hatnak rá.
 
 
-function = data = read_data
+function  data = read_data()
 data_switch = 0; 
-key_word = 'START OF DATA'
-pinaFile = fopen('imu.pina');
+key_word = 'START OF DATA';
+ginaFile = fopen('imu.gina');
 row = 1;
-while ~feof(pinaFile)
+while ~feof(ginaFile)
     %disp(line);
-    line = fgetl(pinaFile);
+    line = fgetl(ginaFile);
     if data_switch == 1
        data_cells = strsplit(line);
        for col = 1:length(data_cells)
@@ -50,7 +50,7 @@ while ~feof(pinaFile)
     end
 end
 disp(data)
-fclose(pinaFile);
+fclose(ginaFile);
 
 
 
