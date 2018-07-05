@@ -1,6 +1,8 @@
-#include "CreateTrajectorywIMUGenerator.hpp"
 
-void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFileNamewPath) {
+#include "CreateTrajectorywIMUCommand.hpp"
+
+
+void IMUCommandForTrajectory(std::string trajFileNamewPath, std::string imuFileNamewPath) {
 
 	double dt = 0.1;
 	double startTime = 413329;
@@ -13,15 +15,15 @@ void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFil
 
 	ab << 0.0, 0.0, 0;
 	wb << 0, 0, 0.05;
-	llh <<	47.464405,
-			19.154166,
-			120;
+	llh << 47.464405,
+		19.154166,
+		120;
 	// Bosch coordinates
 	// 47.464405, 19.154166
 
-	rollpitchyaw << 0.0 / 180.0*EIGEN_PI, 
-					0.0 / 180.0*EIGEN_PI, 
-					0.0/ 180.0*EIGEN_PI;
+	rollpitchyaw << 0.0 / 180.0*EIGEN_PI,
+		0.0 / 180.0*EIGEN_PI,
+		0.0 / 180.0*EIGEN_PI;
 	Vb << 1., 0., 0.;
 
 	typedef std::numeric_limits< double > dbl;
@@ -44,27 +46,27 @@ void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFil
 	GINASimulator::IMUData imuData;
 
 	ecef = IMUSimulator::Lib::transform_llh2ecef(llh);
-	
+
 	IMUSimulator::IMUSignalGenerator imuGenerator;
 	IMUSimulator::strapdown_ecef str_e(rollpitchyaw, Vb, ecef);
-	
+
 	setGINAParsers(trajFileOut, trajHeader,
-					imuFileOut, imuHeader,
-					ecef, rollpitchyaw,
-					startWeek, startTime,
-					endWeek, endTime,
-					dt);
+		imuFileOut, imuHeader,
+		ecef, rollpitchyaw,
+		startWeek, startTime,
+		endWeek, endTime,
+		dt);
 
 	trajFileOut << trajHeader;
 	imuFileOut << imuHeader;
-	
+
 	for (time = startTime; time < endTime; time += dt) {
 
-		generatetrajectory(	imuGenerator, str_e,
-							posData, meas,
-							ab, wb,
-							startWeek, time,
-							dt);
+		generatetrajectory(imuGenerator, str_e,
+			posData, meas,
+			ab, wb,
+			startWeek, time,
+			dt);
 
 		trajFileOut << convert2GINAcompatible(posData);
 		imuFileOut << convert2GINAcompatible(meas);
@@ -75,4 +77,3 @@ void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFil
 
 	return;
 }
-

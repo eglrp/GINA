@@ -1,8 +1,8 @@
 
 #include "CreateTrajectorywIMUGenerator.hpp"
+#include "CreateTrajectorywIMUCommand.hpp"
 
 using namespace std;
-
 
 int main(int argc, char **argv) {
 
