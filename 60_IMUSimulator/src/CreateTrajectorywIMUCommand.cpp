@@ -2,29 +2,27 @@
 #include "CreateTrajectorywIMUCommand.hpp"
 #include "IMUControl.h"
 
-void IMUCommandForTrajectory(std::string trajFileNamewPath, std::string imuFileNamewPath) {
+void IMUCommandForTrajectory(std::string trajFileNamewPath, std::string imuFileNamewPath, std::string imuCommandFileNamewPath) {
 
-	double dt = 0.1;
-	double startTime = 413329;
-	double time;
-	double endTime = 413329 + 150;
-	unsigned int startWeek = 1992;
-	unsigned int endWeek = 1992;
 
-	Eigen::Vector3d ab, wb, Vb, ab_comp, wb_comp, Vb_comp, rollpitchyaw, ecef, llh;
+	// IMU Control file parser
+	GINASimulator::IMUControlStream imuControlFileIn(imuCommandFileNamewPath.c_str());
+	
+	GINASimulator::IMUControlHeader imuControlHeader;
+	GINASimulator::IMUControlData imuControlData;
 
-	ab << 0.0, 0.0, 0;
-	wb << 0, 0, 0.05;
-	llh << 47.464405,
-		19.154166,
-		120;
-	// Bosch coordinates
-	// 47.464405, 19.154166
+	imuControlFileIn >> imuControlHeader;
 
-	rollpitchyaw << 0.0 / 180.0*EIGEN_PI,
-		0.0 / 180.0*EIGEN_PI,
-		0.0 / 180.0*EIGEN_PI;
-	Vb << 1., 0., 0.;
+	gpstk::GPSWeekSecond startTimeinGPSTime(imuControlHeader.startTime);
+	gpstk::GPSWeekSecond endTimeinGPSTime(imuControlHeader.endTime);
+
+	Eigen::Vector3d ab, wb, Vb, ab_comp, wb_comp, Vb_comp, rollpitchyaw, ecef;
+	ecef << imuControlHeader.startPosition.getX(), imuControlHeader.startPosition.getY(), imuControlHeader.startPosition.getZ();
+
+	rollpitchyaw << imuControlHeader.startAttitude[0] / 180.0*EIGEN_PI,
+					imuControlHeader.startAttitude[1] / 180.0*EIGEN_PI,
+					imuControlHeader.startAttitude[2] / 180.0*EIGEN_PI;
+	Vb << imuControlHeader.startVelocity[0], imuControlHeader.startVelocity[1], imuControlHeader.startVelocity[2];
 
 	typedef std::numeric_limits< double > dbl;
 	std::cout.precision(dbl::max_digits10);
@@ -43,36 +41,27 @@ void IMUCommandForTrajectory(std::string trajFileNamewPath, std::string imuFileN
 	GINASimulator::IMUHeader imuHeader;
 	GINASimulator::IMUData imuData;
 
-	ecef = IMUSimulator::Lib::transform_llh2ecef(llh);
-
 	IMUSimulator::IMUSignalGenerator imuGenerator;
 	IMUSimulator::strapdown_ecef str_e(rollpitchyaw, Vb, ecef);
 
 	setGINAParsers(	trajFileOut, trajHeader,
 					imuFileOut, imuHeader,
 					ecef, rollpitchyaw,
-					startWeek, startTime,
-					endWeek, endTime,
-					dt);
+					startTimeinGPSTime.week,startTimeinGPSTime.sow,
+					endTimeinGPSTime.week, endTimeinGPSTime.sow);
 
 	trajFileOut << trajHeader;
 	imuFileOut << imuHeader;
 
 	IMUSimulator::IMUControl  imuControl;
-	IMUSimulator::IMUControlCommand imuCommand( ab,	wb,	startWeek, endWeek,	startTime, endTime,	dt);
+	IMUSimulator::IMUControlCommand imuCommand( ab,	wb, startTimeinGPSTime.week, startTimeinGPSTime.sow, endTimeinGPSTime.week, endTimeinGPSTime.sow, 0);
 
-	imuControl.setIMUControl(	llh(0), llh(1), llh(2),
+	imuControl.setIMUControl(	imuControlHeader.startPosition.getGeodeticLatitude(), 
+								imuControlHeader.startPosition.getLongitude(), 
+								imuControlHeader.startPosition.getHeight(),
 								rollpitchyaw(0), rollpitchyaw(1), rollpitchyaw(2),
-								Vb,
-								startWeek,
-								startTime,
-								dt);
+								Vb);
 
-	
-
-		imuControl.setCommand(imuCommand);
-
-		
 		/*Usage of runAll() method*/
 		/*imuControl.runAll();
 
@@ -83,6 +72,9 @@ void IMUCommandForTrajectory(std::string trajFileNamewPath, std::string imuFileN
 		trajFileOut << convert2GINAcompatible(posData);
 		imuFileOut << convert2GINAcompatible(meas);*/
 		
+		imuControlFileIn >> imuControlData;
+		imuCommand = imuControlData;
+		imuControl.setCommand(imuCommand);
 
 		while (imuControl.runStep()) {
 		
@@ -95,6 +87,7 @@ void IMUCommandForTrajectory(std::string trajFileNamewPath, std::string imuFileN
 		
 	trajFileOut.close();
 	imuFileOut.close();
+	imuControlFileIn.close();
 
 	return;
 }

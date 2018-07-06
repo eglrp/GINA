@@ -11,7 +11,6 @@ namespace GINASimulator
 	IMUControlData& IMUControlData::operator=(I_IMUControlData& data) {
 
 		this->timeSys = gpstk::TimeSystem::Systems::GPS;
-		this->startTime = gpstk::GPSWeekSecond(data.getGPSWeek(), data.getGPSTow());
 
 		this->acceleration[0] = data.getAccX();
 		this->acceleration[1] = data.getAccY();
@@ -21,11 +20,19 @@ namespace GINASimulator
 		this->angularRate[1] = data.getAngY();
 		this->angularRate[2] = data.getAngZ();
 
-		gpstk::GPSWeekSecond gpsTime;
-		gpsTime.week = data.getGPSWeek();
-		gpsTime.sow = data.getGPSTow();
+		gpstk::GPSWeekSecond gpsStartTime;
+		gpsStartTime.week = data.getStartGPSWeek();
+		gpsStartTime.sow = data.getStartGPSTow();
 
-		this->startTime = gpsTime;
+		this->startTime = gpsStartTime;
+
+		gpstk::GPSWeekSecond gpsEndTime;
+		gpsEndTime.week = data.getEndGPSWeek();
+		gpsEndTime.sow = data.getEndGPSTow();
+
+		this->endTime = gpsEndTime;
+
+		this->timeStep= data.getTimeStep();
 
 		return *this;
 	}
@@ -212,7 +219,11 @@ namespace GINASimulator
 		gpstk::GPSWeekSecond GPSTime(endTime);
 		return GPSTime.getSOW();
 	}
-	
+
+	double IMUControlData::getTimeStep(void) {
+		return timeStep;
+	}
+
 	void IMUControlData::parseLine(std::string& currentLine)
 		throw(gpstk::StringUtils::StringException, gpstk::FFStreamError)
 	{

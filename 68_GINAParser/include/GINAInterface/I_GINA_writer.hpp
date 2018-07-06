@@ -11,8 +11,12 @@ namespace GINASimulator {
 		virtual double getAngY(void) = 0;
 		virtual double getAngZ(void) = 0;
 
-		virtual int getGPSWeek(void) = 0;
-		virtual double getGPSTow(void) = 0;
+		virtual int getStartGPSWeek(void) = 0;
+		virtual double getStartGPSTow(void) = 0;
+		virtual int getEndGPSWeek(void) = 0;
+		virtual double getEndGPSTow(void) = 0;
+
+		virtual double getTimeStep(void) = 0;
 
 	};
 

@@ -44,6 +44,15 @@ void setGINAParsers(const GINASimulator::TrajectoryStream&,
 					const Eigen::Vector3d&,
 					const Eigen::Vector3d&,
 					const unsigned int&, const double&,
+					const unsigned int&, const double&);
+
+void setGINAParsers(const GINASimulator::TrajectoryStream&,
+					GINASimulator::TrajectoryHeader&,
+					const GINASimulator::IMUStream&,
+					GINASimulator::IMUHeader&,
+					const Eigen::Vector3d&,
+					const Eigen::Vector3d&,
+					const unsigned int&, const double&,
 					const unsigned int&, const double&,
 					const double&);
 

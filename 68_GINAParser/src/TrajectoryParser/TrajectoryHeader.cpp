@@ -621,7 +621,9 @@ namespace GINASimulator {
 		TrajectoryStream& strm = dynamic_cast<TrajectoryStream&>(ffs);
 
 		if (strm.lineNumber == 18) {
-			strm << EpochIntervalTag << " " << epochInterval << std::endl;
+			if (epochInterval != INVALID_EPOCHINTERVAL_TRAJ_HEADER) {
+				strm << EpochIntervalTag << " " << epochInterval << std::endl;
+			}
 			strm.lineNumber++;
 			return true;
 		}

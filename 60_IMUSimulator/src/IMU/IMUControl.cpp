@@ -20,8 +20,8 @@ namespace IMUSimulator {
 	IMUControlCommand::IMUControlCommand(	Eigen::Vector3d a_contol,
 											Eigen::Vector3d w_control,
 											unsigned int startWeek,
-											unsigned int endWeek,
 											double startGPSToW,
+											unsigned int endWeek,
 											double endGPSToW,
 											double dt) {
 	
@@ -55,36 +55,87 @@ namespace IMUSimulator {
 		}
 	}
 
+	IMUControlCommand& IMUControlCommand::operator=(GINASimulator::IMUControlData& node) {
+
+		IMUControlCommand new_node;
+
+		new_node.a_contol[0] = node.acceleration[0];
+		new_node.a_contol[1] = node.acceleration[1];
+		new_node.a_contol[2] = node.acceleration[2];
+
+		new_node.w_control[0] = node.angularRate[0];
+		new_node.w_control[1] = node.angularRate[1];
+		new_node.w_control[2] = node.angularRate[2];
+
+		new_node.startWeek = node.getStartGPSWeek();
+		new_node.startGPSToW = node.getStartGPSToW();
+
+		new_node.endWeek = node.getEndGPSWeek();
+		new_node.endGPSToW = node.getEndGPSToW();
+
+		new_node.dt = node.getTimeStep();
+
+		return new_node;
+	}
+
+	double IMUControlCommand::getAccX(void) {
+		return a_contol[0];
+	}
+	double IMUControlCommand::getAccY(void) {
+		return a_contol[1];
+	}
+	double IMUControlCommand::getAccZ(void) {
+		return a_contol[2];
+	}
+	double IMUControlCommand::getAngX(void) {
+		return w_control[0];
+	}
+	double IMUControlCommand::getAngY(void) {
+		return w_control[1];
+	}
+	double IMUControlCommand::getAngZ(void) {
+		return w_control[2];
+	}
+	
+	int IMUControlCommand::getStartGPSWeek(void) {
+		return startWeek;
+	}
+	double IMUControlCommand::getStartGPSTow(void) {
+		return startGPSToW;
+	}
+
+	int IMUControlCommand::getEndGPSWeek(void) {
+		return endWeek;
+	}
+	double IMUControlCommand::getEndGPSTow(void) {
+		return endGPSToW;
+	}
+
+	double IMUControlCommand::getTimeStep(void) {
+		return dt;
+	}
+
 	IMUControl::IMUControl(void) { 
 
 		Eigen::Vector3d startVelocity_body;
 		startVelocity_body << 0, 0, 0;
-		setIMUControl(	0, 0, 0, 0, 0, 0, startVelocity_body, 0, 0,	0);
+		setIMUControl(	0, 0, 0, 0, 0, 0, startVelocity_body);
 	
 	};
 
 	IMUControl::IMUControl(	double lat, double lon, double height,
 							double roll, double pitch, double yaw,
-							Eigen::Vector3d startVelocity_body,
-							unsigned int gpsWeek,
-							double gpsToW,
-							double timeIncrement) {
+							Eigen::Vector3d startVelocity_body) {
 	
 		setIMUControl(	lat, lon, height,
 						roll, pitch, yaw,
-						startVelocity_body,
-						gpsWeek,
-						gpsToW,
-						timeIncrement);
+						startVelocity_body);
 	
 	}
 
 	unsigned char IMUControl::setIMUControl(double lat, double lon, double height,
 											double roll, double pitch, double yaw,
-											Eigen::Vector3d startVelocity_body,
-											unsigned int gpsWeek,
-											double gpsToW,
-											double timeIncrement) {
+											Eigen::Vector3d startVelocity_body) {
 	
 		Eigen::Vector3d rollpitchyaw, llh, ecef;
 
@@ -92,26 +143,11 @@ namespace IMUSimulator {
 		rollpitchyaw << roll, pitch, yaw;
 		ecef = IMUSimulator::Lib::transform_llh2ecef(llh);
 
-		IMUSimulator::PositionData posData;
-		IMUSimulator::Measure_IMU meas;
-
 		IMUSimulator::IMUSignalGenerator imuGenerator;
 		IMUSimulator::strapdown_ecef str_e(rollpitchyaw, startVelocity_body, ecef);
 
 		this->imuGenerator = imuGenerator;
 		this->str_e = str_e;
-		this->posData = posData;
-
-		this->meas.a[0] = meas.a[0];
-		this->meas.a[1] = meas.a[1];
-		this->meas.a[2] = meas.a[2];
-		
-		this->meas.w[0] = meas.w[0];
-		this->meas.w[1] = meas.w[1];
-		this->meas.w[2] = meas.w[2];
-
-		this->meas.tow = meas.tow;
-		this->meas.wn = meas.wn;
 	
 		return true;
 	}

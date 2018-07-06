@@ -8,6 +8,7 @@
 #include "FFTextStream.hpp"
 
 using namespace std;
+#define INVALID_EPOCHINTERVAL_TRAJ_HEADER -1
 
 namespace GINASimulator {
 

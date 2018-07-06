@@ -1,6 +1,25 @@
 
 #include "IMU_std_Lib.hpp"
 
+
+void setGINAParsers(const GINASimulator::TrajectoryStream& trajFileOut,
+					GINASimulator::TrajectoryHeader& trajHeader,
+					const GINASimulator::IMUStream& imuFileOut,
+					GINASimulator::IMUHeader& imuHeader,
+					const Eigen::Vector3d& ecef,
+					const Eigen::Vector3d& local_angle,
+					const unsigned int& startWeek, const double& startTime,
+					const unsigned int& endWeek, const double& endTime) {
+
+	setGINAParsers(	trajFileOut, trajHeader,
+					imuFileOut, imuHeader,
+					ecef, local_angle,
+					startWeek, startTime,
+					endWeek, endTime,
+					INVALID_EPOCHINTERVAL_IMU_HEADER);
+}
+
+
 void setGINAParsers(const GINASimulator::TrajectoryStream& trajFileOut,
 					GINASimulator::TrajectoryHeader& trajHeader,
 					const GINASimulator::IMUStream& imuFileOut,
@@ -27,8 +46,14 @@ void setGINAParsers(const GINASimulator::TrajectoryStream& trajFileOut,
 	imuHeader.endTime = endtime_gpstk;
 	imuHeader.startTime = starttime_gpstk;
 
-	trajHeader.epochInterval = dt;
-	imuHeader.epochInterval = dt;
+	if (dt != INVALID_EPOCHINTERVAL_IMU_HEADER) {
+		trajHeader.epochInterval = dt;
+		imuHeader.epochInterval = dt;
+	}
+	else {
+		trajHeader.epochInterval = INVALID_EPOCHINTERVAL_IMU_HEADER;
+		imuHeader.epochInterval = INVALID_EPOCHINTERVAL_TRAJ_HEADER;
+	}
 
 	trajHeader.startAttitude[0] = local_angle(0);
 	trajHeader.startAttitude[1] = local_angle(1);

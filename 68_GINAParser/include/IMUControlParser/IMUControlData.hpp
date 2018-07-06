@@ -83,6 +83,8 @@ namespace GINASimulator
 		double getEndGPSWeek(void);
 		double getEndGPSToW(void);
 
+		double getTimeStep(void);
+
 		static const string IMUControlData::startofDataTag;
 		IMUControlData& operator=(I_IMUControlData&);
 		

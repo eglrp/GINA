@@ -4,17 +4,36 @@
 #include "IMUSignalGenerator.h"
 #include "strapdown_ecef.h"
 
+#include "I_GINA_writer.hpp"
+#include "IMUControlData.hpp"
+
 namespace IMUSimulator {
 
 	
-	class IMUControlCommand {
+	class IMUControlCommand:public GINASimulator::I_IMUControlData {
 
 		friend class IMUControl;
 
 		public:
-		IMUControlCommand(void);
-		IMUControlCommand(Eigen::Vector3d,Eigen::Vector3d, unsigned int, unsigned int, double, double, double);
+			IMUControlCommand(void);
+			IMUControlCommand(Eigen::Vector3d,Eigen::Vector3d, unsigned int, double, unsigned int, double, double);
 
+			IMUControlCommand& operator=(GINASimulator::IMUControlData&);
+			
+			double getAccX(void);
+			double getAccY(void);
+			double getAccZ(void);
+			double getAngX(void);
+			double getAngY(void);
+			double getAngZ(void);
+
+			int getStartGPSWeek(void);
+			double getStartGPSTow(void);
+
+			int getEndGPSWeek(void);
+			double getEndGPSTow(void);
+
+			double getTimeStep(void);
 
 		private:
 			unsigned char checkValidity(void);
@@ -52,17 +71,11 @@ namespace IMUSimulator {
 
 		IMUControl(	double, double, double,
 					double, double, double,
-					Eigen::Vector3d,
-					unsigned int,
-					double,
-					double);
+					Eigen::Vector3d);
 
 		unsigned char setIMUControl(double, double, double,
 									double, double, double,
-									Eigen::Vector3d,
-									unsigned int,
-									double,
-									double);
+									Eigen::Vector3d);
 
 		unsigned char setCommand(IMUControlCommand);
 		

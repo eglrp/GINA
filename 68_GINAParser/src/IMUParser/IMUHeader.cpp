@@ -635,7 +635,9 @@ namespace GINASimulator {
 		IMUStream& strm = dynamic_cast<IMUStream&>(ffs);
 
 		if (strm.lineNumber == 18) {
-			strm << EpochIntervalTag << " " << epochInterval << std::endl;
+			if (epochInterval != INVALID_EPOCHINTERVAL_IMU_HEADER) {
+				strm << EpochIntervalTag << " " << epochInterval << std::endl;
+			}
 			strm.lineNumber++;
 			return true;
 		}
