@@ -24,6 +24,8 @@ namespace IMUSimulator {
 			Eigen::Vector3d Ve;
 
 			/*Constructor*/
+			strapdown_ecef(void);
+			strapdown_ecef(double, double, double);
 			strapdown_ecef(Eigen::Vector3d&);
 			strapdown_ecef(Eigen::Vector3d&, Eigen::Vector3d&);
 			strapdown_ecef(Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&);
@@ -41,6 +43,8 @@ namespace IMUSimulator {
 
 			void update_gravitiy(Eigen::Vector3d);
 			
+			strapdown_ecef operator=(const strapdown_ecef& str_e);
+
 			friend std::ostream& operator<<(std::ostream& os, const strapdown_ecef&);
 			friend  strapdown_ecef& operator>>(strapdown_ecef&, PositionData&);
 

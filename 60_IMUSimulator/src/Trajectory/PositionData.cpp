@@ -8,7 +8,18 @@ namespace IMUSimulator {
 
 	}
 
-	
+	PositionData::PositionData(const PositionData& posData) {
+
+		this->GPSWeek = posData.GPSWeek;
+		this->GPSToW = posData.GPSToW;
+		this->ecef[0] = posData.ecef[0];
+		this->ecef[1] = posData.ecef[1];
+		this->ecef[2] = posData.ecef[2];
+		this->attitude[0] = posData.attitude[0];
+		this->attitude[1] = posData.attitude[1];
+		this->attitude[2] = posData.attitude[2];
+			
+	}
 
 	Position_IMU& PositionData::operator=(PositionData& node) {
 
@@ -34,14 +45,6 @@ namespace IMUSimulator {
 
 		return new_node;
 	}
-
-	/*PositionData & PositionData::operator=(strapdown_ecef  str)
-	{
-		
-		PositionData pos;
-		// TODO: insert return statement here
-		return pos;
-	}*/
 
 	PositionData& PositionData::operator=(Position_IMU& node) {
 	

@@ -1,6 +1,6 @@
 
 #include "CreateTrajectorywIMUCommand.hpp"
-
+#include "IMUControl.h"
 
 void IMUCommandForTrajectory(std::string trajFileNamewPath, std::string imuFileNamewPath) {
 
@@ -29,8 +29,6 @@ void IMUCommandForTrajectory(std::string trajFileNamewPath, std::string imuFileN
 	typedef std::numeric_limits< double > dbl;
 	std::cout.precision(dbl::max_digits10);
 
-	Eigen::Matrix3d Cnb;
-
 	IMUSimulator::IMUStore imuStore;
 	IMUSimulator::Trajectory traj;
 	IMUSimulator::PositionData posData;
@@ -50,28 +48,51 @@ void IMUCommandForTrajectory(std::string trajFileNamewPath, std::string imuFileN
 	IMUSimulator::IMUSignalGenerator imuGenerator;
 	IMUSimulator::strapdown_ecef str_e(rollpitchyaw, Vb, ecef);
 
-	setGINAParsers(trajFileOut, trajHeader,
-		imuFileOut, imuHeader,
-		ecef, rollpitchyaw,
-		startWeek, startTime,
-		endWeek, endTime,
-		dt);
+	setGINAParsers(	trajFileOut, trajHeader,
+					imuFileOut, imuHeader,
+					ecef, rollpitchyaw,
+					startWeek, startTime,
+					endWeek, endTime,
+					dt);
 
 	trajFileOut << trajHeader;
 	imuFileOut << imuHeader;
 
-	for (time = startTime; time < endTime; time += dt) {
+	IMUSimulator::IMUControl  imuControl;
+	IMUSimulator::IMUControlCommand imuCommand( ab,	wb,	startWeek, endWeek,	startTime, endTime,	dt);
 
-		generatetrajectory(imuGenerator, str_e,
-			posData, meas,
-			ab, wb,
-			startWeek, time,
-			dt);
+	imuControl.setIMUControl(	llh(0), llh(1), llh(2),
+								rollpitchyaw(0), rollpitchyaw(1), rollpitchyaw(2),
+								Vb,
+								startWeek,
+								startTime,
+								dt);
+
+	
+
+		imuControl.setCommand(imuCommand);
+
+		
+		/*Usage of runAll() method*/
+		/*imuControl.runAll();
+
+		imuControl.getPositionData(posData);
+		
+		meas = imuControl.getMeasurement();
 
 		trajFileOut << convert2GINAcompatible(posData);
-		imuFileOut << convert2GINAcompatible(meas);
-	}
+		imuFileOut << convert2GINAcompatible(meas);*/
+		
 
+		while (imuControl.runStep()) {
+		
+			imuControl.getPositionData(posData);
+			meas = imuControl.getMeasurement();
+
+			trajFileOut << convert2GINAcompatible(posData);
+			imuFileOut << convert2GINAcompatible(meas);
+		}
+		
 	trajFileOut.close();
 	imuFileOut.close();
 

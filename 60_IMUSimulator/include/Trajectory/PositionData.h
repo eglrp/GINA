@@ -19,6 +19,7 @@ namespace IMUSimulator {
 	public:
 
 		PositionData(void);
+		PositionData(const PositionData& posData); 
 
 		int GPSWeek;
 		double GPSToW;
@@ -28,7 +29,7 @@ namespace IMUSimulator {
 		PositionData& operator=(GINASimulator::TrajectoryData&);
 		PositionData& operator=(Position_IMU&);
 		Position_IMU& operator=(PositionData&);
-
+		
 		virtual double getECEF_X(void);
 		virtual double getECEF_Y(void);
 		virtual double getECEF_Z(void);

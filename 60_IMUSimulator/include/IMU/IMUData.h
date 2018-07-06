@@ -6,20 +6,12 @@
 #include <vector>
 
 // GINAParser
-//#include "IMUBase.hpp"
 #include "IMUData.hpp"
 #include "IMUHeader.hpp"
 
 #include "I_GINA_writer.hpp"
 
-/*#include "IMUStream.hpp"
-#include "IMUStore.hpp"*/
 
-/*#include "TrajectoryBase.hpp"
-#include "TrajectoryData.hpp"
-#include "TrajectoryHeader.hpp"
-#include "TrajectoryStream.hpp"
-#include "TrajectoryStore.hpp"*/
 
 namespace IMUSimulator {
 

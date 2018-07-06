@@ -9,6 +9,32 @@
 namespace IMUSimulator {
 
 	/*Constructors*/
+	strapdown_ecef::strapdown_ecef(void) {
+		std::cout << "Error! Default constructor of strapdown_ecef shall not be used! " << endl;
+		throw("Error! Default constructor of strapdown_ecef shall not be used!");
+	}
+
+	strapdown_ecef::strapdown_ecef(double x, double y, double z) {
+
+		Eigen::Vector3d  ecef_new;
+		ecef_new << x, y, z;
+
+		/*Set default velocity*/
+		Eigen::Vector3d Ve_new;
+		Ve_new << 0, 0, 0;
+
+		/*Calculate default Cbe from Cne*/
+		Eigen::Vector3d llh_new;
+
+		llh_new = this->transform_ecef2llh_DEG(ecef_new);
+
+		Eigen::Vector3d attitude;
+		attitude << 0., 0., 0.;
+
+		/*Set new params*/
+		this->setParams(attitude, Ve_new, ecef_new);
+	}
+
 	strapdown_ecef::strapdown_ecef(Eigen::Vector3d& ecef_new) {
 
 		/*Set default velocity*/
@@ -19,10 +45,7 @@ namespace IMUSimulator {
 		Eigen::Vector3d llh_new;
 		
 		llh_new = this->transform_ecef2llh_DEG(ecef_new);
-		//this->Cne = this->pos2Cne(llh_new[0], llh_new[1]);
-
-		//Eigen::Matrix3d Cbe_new;
-		//Cbe_new = this->Cne;
+		
 
 		Eigen::Vector3d attitude;
 		attitude << 0., 0., 0.;
@@ -193,6 +216,20 @@ namespace IMUSimulator {
 
 		this->wgs84.setCoordinates(llh_array_deg, IMUSimulator::CoordiateFrame::LLH_Frame);
 		this->wgs84.get_Gravity_and_WIE_E(this->g, this->wie_e);
+	}
+
+	strapdown_ecef strapdown_ecef::operator=(const strapdown_ecef& str_e) {
+
+		this->GPSWeek = str_e.GPSWeek;
+		this->GPSToW = str_e.GPSToW;
+		this->g = str_e.g;
+		this->wie_e = str_e.wie_e;
+		this->ecef = str_e.ecef;
+		this->rollpitchyaw = str_e.rollpitchyaw;
+		this->wgs84 = str_e.wgs84;
+		this->Ve = str_e.Ve;
+
+		return *this;
 	}
 
 	std::ostream& operator<<(std::ostream& os, strapdown_ecef& str_e) {
