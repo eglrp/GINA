@@ -1,7 +1,7 @@
 
 #include "TrajectoryStream.hpp"
 
-namespace GINASimulator {
+namespace GINAParser {
 	TrajectoryStream::TrajectoryStream(){
 		init();
 	}

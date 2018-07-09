@@ -2,7 +2,7 @@
 
 #include "FFData.hpp"
 
-namespace GINASimulator {
+namespace GINAParser {
 		/// @ingroup FileHandling
 		//@{
 

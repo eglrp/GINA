@@ -1,7 +1,7 @@
 
 #include "IMUControlStream.hpp"
 
-namespace GINASimulator {
+namespace GINAParser {
 	IMUControlStream::IMUControlStream(){
 		init();
 	}

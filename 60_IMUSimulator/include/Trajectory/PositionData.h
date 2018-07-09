@@ -14,7 +14,7 @@ namespace IMUSimulator {
 
 	std::ostream& operator<<(std::ostream& os, const Position_IMU&);
 
-	class PositionData :public GINASimulator::I_TrajectoryData {
+	class PositionData :public GINAParser::I_TrajectoryData {
 
 	public:
 
@@ -26,7 +26,7 @@ namespace IMUSimulator {
 		double ecef[3];
 		double attitude[3];
 
-		PositionData& operator=(GINASimulator::TrajectoryData&);
+		PositionData& operator=(GINAParser::TrajectoryData&);
 		PositionData& operator=(Position_IMU&);
 		Position_IMU& operator=(PositionData&);
 		

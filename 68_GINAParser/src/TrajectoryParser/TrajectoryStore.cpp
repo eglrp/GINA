@@ -1,6 +1,6 @@
 #include "TrajectoryStore.hpp"
 
-namespace GINASimulator {
+namespace GINAParser {
 	TrajectoryStore::TrajectoryStore()
 	{
 	}

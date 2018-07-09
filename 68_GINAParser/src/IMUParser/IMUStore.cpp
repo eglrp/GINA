@@ -1,6 +1,6 @@
 #include "IMUStore.hpp"
 
-namespace GINASimulator {
+namespace GINAParser {
 	IMUStore::IMUStore()
 	{
 	}

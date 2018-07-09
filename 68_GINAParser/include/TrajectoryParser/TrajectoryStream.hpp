@@ -3,7 +3,7 @@
 #include "FFTextStream.hpp"
 #include "TrajectoryHeader.hpp"
 
-namespace GINASimulator {
+namespace GINAParser {
 
 	class TrajectoryStream : public gpstk::FFTextStream
 	{

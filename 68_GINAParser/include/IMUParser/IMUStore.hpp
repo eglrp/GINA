@@ -4,7 +4,7 @@
 #include <map>
 #include "IMUData.hpp"
 
-namespace GINASimulator {
+namespace GINAParser {
 	class IMUStore
 	{
 	public:

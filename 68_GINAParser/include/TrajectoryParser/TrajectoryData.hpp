@@ -14,7 +14,7 @@
 
 #include "I_GINA_writer.hpp"
 
-namespace GINASimulator
+namespace GINAParser
 {
 	/// @ingroup FileHandling
 	//@{

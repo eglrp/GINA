@@ -21,7 +21,7 @@ namespace IMUSimulator {
 		this->dt = 0;
 	};
 
-	IMUControlCommand::IMUControlCommand(const GINASimulator::IMUControlData& data) {
+	IMUControlCommand::IMUControlCommand(const GINAParser::IMUControlData& data) {
 
 		this->a_contol[0] = data.acceleration[0];
 		this->a_contol[1] = data.acceleration[1];
@@ -106,7 +106,7 @@ namespace IMUSimulator {
 		}
 	}
 
-	IMUControlCommand& IMUControlCommand::operator=(GINASimulator::IMUControlData& node) {
+	IMUControlCommand& IMUControlCommand::operator=(GINAParser::IMUControlData& node) {
 
 		IMUControlCommand new_node;
 

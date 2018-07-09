@@ -3,7 +3,7 @@
 #include "FFTextStream.hpp"
 #include "IMUControlHeader.hpp"
 
-namespace GINASimulator {
+namespace GINAParser {
 
 	class IMUControlStream : public gpstk::FFTextStream
 	{

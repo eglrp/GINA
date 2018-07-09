@@ -35,10 +35,10 @@ int main(int argc, char **argv) {
 
 
 	// IMU Control file parser
-	GINASimulator::IMUControlStream imuControlFileIn("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\68_GINAParser\\files\\example_IMU_Control_Input.gina");
-	GINASimulator::IMUControlStream imuControlFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\68_GINAParser\\files\\example_IMU_Control_Input_out.gina", std::ios::out);
-	GINASimulator::IMUControlHeader imuControlHeader;
-	GINASimulator::IMUControlData imuControlData;
+	GINAParser::IMUControlStream imuControlFileIn("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\68_GINAParser\\files\\example_IMU_Control_Input.gina");
+	GINAParser::IMUControlStream imuControlFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\68_GINAParser\\files\\example_IMU_Control_Input_out.gina", std::ios::out);
+	GINAParser::IMUControlHeader imuControlHeader;
+	GINAParser::IMUControlData imuControlData;
 
 	imuControlFileIn >> imuControlHeader;
 	imuControlFileOut << imuControlHeader;
@@ -56,10 +56,10 @@ int main(int argc, char **argv) {
 	imuControlFileOut.close();
 
 	// IMU file parser
-	GINASimulator::IMUStream imuFileIn("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\68_GINAParser\\files\\example_IMU_Input.gina");
-	GINASimulator::IMUStream imuFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\68_GINAParser\\files\\example_IMU_Input_out.gina", std::ios::out);
-	GINASimulator::IMUHeader imuHeader;
-	GINASimulator::IMUData imuData;
+	GINAParser::IMUStream imuFileIn("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\68_GINAParser\\files\\example_IMU_Input.gina");
+	GINAParser::IMUStream imuFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\68_GINAParser\\files\\example_IMU_Input_out.gina", std::ios::out);
+	GINAParser::IMUHeader imuHeader;
+	GINAParser::IMUData imuData;
 
 	imuFileIn >> imuHeader;
 	imuFileOut << imuHeader;
@@ -78,10 +78,10 @@ int main(int argc, char **argv) {
 
 	// Trajectory file parser
 	
-	GINASimulator::TrajectoryStream trajFileIn("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\68_GINAParser\\files\\example_trajectory.gina");
-	GINASimulator::TrajectoryStream trajFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\68_GINAParser\\files\\example_trajectory_out.gina", std::ios::out);
-	GINASimulator::TrajectoryHeader trajHeader;
-	GINASimulator::TrajectoryData trajData;
+	GINAParser::TrajectoryStream trajFileIn("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\68_GINAParser\\files\\example_trajectory.gina");
+	GINAParser::TrajectoryStream trajFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\68_GINAParser\\files\\example_trajectory_out.gina", std::ios::out);
+	GINAParser::TrajectoryHeader trajHeader;
+	GINAParser::TrajectoryData trajData;
 
 	trajFileIn >> trajHeader;
 	trajFileOut << trajHeader;

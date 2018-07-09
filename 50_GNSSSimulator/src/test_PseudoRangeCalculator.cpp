@@ -406,11 +406,11 @@ int PseudoRangeCalculator_test7(void) {
 	psdRangeCalc.ProcessEphemerisFile(navFileNamewPath.c_str());
 
 
-	GINASimulator::TrajectoryStream trajFileInGINA(trajFileNamewPath.c_str(), std::ios::in); //("..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
+	GINAParser::TrajectoryStream trajFileInGINA(trajFileNamewPath.c_str(), std::ios::in); //("..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
 	TrajectoryStream trajFileInTest;
 	TrajectoryStream trajFileIn(trajFileNamewPath.c_str());
-	GINASimulator::TrajectoryHeader trajHeader;
-	GINASimulator::TrajectoryData trajDataGINA;
+	GINAParser::TrajectoryHeader trajHeader;
+	GINAParser::TrajectoryData trajDataGINA;
 	TrajectoryData trajData;
 	TrajectoryStore test_trajStore;// = psdRangeCalc.trajStore;
 

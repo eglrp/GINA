@@ -35,13 +35,13 @@ void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFil
 	IMUSimulator::Measure_IMU meas;
 	IMUSimulator::IMUData imu_meas;
 
-	GINASimulator::TrajectoryStream trajFileOut(trajFileNamewPath.c_str(), std::ios::out);
-	GINASimulator::TrajectoryHeader trajHeader;
-	GINASimulator::TrajectoryData trajData;
+	GINAParser::TrajectoryStream trajFileOut(trajFileNamewPath.c_str(), std::ios::out);
+	GINAParser::TrajectoryHeader trajHeader;
+	GINAParser::TrajectoryData trajData;
 
-	GINASimulator::IMUStream imuFileOut(imuFileNamewPath.c_str(), std::ios::out);
-	GINASimulator::IMUHeader imuHeader;
-	GINASimulator::IMUData imuData;
+	GINAParser::IMUStream imuFileOut(imuFileNamewPath.c_str(), std::ios::out);
+	GINAParser::IMUHeader imuHeader;
+	GINAParser::IMUData imuData;
 
 	ecef = IMUSimulator::Lib::transform_llh2ecef(llh);
 	

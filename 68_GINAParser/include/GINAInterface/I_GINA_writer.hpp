@@ -1,5 +1,5 @@
 #pragma once
-namespace GINASimulator {
+namespace GINAParser {
 
 	class I_IMUControlData {
 

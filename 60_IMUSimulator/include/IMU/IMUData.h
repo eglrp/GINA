@@ -17,7 +17,7 @@ namespace IMUSimulator {
 
 	std::ostream& operator<<(std::ostream& os, const Position_IMU&);
 
-	class IMUData:public GINASimulator::I_IMUData {
+	class IMUData:public GINAParser::I_IMUData {
 
 	public:
 
@@ -28,7 +28,7 @@ namespace IMUSimulator {
 		double acceleration[3];
 		double angularRate[3];
 
-		IMUData& operator=(GINASimulator::IMUData&);
+		IMUData& operator=(GINAParser::IMUData&);
 		IMUData& operator=(Measure_IMU&);
 		Measure_IMU& IMUData::operator=(IMUData&);
 

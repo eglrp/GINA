@@ -4,7 +4,7 @@
 #include <map>
 #include "TrajectoryData.hpp"
 
-namespace GINASimulator {
+namespace GINAParser {
 	class TrajectoryStore
 	{
 	public:

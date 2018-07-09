@@ -1,7 +1,7 @@
 
 #include "IMUControlData.hpp"
 
-namespace GINASimulator
+namespace GINAParser
 {
 	using namespace gpstk::StringUtils;
 	using namespace std;

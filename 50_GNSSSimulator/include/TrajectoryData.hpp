@@ -64,7 +64,7 @@ namespace gnsssimulator
 		
 		TrajectoryData& operator+=(gpstk::Position&);
 		TrajectoryData& TrajectoryData::operator=(gpstk::Position&);
-		TrajectoryData& TrajectoryData::operator=(GINASimulator::TrajectoryData&);
+		TrajectoryData& TrajectoryData::operator=(GINAParser::TrajectoryData&);
 
 		gpstk::Position::CoordinateSystem coorSys = gpstk::Position::CoordinateSystem::Unknown;
 		gpstk::Position pos;

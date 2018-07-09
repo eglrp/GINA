@@ -37,19 +37,19 @@
 #include "TrajectoryStream.hpp"
 #include "TrajectoryStore.hpp"
 
-void setGINAParsers(const GINASimulator::TrajectoryStream&,
-					GINASimulator::TrajectoryHeader&,
-					const GINASimulator::IMUStream&,
-					GINASimulator::IMUHeader&,
+void setGINAParsers(const GINAParser::TrajectoryStream&,
+					GINAParser::TrajectoryHeader&,
+					const GINAParser::IMUStream&,
+					GINAParser::IMUHeader&,
 					const Eigen::Vector3d&,
 					const Eigen::Vector3d&,
 					const unsigned int&, const double&,
 					const unsigned int&, const double&);
 
-void setGINAParsers(const GINASimulator::TrajectoryStream&,
-					GINASimulator::TrajectoryHeader&,
-					const GINASimulator::IMUStream&,
-					GINASimulator::IMUHeader&,
+void setGINAParsers(const GINAParser::TrajectoryStream&,
+					GINAParser::TrajectoryHeader&,
+					const GINAParser::IMUStream&,
+					GINAParser::IMUHeader&,
 					const Eigen::Vector3d&,
 					const Eigen::Vector3d&,
 					const unsigned int&, const double&,
@@ -66,5 +66,5 @@ void generatetrajectory(IMUSimulator::IMUSignalGenerator&,
 						double,
 						double);
 
-GINASimulator::TrajectoryData convert2GINAcompatible(IMUSimulator::PositionData&);
-GINASimulator::IMUData convert2GINAcompatible(IMUSimulator::Measure_IMU&);
+GINAParser::TrajectoryData convert2GINAcompatible(IMUSimulator::PositionData&);
+GINAParser::IMUData convert2GINAcompatible(IMUSimulator::Measure_IMU&);

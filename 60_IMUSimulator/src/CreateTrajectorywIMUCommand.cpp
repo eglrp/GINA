@@ -6,10 +6,10 @@ void IMUCommandForTrajectory(std::string trajFileNamewPath, std::string imuFileN
 
 
 	// IMU Control file parser
-	GINASimulator::IMUControlStream imuControlFileIn(imuCommandFileNamewPath.c_str());
+	GINAParser::IMUControlStream imuControlFileIn(imuCommandFileNamewPath.c_str());
 	
-	GINASimulator::IMUControlHeader imuControlHeader;
-	GINASimulator::IMUControlData imuControlData;
+	GINAParser::IMUControlHeader imuControlHeader;
+	GINAParser::IMUControlData imuControlData;
 
 	imuControlFileIn >> imuControlHeader;
 
@@ -33,13 +33,13 @@ void IMUCommandForTrajectory(std::string trajFileNamewPath, std::string imuFileN
 	IMUSimulator::Measure_IMU meas;
 	IMUSimulator::IMUData imu_meas;
 
-	GINASimulator::TrajectoryStream trajFileOut(trajFileNamewPath.c_str(), std::ios::out);
-	GINASimulator::TrajectoryHeader trajHeader;
-	GINASimulator::TrajectoryData trajData;
+	GINAParser::TrajectoryStream trajFileOut(trajFileNamewPath.c_str(), std::ios::out);
+	GINAParser::TrajectoryHeader trajHeader;
+	GINAParser::TrajectoryData trajData;
 
-	GINASimulator::IMUStream imuFileOut(imuFileNamewPath.c_str(), std::ios::out);
-	GINASimulator::IMUHeader imuHeader;
-	GINASimulator::IMUData imuData;
+	GINAParser::IMUStream imuFileOut(imuFileNamewPath.c_str(), std::ios::out);
+	GINAParser::IMUHeader imuHeader;
+	GINAParser::IMUData imuData;
 
 	IMUSimulator::IMUSignalGenerator imuGenerator;
 	IMUSimulator::strapdown_ecef str_e(rollpitchyaw, Vb, ecef);

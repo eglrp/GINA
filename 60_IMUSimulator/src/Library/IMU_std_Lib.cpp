@@ -2,10 +2,10 @@
 #include "IMU_std_Lib.hpp"
 
 
-void setGINAParsers(const GINASimulator::TrajectoryStream& trajFileOut,
-					GINASimulator::TrajectoryHeader& trajHeader,
-					const GINASimulator::IMUStream& imuFileOut,
-					GINASimulator::IMUHeader& imuHeader,
+void setGINAParsers(const GINAParser::TrajectoryStream& trajFileOut,
+					GINAParser::TrajectoryHeader& trajHeader,
+					const GINAParser::IMUStream& imuFileOut,
+					GINAParser::IMUHeader& imuHeader,
 					const Eigen::Vector3d& ecef,
 					const Eigen::Vector3d& local_angle,
 					const unsigned int& startWeek, const double& startTime,
@@ -20,10 +20,10 @@ void setGINAParsers(const GINASimulator::TrajectoryStream& trajFileOut,
 }
 
 
-void setGINAParsers(const GINASimulator::TrajectoryStream& trajFileOut,
-					GINASimulator::TrajectoryHeader& trajHeader,
-					const GINASimulator::IMUStream& imuFileOut,
-					GINASimulator::IMUHeader& imuHeader,
+void setGINAParsers(const GINAParser::TrajectoryStream& trajFileOut,
+					GINAParser::TrajectoryHeader& trajHeader,
+					const GINAParser::IMUStream& imuFileOut,
+					GINAParser::IMUHeader& imuHeader,
 					const Eigen::Vector3d& ecef,
 					const Eigen::Vector3d& local_angle,
 					const unsigned int& startWeek, const double& startTime,
@@ -103,17 +103,17 @@ void generatetrajectory(IMUSimulator::IMUSignalGenerator& imuGenerator,
 	str_e >> posData;
 }
 
-GINASimulator::TrajectoryData convert2GINAcompatible(IMUSimulator::PositionData &posData) {
+GINAParser::TrajectoryData convert2GINAcompatible(IMUSimulator::PositionData &posData) {
 
-	GINASimulator::TrajectoryData trajData;
+	GINAParser::TrajectoryData trajData;
 	trajData = posData;
 
 	return trajData;
 }
 
-GINASimulator::IMUData convert2GINAcompatible(IMUSimulator::Measure_IMU &meas) {
+GINAParser::IMUData convert2GINAcompatible(IMUSimulator::Measure_IMU &meas) {
 
-	GINASimulator::IMUData imuData;
+	GINAParser::IMUData imuData;
 	IMUSimulator::IMUData imu_meas;
 
 	imu_meas = meas;

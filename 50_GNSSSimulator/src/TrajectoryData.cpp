@@ -83,7 +83,7 @@ namespace gnsssimulator
 		return *this;
 	}
 
-	TrajectoryData& TrajectoryData::operator=(GINASimulator::TrajectoryData& trajData) {
+	TrajectoryData& TrajectoryData::operator=(GINAParser::TrajectoryData& trajData) {
 		this->pos = trajData.pos;
 		this->coorSys = trajData.coorSys;
 		this->gpsTime = gpstk::GPSWeekSecond(trajData.time);

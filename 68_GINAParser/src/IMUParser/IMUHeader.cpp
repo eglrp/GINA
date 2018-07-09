@@ -2,7 +2,7 @@
 #include "IMUHeader.hpp"
 #include "IMUStream.hpp"
 
-namespace GINASimulator {
+namespace GINAParser {
 
 	const int IMUHeader::numberofLineinHeader = 21;
 	const string IMUHeader::startofHeaderGinaTag = "START OF HEADER";

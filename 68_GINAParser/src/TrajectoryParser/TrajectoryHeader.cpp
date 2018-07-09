@@ -2,7 +2,7 @@
 #include "TrajectoryHeader.hpp"
 #include "TrajectoryStream.hpp"
 
-namespace GINASimulator {
+namespace GINAParser {
 
 	const int TrajectoryHeader::numberofLineinHeader = 21;
 	const string TrajectoryHeader::startofHeaderGinaTag = "START OF HEADER";

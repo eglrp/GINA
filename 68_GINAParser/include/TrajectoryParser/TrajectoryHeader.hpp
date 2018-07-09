@@ -10,7 +10,7 @@
 using namespace std;
 #define INVALID_EPOCHINTERVAL_TRAJ_HEADER -1
 
-namespace GINASimulator {
+namespace GINAParser {
 
 	/// This class models the RINEX 3 Nav header for a RINEX 3 Nav file.
 	/// \sa Rinex3NavData and Rinex3NavStream classes.

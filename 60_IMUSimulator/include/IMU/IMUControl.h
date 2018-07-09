@@ -10,16 +10,16 @@
 namespace IMUSimulator {
 
 	
-	class IMUControlCommand:public GINASimulator::I_IMUControlData {
+	class IMUControlCommand:public GINAParser::I_IMUControlData {
 
 		friend class IMUControl;
 
 		public:
 			IMUControlCommand(void);
-			IMUControlCommand(const GINASimulator::IMUControlData&);
+			IMUControlCommand(const GINAParser::IMUControlData&);
 			IMUControlCommand(double[3], double[3], unsigned int, double, unsigned int, double, double);
 
-			IMUControlCommand& operator=(GINASimulator::IMUControlData&);
+			IMUControlCommand& operator=(GINAParser::IMUControlData&);
 			
 			double getAccX(void) const;
 			double getAccY(void) const;
@@ -91,6 +91,7 @@ namespace IMUSimulator {
 		// PositionData& IMUControl::getPositionData(void) const; TODO: This cannot be done bc during the return the copy constoructure of the PositionData will be called and the usable one already occupied by Position_IMU& operator=(PositionData&); I cannot define PositionData& operator=(PositionData&); bc if it only differs by the return type it is not enough.
 
 		Measure_IMU getMeasurement(void) const;
+		bool IMUControl::getMeasurement(Measure_IMU&) const;
 
 	private:
 
