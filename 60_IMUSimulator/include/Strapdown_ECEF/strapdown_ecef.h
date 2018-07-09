@@ -29,17 +29,19 @@ namespace IMUSimulator {
 			strapdown_ecef(Eigen::Vector3d&);
 			strapdown_ecef(Eigen::Vector3d&, Eigen::Vector3d&);
 			strapdown_ecef(Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&);
+			strapdown_ecef(double[3], double[3], double[3]);
 
 			void update(Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&, double);
 			void strapdown_ecef::update(Measure_IMU&, double);
 			void update(Eigen::Vector3d&, Eigen::Vector3d&, double);
 
 			void setParams(Eigen::Vector3d&, Eigen::Vector3d&, Eigen::Vector3d&);
+			void setParams(double[3], double[3], double[3]);
 			void setTime(unsigned int&, double&);
 
-			Eigen::Vector3d const getLLH_in_DEG(void);
-			Eigen::Vector3d getVbody(void);
-			Eigen::Vector3d getLocalAngle(void);
+			Eigen::Vector3d getLLH_in_DEG(void) const;
+			Eigen::Vector3d getVbody(void) const;
+			Eigen::Vector3d getLocalAngle(void) const;
 
 			void update_gravitiy(Eigen::Vector3d);
 			
@@ -49,14 +51,15 @@ namespace IMUSimulator {
 			friend  strapdown_ecef& operator>>(strapdown_ecef&, PositionData&);
 
 		private:
-			Eigen::Matrix3d strapdown_ecef::skew(Eigen::Vector3d&);
-			Eigen::Vector3d strapdown_ecef::transform_ecef2llh_DEG(Eigen::Vector3d&);
-			Eigen::Vector3d strapdown_ecef::transform_ecef2llh_RAD(Eigen::Vector3d&);
-			Eigen::Matrix3d strapdown_ecef::pos2Cne_RAD(double&, double&);
-			Eigen::Matrix3d strapdown_ecef::pos2Cne_RAD(Eigen::Vector3d&);
-			Eigen::Matrix3d strapdown_ecef::pos2Cne_ECEF(Eigen::Vector3d&);
-			Eigen::Matrix3d strapdown_ecef::getCbe(void);
-			Eigen::Matrix3d strapdown_ecef::calculateCbe(Eigen::Vector3d, Eigen::Vector3d);
+			Eigen::Matrix3d strapdown_ecef::skew(const Eigen::Vector3d&) const;
+			Eigen::Vector3d strapdown_ecef::transform_ecef2llh_DEG(const Eigen::Vector3d&) const;
+			Eigen::Vector3d strapdown_ecef::transform_ecef2llh_DEG(const double[3]) const;
+			Eigen::Vector3d strapdown_ecef::transform_ecef2llh_RAD(const Eigen::Vector3d&) const;
+			Eigen::Matrix3d strapdown_ecef::pos2Cne_RAD(const double&, const double&) const;
+			Eigen::Matrix3d strapdown_ecef::pos2Cne_RAD(const Eigen::Vector3d&) const;
+			Eigen::Matrix3d strapdown_ecef::pos2Cne_ECEF(const Eigen::Vector3d&) const;
+			Eigen::Matrix3d strapdown_ecef::getCbe(void) const;
+			Eigen::Matrix3d strapdown_ecef::calculateCbe(const Eigen::Vector3d, const Eigen::Vector3d) const;
 			
 	};
 }

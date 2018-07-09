@@ -73,6 +73,14 @@ namespace IMUSimulator {
 		return meas;
 	}
 
+	Measure_IMU IMUSignalGenerator::calculate(double a_body[3], double w_body[3], Eigen::Vector3d V_body, Eigen::Vector3d llh_deg, Eigen::Vector3d attitude) {
+		Eigen::Vector3d a, w;
+		a << a_body[0], a_body[1], a_body[2];
+		w << w_body[0], w_body[1], w_body[2];
+
+		return calculate(a, w, V_body, llh_deg, attitude);
+	}
+
 	Eigen::Matrix3d IMUSignalGenerator::pos2Cne_RAD(double& lat, double& lon) {
 		// lat long in rad
 		return IMUSimulator::Lib::pos2Cne(lat, lon);

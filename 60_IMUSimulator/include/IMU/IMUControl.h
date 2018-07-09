@@ -16,30 +16,31 @@ namespace IMUSimulator {
 
 		public:
 			IMUControlCommand(void);
-			IMUControlCommand(Eigen::Vector3d,Eigen::Vector3d, unsigned int, double, unsigned int, double, double);
+			IMUControlCommand(const GINASimulator::IMUControlData&);
+			IMUControlCommand(double[3], double[3], unsigned int, double, unsigned int, double, double);
 
 			IMUControlCommand& operator=(GINASimulator::IMUControlData&);
 			
-			double getAccX(void);
-			double getAccY(void);
-			double getAccZ(void);
-			double getAngX(void);
-			double getAngY(void);
-			double getAngZ(void);
+			double getAccX(void) const;
+			double getAccY(void) const;
+			double getAccZ(void) const;
+			double getAngX(void) const;
+			double getAngY(void) const;
+			double getAngZ(void) const;
 
-			int getStartGPSWeek(void);
-			double getStartGPSTow(void);
+			int getStartGPSWeek(void) const;
+			double getStartGPSTow(void) const;
 
-			int getEndGPSWeek(void);
-			double getEndGPSTow(void);
+			int getEndGPSWeek(void) const;
+			double getEndGPSTow(void) const;
 
-			double getTimeStep(void);
+			double getTimeStep(void) const;
 
 		private:
 			unsigned char checkValidity(void);
 
-			Eigen::Vector3d a_contol;
-			Eigen::Vector3d w_control;
+			double a_contol[3];
+			double w_control[3];
 			unsigned int startWeek;
 			unsigned int endWeek;
 			double startGPSToW;
@@ -53,12 +54,12 @@ namespace IMUSimulator {
 	class IMUControl {
 
 		IMUSimulator::IMUSignalGenerator imuGenerator;
-		IMUSimulator::strapdown_ecef str_e = strapdown_ecef(0,0,0);
+		IMUSimulator::strapdown_ecef str_e = strapdown_ecef(0.,0.,0.);
 		IMUSimulator::PositionData posData;
 		IMUSimulator::Measure_IMU meas;
 
-		Eigen::Vector3d a_contol;
-		Eigen::Vector3d w_control;
+		double a_control[3];
+		double w_control[3];
 		unsigned int startWeek;
 		unsigned int endWeek;
 		double startGPSToW;
@@ -71,23 +72,23 @@ namespace IMUSimulator {
 
 		IMUControl(	double, double, double,
 					double, double, double,
-					Eigen::Vector3d);
+					double[3]);
 
 		unsigned char setIMUControl(double, double, double,
 									double, double, double,
-									Eigen::Vector3d);
+									double[3]);
 
-		unsigned char setCommand(IMUControlCommand);
+		unsigned char setCommand(const IMUControlCommand);
 		
-		unsigned char setCommand(unsigned int, double, unsigned int, double, double, Eigen::Vector3d, Eigen::Vector3d);
+		unsigned char setCommand(const unsigned int, const double, const unsigned int, const double, const double, const double[3], const double[3]);
 		
 		unsigned char runAll(void);
 
 		unsigned char runStep(void);
 
-		bool getPositionData(PositionData&);
+		bool getPositionData(PositionData&) const;
 
-		Measure_IMU getMeasurement(void);
+		Measure_IMU getMeasurement(void) const;
 
 	private:
 
@@ -105,8 +106,8 @@ namespace IMUSimulator {
 								IMUSimulator::strapdown_ecef& str_e,
 								IMUSimulator::PositionData& posData,
 								IMUSimulator::Measure_IMU& meas,
-								Eigen::Vector3d ab,
-								Eigen::Vector3d wb,
+								double ab[3],
+								double wb[3],
 								unsigned int gpsWeek,
 								double gpsToW,
 								double timeIncrement);

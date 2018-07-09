@@ -61,29 +61,29 @@ namespace IMUSimulator {
 		return new_node;
 	}
 
-	double IMUData::getAccX(void) {
+	double IMUData::getAccX(void) const {
 		return acceleration[0];
 	}
-	double IMUData::getAccY(void) {
+	double IMUData::getAccY(void) const {
 		return acceleration[1];
 	}
-	double IMUData::getAccZ(void) {
+	double IMUData::getAccZ(void) const {
 		return acceleration[2];
 	}
-	double IMUData::getAngX(void) {
+	double IMUData::getAngX(void) const {
 		return angularRate[0];
 	}
-	double IMUData::getAngY(void) {
+	double IMUData::getAngY(void) const {
 		return angularRate[1];
 	}
-	double IMUData::getAngZ(void) {
+	double IMUData::getAngZ(void) const {
 		return angularRate[2];
 	}
 
-	int IMUData::getGPSWeek(void) {
+	int IMUData::getGPSWeek(void) const {
 		return GPSWeek;
 	}
-	double IMUData::getGPSTow(void) {
+	double IMUData::getGPSTow(void) const {
 		return GPSToW;
 	}
 

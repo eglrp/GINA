@@ -9,6 +9,23 @@ namespace IMUSimulator{
 	WGS84Ellipsoid::WGS84Ellipsoid(void) {
 		this->setWGS84Params();
 	}
+
+	WGS84Ellipsoid::WGS84Ellipsoid(const WGS84Ellipsoid &wgs84) {
+
+		this->llh[0] = wgs84.llh[0];
+		this->llh[1] = wgs84.llh[1];
+		this->llh[2] = wgs84.llh[2];
+
+		this->WIE_E = wgs84.WIE_E;
+		this->SM_AXIS = wgs84.SM_AXIS;
+		this->E_SQR = wgs84.E_SQR;
+		this->NORMAL_GRV = wgs84.NORMAL_GRV;
+		this->GRV_CONS = wgs84.GRV_CONS;
+		this->FLATTENING = wgs84.FLATTENING;
+		this->M_FAKTOR = wgs84.M_FAKTOR;
+
+	}
+
 	WGS84Ellipsoid::WGS84Ellipsoid(double Coor[], CoordiateFrame Type) {
 
 		gpstk::Position LLH;
@@ -19,6 +36,22 @@ namespace IMUSimulator{
 		
 	}
 
+	WGS84Ellipsoid& WGS84Ellipsoid::operator=(const WGS84Ellipsoid& wgs84) {
+	
+		this->llh[0] = wgs84.llh[0];
+		this->llh[1] = wgs84.llh[1];
+		this->llh[2] = wgs84.llh[2];
+
+		this->WIE_E = wgs84.WIE_E;
+		this->SM_AXIS = wgs84.SM_AXIS;
+		this->E_SQR = wgs84.E_SQR;
+		this->NORMAL_GRV = wgs84.NORMAL_GRV;
+		this->GRV_CONS = wgs84.GRV_CONS;
+		this->FLATTENING = wgs84.FLATTENING;
+		this->M_FAKTOR = wgs84.M_FAKTOR;
+
+		return *this;
+	}
 
 	void WGS84Ellipsoid::setWGS84Params(void) {
 		gpstk::WGS84Ellipsoid wgs84;

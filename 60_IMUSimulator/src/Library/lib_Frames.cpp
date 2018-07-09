@@ -9,7 +9,7 @@ namespace IMUSimulator {
 	namespace Lib {
 
 
-		Eigen::Vector3d transform_ecef2llh(Eigen::Vector3d& ecef) {
+		Eigen::Vector3d transform_ecef2llh(const Eigen::Vector3d& ecef) {
 			// llh output is in DEG
 			Eigen::Vector3d llh;
 
@@ -21,14 +21,21 @@ namespace IMUSimulator {
 										&wgs84,
 										gpstk::ReferenceFrame::WGS84);
 
-			llh[0] = Coordinates.geodeticLatitude();
-			llh[1] = Coordinates.longitude();
-			llh[2] = Coordinates.height();
+			llh <<	Coordinates.geodeticLatitude(),
+					Coordinates.longitude(),
+					Coordinates.height();
 
 			return llh;
 		}
 
-		void transform_ecef2llh(double& x, double& y, double& z, double& lat, double& lon, double& height) {
+		Eigen::Vector3d transform_ecef2llh(const double ecef[3]) {
+			// llh output is in DEG
+			Eigen::Vector3d ecef_vec;
+			ecef_vec << ecef[0], ecef[1], ecef[2];
+			return transform_ecef2llh(ecef_vec);
+		}
+
+		void transform_ecef2llh(const double& x, const double& y, const double& z, double& lat, double& lon, double& height) {
 
 			Eigen::Vector3d ecef;
 			Eigen::Vector3d llh;
@@ -41,7 +48,7 @@ namespace IMUSimulator {
 			height = llh[2];
 		}
 
-		Eigen::Vector3d transform_llh2ecef(Eigen::Vector3d& llh) {
+		Eigen::Vector3d transform_llh2ecef(const Eigen::Vector3d& llh) {
 
 			// lat long in degree
 			Eigen::Vector3d ecef;
@@ -63,7 +70,7 @@ namespace IMUSimulator {
 			return ecef;
 		}
 
-		void transform_llh2ecef(double& lat, double& lon, double& height, double& x, double& y, double& z) {
+		void transform_llh2ecef(const double& lat, const double& lon, const double& height, double& x, double& y, double& z) {
 			
 			Eigen::Vector3d ecef;
 			Eigen::Vector3d llh;
@@ -76,7 +83,7 @@ namespace IMUSimulator {
 			z = ecef[2];
 		}
 
-		Eigen::Matrix3d pos2Cne(double& lat, double& lon) {
+		Eigen::Matrix3d pos2Cne(const double& lat, const double& lon) {
 
 			// given lat and lon computes ned to e dcm
 			// lat long in rad
@@ -95,7 +102,7 @@ namespace IMUSimulator {
 			return Cne;
 		}
 
-		Eigen::Matrix3d skew(Eigen::Vector3d& v) {
+		Eigen::Matrix3d skew(const Eigen::Vector3d& v) {
 			Eigen::Matrix3d m;
 			m <<	0,		-v[2],	 v[1],
 					v[2],	 0,		-v[0],
@@ -103,7 +110,7 @@ namespace IMUSimulator {
 			return m;
 		}
 
-		Eigen::Vector3d dcm2euler(Eigen::Matrix3d dcm) {
+		Eigen::Vector3d dcm2euler(const Eigen::Matrix3d dcm) {
 
 			Eigen::Vector3d eul;
 			double pitch = std::asin(-dcm(2, 0));						// pitch is assumed to be[-pi pi].singular at pi.use ad - hoc methods to remedy this deficiency
@@ -115,7 +122,7 @@ namespace IMUSimulator {
 			return eul;
 		}
 
-		Eigen::Matrix3d euler2dcm(Eigen::Vector3d eul) {
+		Eigen::Matrix3d euler2dcm(const Eigen::Vector3d eul) {
 				
 			//eul defined in "n": rotate "n" to obtain "b"
 			//result : Cbn(from b to n)
@@ -139,5 +146,15 @@ namespace IMUSimulator {
 
 			return dcm;
 		}
+
+
+		Eigen::Matrix3d euler2dcm(const double attitude[3]) {
+
+			Eigen::Vector3d eul_vec;
+			eul_vec << attitude[0], attitude[1], attitude[2];
+			return euler2dcm(eul_vec);
+		}
+
 	}
+
 }

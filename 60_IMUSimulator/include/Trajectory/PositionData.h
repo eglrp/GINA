@@ -30,15 +30,15 @@ namespace IMUSimulator {
 		PositionData& operator=(Position_IMU&);
 		Position_IMU& operator=(PositionData&);
 		
-		virtual double getECEF_X(void);
-		virtual double getECEF_Y(void);
-		virtual double getECEF_Z(void);
-		virtual double getRoll(void);
-		virtual double getPitch(void);
-		virtual double getYaw(void);
+		virtual double getECEF_X(void) const;
+		virtual double getECEF_Y(void) const;
+		virtual double getECEF_Z(void) const;
+		virtual double getRoll(void) const;
+		virtual double getPitch(void) const;
+		virtual double getYaw(void) const;
 
-		virtual int getGPSWeek(void);
-		virtual double getGPSTow(void);
+		virtual int getGPSWeek(void) const;
+		virtual double getGPSTow(void) const;
 
 
 

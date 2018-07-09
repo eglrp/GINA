@@ -9,7 +9,7 @@ void IMUGeneratorForTrajectory(std::string trajFileNamewPath, std::string imuFil
 	unsigned int startWeek = 1992;
 	unsigned int endWeek = 1992;
 
-	Eigen::Vector3d ab, wb, Vb, ab_comp, wb_comp, Vb_comp, rollpitchyaw, ecef, llh;
+	Eigen::Vector3d ab, wb, Vb, rollpitchyaw, ecef, llh;
 
 	ab << 0.0, 0.0, 0;
 	wb << 0, 0, 0.05;

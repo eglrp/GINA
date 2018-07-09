@@ -82,29 +82,29 @@ namespace IMUSimulator {
 		return new_node;
 	}
 
-	double PositionData::getECEF_X(void) {
+	double PositionData::getECEF_X(void) const {
 		return ecef[0];
 	}
-	double PositionData::getECEF_Y(void) {
+	double PositionData::getECEF_Y(void) const {
 		return ecef[1];
 	}
-	double PositionData::getECEF_Z(void) {
+	double PositionData::getECEF_Z(void) const {
 		return ecef[2];
 	}
-	double PositionData::getRoll(void) {
+	double PositionData::getRoll(void) const {
 		return attitude[0];
 	}
-	double PositionData::getPitch(void) {
+	double PositionData::getPitch(void) const {
 		return attitude[1];
 	}
-	double PositionData::getYaw(void) {
+	double PositionData::getYaw(void) const {
 		return attitude[2];
 	}
 
-	int PositionData::getGPSWeek(void) {
+	int PositionData::getGPSWeek(void) const {
 		return GPSWeek;
 	}
-	double PositionData::getGPSTow(void) {
+	double PositionData::getGPSTow(void) const {
 		return GPSToW;
 	}
 

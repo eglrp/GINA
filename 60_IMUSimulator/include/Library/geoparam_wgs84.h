@@ -35,6 +35,9 @@ namespace IMUSimulator {
 			/*Constructors*/
 			WGS84Ellipsoid(void);
 			WGS84Ellipsoid(double[], CoordiateFrame);
+			WGS84Ellipsoid::WGS84Ellipsoid(const WGS84Ellipsoid&);
+
+			WGS84Ellipsoid& operator=(const WGS84Ellipsoid& wgs84);
 
 			// LLH in degree ECEF in m
 			void setCoordinates(double[], CoordiateFrame);

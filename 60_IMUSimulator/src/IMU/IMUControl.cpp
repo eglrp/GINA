@@ -6,10 +6,14 @@ namespace IMUSimulator {
 
 	IMUControlCommand::IMUControlCommand(void) {
 
-		Eigen::Vector3d null;
-		null << 0, 0, 0;
-		this->a_contol = null;
-		this->w_control = null;
+	
+		this->a_contol[0] = 0;
+		this->a_contol[1] = 0;
+		this->a_contol[2] = 0;
+		this->w_control[0] = 0;
+		this->w_control[1] = 0;
+		this->w_control[2] = 0;
+
 		this->startWeek = 0;
 		this->endWeek = 0;
 		this->startGPSToW = 0;
@@ -17,7 +21,26 @@ namespace IMUSimulator {
 		this->dt = 0;
 	};
 
-	IMUControlCommand::IMUControlCommand(	Eigen::Vector3d a_contol,
+	IMUControlCommand::IMUControlCommand(const GINASimulator::IMUControlData& data) {
+
+		this->a_contol[0] = data.acceleration[0];
+		this->a_contol[1] = data.acceleration[1];
+		this->a_contol[2] = data.acceleration[2];
+
+		this->w_control[0] = data.angularRate[0];
+		this->w_control[1] = data.angularRate[1];
+		this->w_control[2] = data.angularRate[2];
+
+		this->startWeek = data.getStartGPSWeek();
+		this->startGPSToW = data.getStartGPSToW();
+		this->endWeek = data.getEndGPSWeek();
+		this->endGPSToW = data.getEndGPSToW();
+
+		this->dt = data.getTimeStep();
+
+	}
+
+	/*IMUControlCommand::IMUControlCommand(	Eigen::Vector3d a_contol,
 											Eigen::Vector3d w_control,
 											unsigned int startWeek,
 											double startGPSToW,
@@ -25,8 +48,12 @@ namespace IMUSimulator {
 											double endGPSToW,
 											double dt) {
 	
-		this->a_contol = a_contol;
-		this->w_control = w_control;
+		this->a_contol[0] = a_contol[0];
+		this->a_contol[1] = a_contol[1];
+		this->a_contol[2] = a_contol[2];
+		this->w_control[0] = w_control[0];
+		this->w_control[1] = w_control[1];
+		this->w_control[2] = w_control[2];
 		this->startWeek = startWeek;
 		this->endWeek = endWeek;
 		this->startGPSToW = startGPSToW;
@@ -35,6 +62,30 @@ namespace IMUSimulator {
 
 		checkValidity();
 		
+	};*/
+
+	IMUControlCommand::IMUControlCommand(	double a_contol[3],
+											double w_control[3],
+											unsigned int startWeek,
+											double startGPSToW,
+											unsigned int endWeek,
+											double endGPSToW,
+											double dt) {
+
+		this->a_contol[0] = a_contol[0];
+		this->a_contol[1] = a_contol[1];
+		this->a_contol[2] = a_contol[2];
+		this->w_control[0] = w_control[0];
+		this->w_control[1] = w_control[1];
+		this->w_control[2] = w_control[2];
+		this->startWeek = startWeek;
+		this->endWeek = endWeek;
+		this->startGPSToW = startGPSToW;
+		this->endGPSToW = endGPSToW;
+		this->dt = dt;
+
+		checkValidity();
+
 	};
 
 	unsigned char IMUControlCommand::checkValidity(void) {
@@ -78,54 +129,56 @@ namespace IMUSimulator {
 		return new_node;
 	}
 
-	double IMUControlCommand::getAccX(void) {
+	double IMUControlCommand::getAccX(void) const {
 		return a_contol[0];
 	}
-	double IMUControlCommand::getAccY(void) {
+	double IMUControlCommand::getAccY(void) const {
 		return a_contol[1];
 	}
-	double IMUControlCommand::getAccZ(void) {
+	double IMUControlCommand::getAccZ(void) const {
 		return a_contol[2];
 	}
-	double IMUControlCommand::getAngX(void) {
+	double IMUControlCommand::getAngX(void) const {
 		return w_control[0];
 	}
-	double IMUControlCommand::getAngY(void) {
+	double IMUControlCommand::getAngY(void) const {
 		return w_control[1];
 	}
-	double IMUControlCommand::getAngZ(void) {
+	double IMUControlCommand::getAngZ(void) const {
 		return w_control[2];
 	}
 	
-	int IMUControlCommand::getStartGPSWeek(void) {
+	int IMUControlCommand::getStartGPSWeek(void) const {
 		return startWeek;
 	}
-	double IMUControlCommand::getStartGPSTow(void) {
+	double IMUControlCommand::getStartGPSTow(void) const {
 		return startGPSToW;
 	}
 
-	int IMUControlCommand::getEndGPSWeek(void) {
+	int IMUControlCommand::getEndGPSWeek(void) const {
 		return endWeek;
 	}
-	double IMUControlCommand::getEndGPSTow(void) {
+	double IMUControlCommand::getEndGPSTow(void) const {
 		return endGPSToW;
 	}
 
-	double IMUControlCommand::getTimeStep(void) {
+	double IMUControlCommand::getTimeStep(void) const {
 		return dt;
 	}
 
 	IMUControl::IMUControl(void) { 
 
-		Eigen::Vector3d startVelocity_body;
-		startVelocity_body << 0, 0, 0;
+		double startVelocity_body[3];
+		startVelocity_body[0] = 0; 
+		startVelocity_body[1] = 0;
+		startVelocity_body[2] = 0;
 		setIMUControl(	0, 0, 0, 0, 0, 0, startVelocity_body);
 	
 	};
 
 	IMUControl::IMUControl(	double lat, double lon, double height,
 							double roll, double pitch, double yaw,
-							Eigen::Vector3d startVelocity_body) {
+							double startVelocity_body[3]) {
 	
 		setIMUControl(	lat, lon, height,
 						roll, pitch, yaw,
@@ -135,16 +188,18 @@ namespace IMUSimulator {
 
 	unsigned char IMUControl::setIMUControl(double lat, double lon, double height,
 											double roll, double pitch, double yaw,
-											Eigen::Vector3d startVelocity_body) {
+											double startVelocity_body[3]) {
 	
-		Eigen::Vector3d rollpitchyaw, llh, ecef;
+		Eigen::Vector3d rollpitchyaw, llh, ecef, Vb;
 
 		llh << lat, lon, height;
 		rollpitchyaw << roll, pitch, yaw;
+		Vb << startVelocity_body[0], startVelocity_body[1], startVelocity_body[2];
 		ecef = IMUSimulator::Lib::transform_llh2ecef(llh);
 
 		IMUSimulator::IMUSignalGenerator imuGenerator;
-		IMUSimulator::strapdown_ecef str_e(rollpitchyaw, startVelocity_body, ecef);
+
+		IMUSimulator::strapdown_ecef str_e(rollpitchyaw, Vb, ecef);
 
 		this->imuGenerator = imuGenerator;
 		this->str_e = str_e;
@@ -152,7 +207,7 @@ namespace IMUSimulator {
 		return true;
 	}
 
-	unsigned char IMUControl::setCommand(IMUControlCommand imuContrCommand) {
+	unsigned char IMUControl::setCommand(const IMUControlCommand imuContrCommand) {
 	
 		setCommand(	imuContrCommand.startWeek, imuContrCommand.startGPSToW,
 					imuContrCommand.endWeek, imuContrCommand.endGPSToW,
@@ -163,11 +218,11 @@ namespace IMUSimulator {
 		return true;
 	}
 
-	unsigned char IMUControl::setCommand(unsigned int startWeek, double startGPSToW,
-											unsigned int endWeek, double endGPSToW,
-											double dt,
-											Eigen::Vector3d a_contol, 
-											Eigen::Vector3d w_control) {
+	unsigned char IMUControl::setCommand(	const unsigned int startWeek, const double startGPSToW,
+											const unsigned int endWeek, const double endGPSToW,
+											const double dt,
+											const double a_control[3],
+											const double w_control[3]) {
 	
 		isfinished			= false;
 		firstStep			= true;
@@ -176,8 +231,13 @@ namespace IMUSimulator {
 		this->endWeek		= endWeek;
 		this->endGPSToW		= endGPSToW;
 		this->dt			= dt;
-		this->a_contol		= a_contol;
-		this->w_control		= w_control;
+		this->a_control[0] = a_control[0]; 
+		this->a_control[1] = a_control[1];
+		this->a_control[2] = a_control[2];
+
+		this->w_control[0] = w_control[0];
+		this->w_control[1] = w_control[1];
+		this->w_control[2] = w_control[2];
 
 		return true;
 	}
@@ -196,7 +256,7 @@ namespace IMUSimulator {
 
 			generatetrajectory(	imuGenerator, str_e,
 								posData, meas,
-								a_contol, w_control,
+								a_control, w_control,
 								WN, time,
 								dt);
 
@@ -225,7 +285,7 @@ namespace IMUSimulator {
 
 		generatetrajectory(	imuGenerator, str_e,
 							posData, meas,
-							a_contol, w_control,
+							a_control, w_control,
 							WN, time,
 							dt);
 
@@ -239,7 +299,7 @@ namespace IMUSimulator {
 		return rtnv;
 	}
 
-	bool IMUControl::getPositionData(PositionData& outData) {
+	bool IMUControl::getPositionData(PositionData& outData) const {
 	
 		outData.attitude[0] = this->posData.attitude[0];
 		outData.attitude[1] = this->posData.attitude[1];
@@ -255,7 +315,7 @@ namespace IMUSimulator {
 		return true;
 	}
 
-	Measure_IMU IMUControl::getMeasurement(void) {
+	Measure_IMU IMUControl::getMeasurement(void) const {
 	
 		return this->meas;
 	}
@@ -264,8 +324,8 @@ namespace IMUSimulator {
 										IMUSimulator::strapdown_ecef& str_e,
 										IMUSimulator::PositionData& posData,
 										IMUSimulator::Measure_IMU& meas,
-										Eigen::Vector3d ab,
-										Eigen::Vector3d wb,
+										double ab[3],
+										double wb[3],
 										unsigned int gpsWeek,
 										double gpsToW,
 										double timeIncrement) {
@@ -337,6 +397,8 @@ namespace IMUSimulator {
 		else if (startWN > endWN) {
 			throw("Error! End week is the same as start week.");
 		}
+
+		return true;
 	}
 
 	unsigned char IMUControl::breakCondition(void) {

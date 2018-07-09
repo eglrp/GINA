@@ -32,15 +32,15 @@ namespace IMUSimulator {
 		IMUData& operator=(Measure_IMU&);
 		Measure_IMU& IMUData::operator=(IMUData&);
 
-		double getAccX(void);
-		double getAccY(void);
-		double getAccZ(void);
-		double getAngX(void);
-		double getAngY(void);
-		double getAngZ(void);
+		double getAccX(void) const;
+		double getAccY(void) const;
+		double getAccZ(void) const;
+		double getAngX(void) const;
+		double getAngY(void) const;
+		double getAngZ(void) const;
 
-		int getGPSWeek(void);
-		double getGPSTow(void);
+		int getGPSWeek(void) const;
+		double getGPSTow(void) const;
 
 	private:
 

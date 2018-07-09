@@ -86,6 +86,28 @@ namespace IMUSimulator {
 		this->setParams(attitude, Ve_new, ecef_new);
 
 	}
+	strapdown_ecef::strapdown_ecef(double attitude[3], double Vb[3], double ecef_new[3]) {
+	
+		Eigen::Matrix3d Cbn = IMUSimulator::Lib::euler2dcm(attitude);
+
+		Eigen::Vector3d llh_new = transform_ecef2llh_DEG(ecef_new) * EIGEN_PI / 180.0;
+		Eigen::Matrix3d Cne = pos2Cne_RAD(llh_new[0], llh_new[1]);
+
+		Eigen::Matrix3d Cbe = Cne * Cbn;
+
+		Eigen::Vector3d Vb_vector(Vb[0], Vb[1], Vb[2]);
+		Eigen::Vector3d Ve_new = Cbe*Vb_vector;
+
+		double Ve[3];
+
+		Ve[0] = Ve_new(0);
+		Ve[1] = Ve_new(1);
+		Ve[2] = Ve_new(2);
+
+		/*Set new params*/
+		this->setParams(attitude, Ve, ecef_new);
+	
+	}
 
 	/*Update step*/
 	void strapdown_ecef::update(Eigen::Vector3d& attitude, Eigen::Vector3d& Ve, Eigen::Vector3d& ecef, Eigen::Vector3d& ab, Eigen::Vector3d& wb, double dt) {
@@ -178,19 +200,31 @@ namespace IMUSimulator {
 		//this->Cbe = Cbe;
 		this->Ve = Ve;
 
-		this->ecef[0] = ecef_new[0];
-		this->ecef[1] = ecef_new[1];
-		this->ecef[2] = ecef_new[2];
+		this->ecef(0) = ecef_new(0);
+		this->ecef(1) = ecef_new(1);
+		this->ecef(2) = ecef_new(2);
 		rollpitchyaw = attitude;
 		//this->Cne = this->pos2Cne(ecef);
 		//this->llh = this->transform_ecef2llh(ecef_new );
 	}
 
-	const Eigen::Vector3d strapdown_ecef::getLLH_in_DEG(void){
+	void strapdown_ecef::setParams(double attitude[3], double Ve[3], double ecef_new[3]) {
+		Eigen::Vector3d rollpitchyaw, V_ecef, ecef;
+
+		rollpitchyaw << attitude[0], attitude[1], attitude[2];
+
+		V_ecef << Ve[0], Ve[1], Ve[2];
+
+		ecef << ecef_new[0], ecef_new[1], ecef_new[2];
+
+		setParams(rollpitchyaw, V_ecef, ecef);
+	}
+
+	Eigen::Vector3d strapdown_ecef::getLLH_in_DEG(void) const{
 		return transform_ecef2llh_DEG(this->ecef);
 	}
 
-	Eigen::Vector3d strapdown_ecef::getVbody(void) {
+	Eigen::Vector3d strapdown_ecef::getVbody(void) const {
 	
 		Eigen::Matrix3d Cbn = IMUSimulator::Lib::euler2dcm(this->rollpitchyaw);
 
@@ -200,7 +234,7 @@ namespace IMUSimulator {
 		return Cbe.transpose() * Ve;
 	}
 
-	Eigen::Vector3d strapdown_ecef::getLocalAngle(void) {
+	Eigen::Vector3d strapdown_ecef::getLocalAngle(void) const {
 	
 		return rollpitchyaw;
 	}
@@ -210,9 +244,9 @@ namespace IMUSimulator {
 		// llh in DEG
 
 		double llh_array_deg[3];
-		llh_array_deg[0] = llh_deg[0];
-		llh_array_deg[1] = llh_deg[1];
-		llh_array_deg[2] = llh_deg[2];
+		llh_array_deg[0] = llh_deg(0);
+		llh_array_deg[1] = llh_deg(1);
+		llh_array_deg[2] = llh_deg(2);
 
 		this->wgs84.setCoordinates(llh_array_deg, IMUSimulator::CoordiateFrame::LLH_Frame);
 		this->wgs84.get_Gravity_and_WIE_E(this->g, this->wie_e);
@@ -280,44 +314,49 @@ namespace IMUSimulator {
 	}
 
 	/*Utility methods*/
-	Eigen::Matrix3d strapdown_ecef::pos2Cne_RAD(double& lat, double& lon) {
+	Eigen::Matrix3d strapdown_ecef::pos2Cne_RAD(const double& lat, const double& lon)  const {
 		// lat long in rad
 		return IMUSimulator::Lib::pos2Cne(lat, lon);
 	}
 
-	Eigen::Matrix3d strapdown_ecef::pos2Cne_RAD(Eigen::Vector3d& llh) {
+	Eigen::Matrix3d strapdown_ecef::pos2Cne_RAD(const Eigen::Vector3d& llh)  const {
 		// lat long in rad
 		return IMUSimulator::Lib::pos2Cne(llh(0), llh(1));
 	}
 
-	Eigen::Matrix3d strapdown_ecef::pos2Cne_ECEF(Eigen::Vector3d& ecef) {
+	Eigen::Matrix3d strapdown_ecef::pos2Cne_ECEF(const Eigen::Vector3d& ecef)  const {
 		// lat long shall be in rad
 		Eigen::Vector3d llh = this->transform_ecef2llh_DEG(this->ecef)*EIGEN_PI/180.0;
 		return IMUSimulator::Lib::pos2Cne(llh(0), llh(1));
 	}
 
-	Eigen::Vector3d strapdown_ecef::transform_ecef2llh_DEG(Eigen::Vector3d& ecef) {
+	Eigen::Vector3d strapdown_ecef::transform_ecef2llh_DEG(const Eigen::Vector3d& ecef) const {
 
 		return IMUSimulator::Lib::transform_ecef2llh(ecef);
 	}
 
-	Eigen::Vector3d strapdown_ecef::transform_ecef2llh_RAD(Eigen::Vector3d& ecef) {
+	Eigen::Vector3d strapdown_ecef::transform_ecef2llh_DEG(const double ecef[3]) const {
+
+		return IMUSimulator::Lib::transform_ecef2llh(ecef);
+	}
+
+	Eigen::Vector3d strapdown_ecef::transform_ecef2llh_RAD(const Eigen::Vector3d& ecef)  const {
 
 		return IMUSimulator::Lib::transform_ecef2llh(ecef) *EIGEN_PI / 180;
 	}
 
-	Eigen::Matrix3d strapdown_ecef::skew(Eigen::Vector3d& v) {
+	Eigen::Matrix3d strapdown_ecef::skew(const Eigen::Vector3d& v) const {
 	
 		return IMUSimulator::Lib::skew(v);
 	}
 
 	
-	Eigen::Matrix3d strapdown_ecef::getCbe(void) {
+	Eigen::Matrix3d strapdown_ecef::getCbe(void) const {
 
 		return calculateCbe(rollpitchyaw, ecef);
 	}
 
-	Eigen::Matrix3d strapdown_ecef::calculateCbe(Eigen::Vector3d attitude, Eigen::Vector3d ecef_in) {
+	Eigen::Matrix3d strapdown_ecef::calculateCbe(const Eigen::Vector3d attitude, const Eigen::Vector3d ecef_in) const {
 
 		// TODO it can be done simpler
 		Eigen::Matrix3d Cbn = IMUSimulator::Lib::euler2dcm(attitude);

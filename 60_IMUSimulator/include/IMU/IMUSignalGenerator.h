@@ -22,6 +22,7 @@ namespace IMUSimulator {
 			IMUSignalGenerator(void);
 			void addError(void);
 			Measure_IMU calculate(Eigen::Vector3d, Eigen::Vector3d, Eigen::Vector3d, Eigen::Vector3d, Eigen::Vector3d);
+			Measure_IMU IMUSignalGenerator::calculate(double[3], double[3], Eigen::Vector3d, Eigen::Vector3d, Eigen::Vector3d);
 
 		private:
 
