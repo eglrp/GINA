@@ -70,7 +70,7 @@ void IMUCommandForTrajectory(std::string trajFileNamewPath, std::string imuFileN
 		while (imuControl.runStep()) {
 
 			imuControl.getPositionData(posData);
-			meas = imuControl.getMeasurement();
+			imuControl.getMeasurement(meas);
 
 			trajFileOut << convert2GINAcompatible(posData);
 			imuFileOut << convert2GINAcompatible(meas);

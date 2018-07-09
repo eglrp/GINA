@@ -320,6 +320,22 @@ namespace IMUSimulator {
 		return this->meas;
 	}
 
+	bool IMUControl::getMeasurement(Measure_IMU& meas) const {
+
+		meas.a[0] = this->meas.a[0];
+		meas.a[1] = this->meas.a[1];
+		meas.a[2] = this->meas.a[2];
+
+		meas.w[0] = this->meas.w[0];
+		meas.w[1] = this->meas.w[1];
+		meas.w[2] = this->meas.w[2];
+
+		meas.tow = this->meas.tow;
+		meas.wn = this->meas.wn;
+
+		return true;
+	}
+
 	void IMUControl::generatetrajectory(IMUSimulator::IMUSignalGenerator& imuGenerator,
 										IMUSimulator::strapdown_ecef& str_e,
 										IMUSimulator::PositionData& posData,
