@@ -386,6 +386,10 @@ namespace IMUSimulator {
 
 	unsigned char IMUControl::errorCheck(void) {
 	
+		if (dt == 0) {
+			cout << "Error. TimeStep is Zero." << endl;
+			throw("Error. TimeStep is Zero.");
+		}
 		if (startWN == endWN) {
 			if (startTime > endTime) {
 				throw("Error! End time is less than start time.");

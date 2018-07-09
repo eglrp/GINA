@@ -54,38 +54,39 @@ void IMUCommandForTrajectory(std::string trajFileNamewPath, std::string imuFileN
 	imuFileOut << imuHeader;
 
 	IMUSimulator::IMUControl  imuControl;
-	//IMUSimulator::IMUControlCommand imuCommand( ab,	wb, startTimeinGPSTime.week, startTimeinGPSTime.sow, endTimeinGPSTime.week, endTimeinGPSTime.sow, 0);
-
+	
 	imuControl.setIMUControl(	imuControlHeader.startPosition.getGeodeticLatitude(), 
 								imuControlHeader.startPosition.getLongitude(), 
 								imuControlHeader.startPosition.getHeight(),
 								rollpitchyaw(0), rollpitchyaw(1), rollpitchyaw(2),
 								imuControlHeader.startVelocity);
 
-		/*Usage of runAll() method*/
-		/*imuControl.runAll();
-
-		imuControl.getPositionData(posData);
 		
-		meas = imuControl.getMeasurement();
-
-		trajFileOut << convert2GINAcompatible(posData);
-		imuFileOut << convert2GINAcompatible(meas);*/
 		
-		imuControlFileIn >> imuControlData;
-		//imuCommand = imuControlData;
+	while (imuControlFileIn >> imuControlData) {
 		IMUSimulator::IMUControlCommand imuCommand(imuControlData);
 		imuControl.setCommand(imuCommand);
 
 		while (imuControl.runStep()) {
-		
+
 			imuControl.getPositionData(posData);
 			meas = imuControl.getMeasurement();
 
 			trajFileOut << convert2GINAcompatible(posData);
 			imuFileOut << convert2GINAcompatible(meas);
 		}
-		
+
+	}
+		/*Usage of runAll() method*/
+		/*imuControl.runAll();
+
+		imuControl.getPositionData(posData);
+
+		meas = imuControl.getMeasurement();
+
+		trajFileOut << convert2GINAcompatible(posData);
+		imuFileOut << convert2GINAcompatible(meas);*/
+
 	trajFileOut.close();
 	imuFileOut.close();
 	imuControlFileIn.close();

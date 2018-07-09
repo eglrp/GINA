@@ -88,6 +88,8 @@ namespace IMUSimulator {
 
 		bool getPositionData(PositionData&) const;
 
+		// PositionData& IMUControl::getPositionData(void) const; TODO: This cannot be done bc during the return the copy constoructure of the PositionData will be called and the usable one already occupied by Position_IMU& operator=(PositionData&); I cannot define PositionData& operator=(PositionData&); bc if it only differs by the return type it is not enough.
+
 		Measure_IMU getMeasurement(void) const;
 
 	private:
