@@ -8,7 +8,7 @@ namespace GINASimulator
 
 	const string IMUControlData::startofDataTag = "START OF DATA";
 
-	IMUControlData& IMUControlData::operator=(I_IMUControlData& data) {
+	IMUControlData& IMUControlData::operator=(const I_IMUControlData& data) {
 
 		this->timeSys = gpstk::TimeSystem::Systems::GPS;
 
@@ -187,7 +187,7 @@ namespace GINASimulator
 		return !this->compare(other);
 	}
 
-	IMUControlData& IMUControlData::operator=(IMUControlData& newData) {
+	IMUControlData& IMUControlData::operator=(const IMUControlData& newData) {
 
 		this->acceleration[0] = newData.acceleration[0];
 		this->acceleration[1] = newData.acceleration[1];
@@ -200,27 +200,27 @@ namespace GINASimulator
 		return *this;
 	}
 
-	double IMUControlData::getStartGPSWeek(void) {
+	double IMUControlData::getStartGPSWeek(void) const {
 		gpstk::GPSWeekSecond GPSTime(startTime);
 		return GPSTime.getWeek();
 	}
 
-	double IMUControlData::getStartGPSToW(void) {
+	double IMUControlData::getStartGPSToW(void) const {
 		gpstk::GPSWeekSecond GPSTime(startTime);
 		return GPSTime.getSOW();
 	}
 
-	double IMUControlData::getEndGPSWeek(void) {
+	double IMUControlData::getEndGPSWeek(void) const {
 		gpstk::GPSWeekSecond GPSTime(endTime);
 		return GPSTime.getWeek();
 	}
 
-	double IMUControlData::getEndGPSToW(void) {
+	double IMUControlData::getEndGPSToW(void) const {
 		gpstk::GPSWeekSecond GPSTime(endTime);
 		return GPSTime.getSOW();
 	}
 
-	double IMUControlData::getTimeStep(void) {
+	double IMUControlData::getTimeStep(void) const {
 		return timeStep;
 	}
 

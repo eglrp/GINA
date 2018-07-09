@@ -64,7 +64,7 @@ namespace GINASimulator
 		bool operator==(const IMUControlData& ) const;
 		bool operator!=(const IMUControlData& ) const;
 		
-		IMUControlData& operator=(IMUControlData&);
+		IMUControlData& operator=(const IMUControlData&);
 
 		gpstk::Position::CoordinateSystem coorSys = gpstk::Position::CoordinateSystem::Unknown;
 		gpstk::TimeSystem timeSys = gpstk::TimeSystem::Systems::Unknown;
@@ -77,16 +77,16 @@ namespace GINASimulator
 		double acceleration[3];
 		double angularRate[3];
 		
-		double getStartGPSWeek(void);
-		double getStartGPSToW(void);
+		double getStartGPSWeek(void) const;
+		double getStartGPSToW(void) const;
 
-		double getEndGPSWeek(void);
-		double getEndGPSToW(void);
+		double getEndGPSWeek(void) const;
+		double getEndGPSToW(void) const;
 
-		double getTimeStep(void);
+		double getTimeStep(void) const;
 
 		static const string IMUControlData::startofDataTag;
-		IMUControlData& operator=(I_IMUControlData&);
+		IMUControlData& operator=(const I_IMUControlData&);
 		
 	private:
 		IMUControlStream* strm;

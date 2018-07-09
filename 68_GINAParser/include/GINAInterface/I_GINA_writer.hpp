@@ -4,49 +4,49 @@ namespace GINASimulator {
 	class I_IMUControlData {
 
 	public:
-		virtual double getAccX(void) = 0;
-		virtual double getAccY(void) = 0;
-		virtual double getAccZ(void) = 0;
-		virtual double getAngX(void) = 0;
-		virtual double getAngY(void) = 0;
-		virtual double getAngZ(void) = 0;
+		virtual double getAccX(void) const = 0;
+		virtual double getAccY(void) const = 0;
+		virtual double getAccZ(void) const = 0;
+		virtual double getAngX(void) const = 0;
+		virtual double getAngY(void) const = 0;
+		virtual double getAngZ(void) const = 0;
 
-		virtual int getStartGPSWeek(void) = 0;
-		virtual double getStartGPSTow(void) = 0;
-		virtual int getEndGPSWeek(void) = 0;
-		virtual double getEndGPSTow(void) = 0;
+		virtual int getStartGPSWeek(void) const = 0;
+		virtual double getStartGPSTow(void) const = 0;
+		virtual int getEndGPSWeek(void) const = 0;
+		virtual double getEndGPSTow(void) const = 0;
 
-		virtual double getTimeStep(void) = 0;
+		virtual double getTimeStep(void) const = 0;
 
 	};
 
 	class I_IMUData {
 
 	public:
-		virtual double getAccX(void) = 0;
-		virtual double getAccY(void) = 0;
-		virtual double getAccZ(void) = 0;
-		virtual double getAngX(void) = 0;
-		virtual double getAngY(void) = 0;
-		virtual double getAngZ(void) = 0;
+		virtual double getAccX(void) const = 0;
+		virtual double getAccY(void) const = 0;
+		virtual double getAccZ(void) const = 0;
+		virtual double getAngX(void) const = 0;
+		virtual double getAngY(void) const = 0;
+		virtual double getAngZ(void) const = 0;
 
-		virtual int getGPSWeek(void) = 0;
-		virtual double getGPSTow(void) = 0;
+		virtual int getGPSWeek(void) const = 0;
+		virtual double getGPSTow(void) const = 0;
 
 	};
 
 	class I_TrajectoryData {
 
 	public:
-		virtual double getECEF_X(void) = 0;
-		virtual double getECEF_Y(void) = 0;
-		virtual double getECEF_Z(void) = 0;
-		virtual double getRoll(void) = 0;
-		virtual double getPitch(void) = 0;
-		virtual double getYaw(void) = 0;
+		virtual double getECEF_X(void) const = 0;
+		virtual double getECEF_Y(void) const = 0;
+		virtual double getECEF_Z(void) const = 0;
+		virtual double getRoll(void) const = 0;
+		virtual double getPitch(void) const = 0;
+		virtual double getYaw(void) const = 0;
 
-		virtual int getGPSWeek(void) = 0;
-		virtual double getGPSTow(void) = 0;
+		virtual int getGPSWeek(void) const = 0;
+		virtual double getGPSTow(void) const = 0;
 
 	};
 
