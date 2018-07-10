@@ -4,7 +4,7 @@
 #include "RinexNavData.hpp"
 #include "TrajectoryStore.hpp"
 
-#include "Test_Trajectory_Class.hpp"
+#include "test_Trajectory_Class.hpp"
 
 using namespace gpstk::StringUtils;
 using namespace std;

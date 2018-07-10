@@ -7,8 +7,6 @@
 
 int PseudoRangeCalculator_test1(void);
 int PseudoRangeCalculator_test2(void);
-int PseudoRangeCalculator_test3(void);
-int PseudoRangeCalculator_test4(void);
 int PseudoRangeCalculator_test5(void);
 
 /* Test 6 Solution deviance ~4.5 cm in best cases. Error Iteration method is not finalized.
