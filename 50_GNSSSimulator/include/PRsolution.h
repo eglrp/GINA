@@ -1,15 +1,35 @@
 #pragma once
 
+#include "trajectoryReader.h"
+#include "CoordinateFrameHandler.h"
+
 #include "TrajectoryStore.hpp"
-#include "satDataContainer.h"
+
+#include "trajectoryReader.h"
+#include "CoordinateFrameHandler.h"
+
+#include <stdio.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+
+#include "Rinex3ObsData.hpp"
+#include "Rinex3NavData.hpp"
+#include "RinexSatID.hpp"
+#include "GPSEphemerisStore.hpp"
+#include "Xvt.hpp"
+#include "GPSWeek.hpp"
+#include "GPSWeekZcount.hpp"
+#include "GPSWeekSecond.hpp"
 
 #include "Rinex3ObsStream.hpp"
 #include "Rinex3ObsHeader.hpp"
 
 #include <math.h>
 
-namespace gnsssimulator {
+using namespace gpstk;
 
+namespace gnsssimulator {
 
 class PRsolution {
 

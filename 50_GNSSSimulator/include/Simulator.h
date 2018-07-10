@@ -9,7 +9,6 @@
 
 //Own includes
 #include "trajectoryReader.h"
-#include "satDataContainer.h"
 #include "TrajectoryBase.hpp"
 #include "TrajectoryData.hpp"
 #include "TrajectoryHeader.hpp"

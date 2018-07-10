@@ -9,12 +9,9 @@
 #include "Rinex3ObsStream.hpp"
 #include "TimeString.hpp"
 
-
 //using namespace gnsssimulator;
 using namespace gpstk;
 using namespace std;
-
-
 
 class gnsssim_utils {
 
@@ -41,5 +38,4 @@ private:
 	//TODO: Apply value with prepareRienxObsFile()
 	//Rinex3ObsStream outStream;
 
-	
 };
