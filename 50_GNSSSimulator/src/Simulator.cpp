@@ -6,7 +6,6 @@
 #include "Simulator.h"
 #include "Navigation_examples.h"
 #include "Test_Trajectory_Class.hpp"
-#include "Test_simulatePseudoRange.hpp"
 #include "test_PseudoRangeCalculator.h"
 
 #include GINA_PARSER_TrajectoryData_hpp

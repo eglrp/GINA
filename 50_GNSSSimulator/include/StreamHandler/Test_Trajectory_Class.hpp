@@ -1,8 +1,5 @@
 #pragma once
 
-void Test_Trajectory_1(void);
-void Test_Trajectory_2(void);
-void Test_Trajectory_3(void);
 void Test_Trajectory_4(void);
 void Test_Trajectory_5(void);
 void Test_Trajectory_6(void);
