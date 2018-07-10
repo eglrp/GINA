@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "PRsolution.h"
 
 gnsssimulator::PRsolution::PRsolution()

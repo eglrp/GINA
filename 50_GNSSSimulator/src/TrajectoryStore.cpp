@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "TrajectoryStore.hpp"
 
 namespace gnsssimulator {

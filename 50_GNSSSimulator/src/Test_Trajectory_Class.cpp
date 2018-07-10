@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "TrajectoryHeader.hpp"
 #include "TrajectoryData.hpp"
 #include "TrajectoryStream.hpp"

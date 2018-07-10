@@ -22,7 +22,6 @@
 //
 //============================================================================
 
-#include "stdafx.h"
 #include "Navigation_examples.h"
 
 #include "RinexNavBase.hpp"

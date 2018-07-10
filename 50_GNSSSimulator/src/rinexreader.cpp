@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "rinexreader.h"
 
 RinexReader::RinexReader()

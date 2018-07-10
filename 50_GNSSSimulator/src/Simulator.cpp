@@ -3,7 +3,6 @@
 
 #include "GINAConfig.h"
 
-#include "stdafx.h"
 #include "Simulator.h"
 #include "Navigation_examples.h"
 #include "Test_Trajectory_Class.hpp"
@@ -36,7 +35,7 @@ std::default_random_engine generator(time(0));
 std::normal_distribution<double> dist(0.0, 0.01);		// Needs an initial non-NULL value, else throws an exception, we can set a proper value later in the program.
 
 
-int _tmain(int argc, _TCHAR* argv[]) {
+int main(int argc, char* argv[]) {
 
 	PseudoRangeCalculator_test7();
 	return 0;

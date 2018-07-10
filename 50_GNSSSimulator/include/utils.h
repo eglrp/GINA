@@ -1,6 +1,5 @@
 #pragma once
 
-#include "stdafx.h"
 #include <iostream>
 #include "SystemTime.hpp"
 #include "Rinex3NavHeader.hpp"
