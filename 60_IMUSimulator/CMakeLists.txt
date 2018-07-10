@@ -14,13 +14,10 @@ foreach( _headerFile ${IMU_CORE_INC_FILES} )
     list( APPEND IMU_CORE_INC_DIRS ${_dir} )
 endforeach()
 
-
-
 list( REMOVE_DUPLICATES IMU_CORE_INC_DIRS )
 
 # Add every directory containing a header file
 # to the project(IMUSimulator) include_directories
-
 
 # define src and include files needed to build library target
 set( IMU_SRC_FILES "" )
@@ -38,20 +35,17 @@ target_link_libraries (IMUSimulator 	PUBLIC gpstk
 										
 target_include_directories(IMUSimulator PUBLIC ${IMU_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${EIGEN_CORE_INC_DIRS} ${GNSSSIM_INCLUDE_DIRS} ${GINAPARSER_CORE_INC_DIRS} )
 
-
 # add the executable
 add_executable(IMUSimulatorProject ${IMU_SRC_FILES} ${IMU_INC_FILES})
 target_link_libraries (IMUSimulatorProject 	PUBLIC gpstk 
 											PUBLIC GINAParser)
 target_include_directories(IMUSimulatorProject PUBLIC ${IMU_CORE_INC_DIRS} ${GPSTK_CORE_INC_DIRS} ${EIGEN_CORE_INC_DIRS} ${GNSSSIM_INCLUDE_DIRS} ${GINAPARSER_CORE_INC_DIRS} )
 						
-
 # Create VS Filters	
 set( IMU_All_FILES "" )	
 list( APPEND IMU_All_FILES ${IMU_SRC_FILES})
 list( APPEND IMU_All_FILES ${IMU_INC_FILES})					
 assign_source_group(${IMU_All_FILES})
-
 
 if(IMUSimulator_Tests)
 	add_subdirectory(tests)
