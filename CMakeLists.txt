@@ -29,13 +29,13 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 # to the source code
 configure_file (
   "${PROJECT_SOURCE_DIR}/GINAConfig.h.in"
-  "${PROJECT_SOURCE_DIR}/GINAConfig.h"
+  "${PROJECT_SOURCE_DIR}/99_CMake/GINAConfig.h"
   )
 
 # add the binary tree to the search path for include files
 # so that we will find GINAConfig.h
 include_directories ("${PROJECT_BINARY_DIR}")
-include_directories ("${CMAKE_CURRENT_SOURCE_DIR}")
+include_directories ("${CMAKE_CURRENT_SOURCE_DIR}/99_CMake")
 
 #################
 # Math Packages #
