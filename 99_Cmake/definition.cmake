@@ -1,5 +1,4 @@
 
-
 # Function to set the filter in visual studio
 function(assign_source_group)
     foreach(_source IN ITEMS ${ARGN})
