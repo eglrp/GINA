@@ -1,7 +1,5 @@
 #pragma once
 
-#include "CoordinateFrameHandler.h"
-
 #include "TrajectoryStore.hpp"
 
 #include <stdio.h>
