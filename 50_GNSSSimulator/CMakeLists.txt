@@ -1,5 +1,5 @@
-file(GLOB GNSSSIM_SRC "src/*.cpp")
-file(GLOB GNSSSIM_INCL "include/*.h" "include/*.hpp")
+file(GLOB_RECURSE GNSSSIM_SRC "src/*.cpp")
+file(GLOB_RECURSE GNSSSIM_INCL "include/*.h" "include/*.hpp")
 
 
 

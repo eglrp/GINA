@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "trajectoryReader.h"
 
 // TODO: Remove this class
