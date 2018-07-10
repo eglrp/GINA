@@ -14,7 +14,7 @@ using namespace gnsssimulator;
 
 void makeSimplePseudoRange(void) {
 
-	string ephFilewPath = "..\\Simulator\\RinexFiles\\brdc1810.17n";
+	string ephFilewPath = ROOT "\\50_GNSSSimulator\\RinexFiles\\brdc1810.17n";
 	Rinex3NavStream rnffs(ephFilewPath.c_str());    // Open ephemerides data file
 
 	rnffs.open(ephFilewPath.c_str(), ios::in);

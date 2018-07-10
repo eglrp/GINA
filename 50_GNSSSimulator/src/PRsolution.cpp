@@ -29,8 +29,8 @@ void gnsssimulator::PRsolution::createRinexFile(void)
 {
 	gpstk::Rinex3ObsHeader ref_head;
 	gpstk::Rinex3ObsData ref_data;
-	gpstk::Rinex3ObsStream ref_stream_in("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\50_GNSSSimulator\\RinexFiles\\obe40740.18o");
-	gpstk::Rinex3ObsStream out_stream("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\50_GNSSSimulator\\results\\inputTrajectory\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\generatedRINEX_0740.18o",std::ios::out);
+	gpstk::Rinex3ObsStream ref_stream_in(ROOT "\\50_GNSSSimulator\\RinexFiles\\obe40740.18o");
+	gpstk::Rinex3ObsStream out_stream(ROOT "\\50_GNSSSimulator\\results\\inputTrajectory\\GINA_Project_GNSSSimulator___BoschBP___Circle_WN2005___ToW199795_deltaT_150s\\generatedRINEX_0740.18o",std::ios::out);
 	
 	ref_stream_in >> ref_head;
 

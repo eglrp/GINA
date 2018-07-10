@@ -17,10 +17,33 @@ function(assign_source_group)
     endforeach()
 endfunction(assign_source_group)
 
+function(change_slash2backslash varName)
+	if (WIN32)
+		STRING(REGEX REPLACE "/" "\\\\"  ${varName} ${${varName}}) 
+		SET(${varName} ${${varName}} PARENT_SCOPE)
+	endif()
+endfunction(change_slash2backslash)
+
+function(change_slash2double_backslash varName)
+	if (WIN32)
+		STRING(REGEX REPLACE "/" "\\\\\\\\"  ${varName} ${${varName}}) 
+		SET(${varName} ${${varName}} PARENT_SCOPE)
+	endif()
+endfunction(change_slash2double_backslash)
+
 # The version number.
 set (Tutorial_VERSION_MAJOR 1)
 set (Tutorial_VERSION_MINOR 0)
 
+# Set directory definitions in the GINAConfig.h
+set (ROOT_SRC_DIR "${CMAKE_SOURCE_DIR}")
+change_slash2double_backslash(ROOT_SRC_DIR)
+set (GINA_PARSER_TrajectoryData "${CMAKE_SOURCE_DIR}/68_GINAParser/include/TrajectoryParser/TrajectoryData.hpp")
+change_slash2backslash(GINA_PARSER_TrajectoryData)
+set (GINA_PARSER_TrajectoryStream "${CMAKE_SOURCE_DIR}/68_GINAParser/include/TrajectoryParser/TrajectoryStream.hpp") 
+change_slash2backslash(GINA_PARSER_TrajectoryStream)
+set (GINA_PARSER_IMUData "${CMAKE_SOURCE_DIR}/68_GINAParser/include/IMUParser/IMUData.hpp")
+change_slash2backslash(GINA_PARSER_IMUData)
 
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
@@ -30,12 +53,13 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 # to the source code
 configure_file (
   "${PROJECT_SOURCE_DIR}/GINAConfig.h.in"
-  "${PROJECT_BINARY_DIR}/GINAConfig.h"
+  "${PROJECT_SOURCE_DIR}/GINAConfig.h"
   )
 
 # add the binary tree to the search path for include files
-# so that we will find TutorialConfig.h
+# so that we will find GINAConfig.h
 include_directories ("${PROJECT_BINARY_DIR}")
+include_directories ("${CMAKE_CURRENT_SOURCE_DIR}")
 
 #################
 # Math Packages #

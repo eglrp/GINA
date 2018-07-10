@@ -12,8 +12,8 @@ using namespace std;
 
 void Test_Trajectory_1(void) {
 
-	gnsssimulator::TrajectoryStream trajFileIn("C:\\Users\\LUS2BP\\Source\\Repos\\GNSSSimulator\\Simulator\\TrajectoryTestFiles\\Test1_TrajectoryFileExample.txt");
-	gnsssimulator::TrajectoryStream trajFileOut("C:\\Users\\LUS2BP\\Source\\Repos\\GNSSSimulator\\Simulator\\TrajectoryTestFiles\\Test1_TrajectoryFileExample_Out.txt", std::ios::out);
+	gnsssimulator::TrajectoryStream trajFileIn(ROOT"\\50_GNSSSimulator\\Simulator\\TrajectoryTestFiles\\Test1_TrajectoryFileExample.txt");
+	gnsssimulator::TrajectoryStream trajFileOut(ROOT "\\50_GNSSSimulator\\Simulator\\TrajectoryTestFiles\\Test1_TrajectoryFileExample_Out.txt", std::ios::out);
 	gnsssimulator::TrajectoryHeader trajHeader;
 	
 	trajFileIn >> trajHeader;
@@ -25,8 +25,8 @@ void Test_Trajectory_1(void) {
 
 void Test_Trajectory_2(void) {
 
-	gnsssimulator::TrajectoryStream trajFileIn("..\\Simulator\\TrajectoryTestFiles\\Test2_TrajectoryFileExample.txt");
-	gnsssimulator::TrajectoryStream trajFileOut("..\\Simulator\\TrajectoryTestFiles\\Test2_TrajectoryFileExample_Out.txt", std::ios::out);
+	gnsssimulator::TrajectoryStream trajFileIn(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\Test2_TrajectoryFileExample.txt");
+	gnsssimulator::TrajectoryStream trajFileOut(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\Test2_TrajectoryFileExample_Out.txt", std::ios::out);
 	gnsssimulator::TrajectoryHeader trajHeader;
 	gnsssimulator::TrajectoryData trajData;
 
@@ -42,8 +42,8 @@ void Test_Trajectory_2(void) {
 
 	void Test_Trajectory_3(void) {
 
-		gnsssimulator::TrajectoryStream trajFileIn("..\\Simulator\\TrajectoryTestFiles\\Test3_TrajectoryFileExample.txt");
-		gnsssimulator::TrajectoryStream trajFileOut("..\\Simulator\\TrajectoryTestFiles\\Test3_TrajectoryFileExample_Out.txt", std::ios::out);
+		gnsssimulator::TrajectoryStream trajFileIn(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\Test3_TrajectoryFileExample.txt");
+		gnsssimulator::TrajectoryStream trajFileOut(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\Test3_TrajectoryFileExample_Out.txt", std::ios::out);
 		gnsssimulator::TrajectoryHeader trajHeader;
 		gnsssimulator::TrajectoryData trajData;
 		gnsssimulator::TrajectoryData testPos;

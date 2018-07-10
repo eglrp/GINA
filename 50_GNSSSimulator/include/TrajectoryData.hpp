@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GINAConfig.h"
 
 #include <list>
 
@@ -10,7 +11,7 @@
 #include "TrajectoryBase.hpp"
 #include "TrajectoryStream.hpp"
 #include "Position.hpp"
-#include "..\68_GINAParser\include\TrajectoryParser\TrajectoryData.hpp"
+#include GINA_PARSER_TrajectoryData_hpp
 
 namespace gnsssimulator
 {

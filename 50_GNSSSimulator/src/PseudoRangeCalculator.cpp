@@ -13,7 +13,7 @@ PseudoRangeCalculator::~PseudoRangeCalculator()
 
 void PseudoRangeCalculator::ProcessTrajectoryFile(const char* fileNamewPath) {
 
-	GINAParser::TrajectoryStream trajFileIn(fileNamewPath); //("..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
+	GINAParser::TrajectoryStream trajFileIn(fileNamewPath); //(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
 	GINAParser::TrajectoryHeader trajHeader;
 	GINAParser::TrajectoryData trajData;
 	TrajectoryData trajDataCompatible;

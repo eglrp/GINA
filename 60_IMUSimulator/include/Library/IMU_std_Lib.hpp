@@ -1,5 +1,5 @@
 #pragma once
-
+#include "GINAConfig.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -22,7 +22,7 @@
 #include "IMUStore.h"
 #include "IMUData.h"
 
-#include "..\68_GINAParser\include\TrajectoryParser\TrajectoryData.hpp"
+#include GINA_PARSER_TrajectoryData_hpp
 
 // GINAParser
 #include "IMUBase.hpp"

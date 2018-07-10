@@ -1,6 +1,8 @@
 // Simulator.cpp : Defines the entry point for the console application.
 //
 
+#include "GINAConfig.h"
+
 #include "stdafx.h"
 #include "Simulator.h"
 #include "Navigation_examples.h"
@@ -8,9 +10,9 @@
 #include "Test_simulatePseudoRange.hpp"
 #include "test_PseudoRangeCalculator.h"
 
-#include "..\68_GINAParser\include\TrajectoryParser\TrajectoryData.hpp"
-#include "..\68_GINAParser\include\TrajectoryParser\TrajectoryStream.hpp"
-#include "..\68_GINAParser\include\IMUParser\IMUData.hpp"
+#include GINA_PARSER_TrajectoryData_hpp
+#include GINA_PARSER_TrajectoryStream_hpp
+#include GINA_PARSER_IMUData_hpp
 
 const int ProcessRinex = 1;
 const int ProcessTrajectory = 1;
@@ -52,7 +54,7 @@ bool Test_ReProcess_Solution_Rinex(void)			// TODO: Move to util source
 	satDataContainer satDataCont_Test;
 	SatID satid;
 	double pr;
-	stream.open("..\\Simulator\\TrajectoryTestFiles\\generatedRINEX.11o", ios::in);
+	stream.open((ROOT + string("\\50_GNSSSimulator\\TrajectoryTestFiles\\generatedRINEX.11o")).c_str(), ios::in);
 
 	if (!stream.is_open())
 		!test_success;

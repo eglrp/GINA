@@ -1,4 +1,5 @@
 #include "utils.h"
+#include "GINAConfig.h"
 
 gnsssim_utils::gnsssim_utils()
 {
@@ -15,8 +16,8 @@ void gnsssim_utils::createRinexObsFile()
 
 	gpstk::Rinex3ObsHeader ref_head;
 	gpstk::Rinex3ObsData ref_data;
-	gpstk::Rinex3ObsStream ref_stream_in("..\\..\\GNSSSimulator\\TrajectoryTestFiles\\input_referenceobs_mobs2530.17o");
-	gpstk::Rinex3ObsStream out_stream("..\\..\\GNSSSimulator\\TrajectoryTestFiles\\output_createdRinexObs.17o", std::ios::out);
+	gpstk::Rinex3ObsStream ref_stream_in(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\input_referenceobs_mobs2530.17o");
+	gpstk::Rinex3ObsStream out_stream(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\output_createdRinexObs.17o", std::ios::out);
 
 	ref_stream_in >> ref_head;
 

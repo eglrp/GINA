@@ -1,3 +1,6 @@
+
+#include "GINAConfig.h"
+
 #include "stdafx.h"
 #include "test_PseudoRangeCalculator.h"
 #include <string>
@@ -10,7 +13,7 @@ using namespace std;
 int PseudoRangeCalculator_test1(void) {
 	int returnValue = true;
 
-	string trajFileNamewPath = "..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt";
+	string trajFileNamewPath = ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt";
 
 	PseudoRangeCalculator psdRangeCalc;
 	psdRangeCalc.ProcessTrajectoryFile(trajFileNamewPath.c_str());
@@ -21,8 +24,8 @@ int PseudoRangeCalculator_test1(void) {
 int PseudoRangeCalculator_test2(void) {
 	int returnValue = true;
 
-	string trajFileNamewPath = "..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt";
-	string navFileNamewPath("..\\SimulatorTest\\TestFiles\\RINEX_nav\\mobs2530.17n");
+	string trajFileNamewPath = ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt";
+	string navFileNamewPath(ROOT "\\50_GNSSSimulator\\TestFiles\\RINEX_nav\\mobs2530.17n");
 
 	PseudoRangeCalculator psdRangeCalc;
 	psdRangeCalc.ProcessTrajectoryFile(trajFileNamewPath.c_str());
@@ -34,8 +37,8 @@ int PseudoRangeCalculator_test2(void) {
 int PseudoRangeCalculator_test3(void) {
 	int returnValue = true;
 
-	string trajFileNamewPath = "..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt";
-	string navFileNamewPath("..\\SimulatorTest\\TestFiles\\RINEX_nav\\brdc2530.17n");
+	string trajFileNamewPath = ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt";
+	string navFileNamewPath(ROOT "\\50_GNSSSimulator\\TestFiles\\RINEX_nav\\brdc2530.17n");
 
 	PseudoRangeCalculator psdRangeCalc;
 	psdRangeCalc.ProcessTrajectoryFile(trajFileNamewPath.c_str());
@@ -43,7 +46,7 @@ int PseudoRangeCalculator_test3(void) {
 
 
 
-	TrajectoryStream trajFileIn(trajFileNamewPath.c_str()); //("..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
+	TrajectoryStream trajFileIn(trajFileNamewPath.c_str()); //(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
 	TrajectoryHeader trajHeader;
 	TrajectoryData trajData;
 	TrajectoryStore test_trajStore;
@@ -87,8 +90,8 @@ int PseudoRangeCalculator_test3(void) {
 int PseudoRangeCalculator_test4(void) {
 	int returnValue = true;
 
-	string trajFileNamewPath = "..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt";
-	string navFileNamewPath("..\\SimulatorTest\\TestFiles\\RINEX_nav\\brdc2530.17n");
+	string trajFileNamewPath = ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt";
+	string navFileNamewPath(ROOT "\\50_GNSSSimulator\\TestFiles\\RINEX_nav\\brdc2530.17n");
 
 	PseudoRangeCalculator psdRangeCalc;
 	psdRangeCalc.ProcessTrajectoryFile(trajFileNamewPath.c_str());
@@ -96,7 +99,7 @@ int PseudoRangeCalculator_test4(void) {
 
 
 
-	TrajectoryStream trajFileIn(trajFileNamewPath.c_str()); //("..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
+	TrajectoryStream trajFileIn(trajFileNamewPath.c_str()); //(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
 	TrajectoryHeader trajHeader;
 	TrajectoryData trajData;
 	TrajectoryStore test_trajStore;
@@ -147,7 +150,7 @@ int PseudoRangeCalculator_test4(void) {
 		}
 	}
 	
-	ofstream ostrm("..\\Simulator\\TrajectoryTestFiles\\output_RaimSolution_test.txt", std::ios::out);	//Output file
+	ofstream ostrm(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\output_RaimSolution_test.txt", std::ios::out);	//Output file
 
 	PRSolution2 RaimSolver;
 	RaimSolver.NSatsReject = 0;
@@ -187,8 +190,8 @@ int PseudoRangeCalculator_test4(void) {
 int PseudoRangeCalculator_test5(void) {
 	int returnValue = true;
 
-	string trajFileNamewPath = "..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt";
-	string navFileNamewPath("..\\SimulatorTest\\TestFiles\\RINEX_nav\\brdc2530.17n");
+	string trajFileNamewPath = ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt";
+	string navFileNamewPath(ROOT "\\50_GNSSSimulator\\TestFiles\\RINEX_nav\\brdc2530.17n");
 
 	PseudoRangeCalculator psdRangeCalc;
 	psdRangeCalc.ProcessTrajectoryFile(trajFileNamewPath.c_str());
@@ -277,12 +280,12 @@ int PseudoRangeCalculator_test5(void) {
 int PseudoRangeCalculator_test6(void) {
 	int returnValue = true;
 
-	string trajFileNamewPath = "..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_long.txt";
-	//string navFileNamewPath("..\\SimulatorTest\\TestFiles\\RINEX_nav\\brdc2530.17n");
-	string navFileNamewPath("..\\SimulatorTest\\TestFiles\\RINEX_nav\\brdc3130.17n");//cssim traj
+	string trajFileNamewPath = ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_long.txt";
+	//string navFileNamewPath( ROOT "\\50_GNSSSimulator\\TestFiles\\RINEX_nav\\brdc2530.17n");
+	string navFileNamewPath(ROOT "\\50_GNSSSimulator\\TestFiles\\RINEX_nav\\brdc3130.17n");//cssim traj
 
-	ofstream ostrm("..\\Simulator\\TrajectoryTestFiles\\output_RaimSolution_test.txt", std::ios::out);	//Output file
-	ofstream ostrm_sattraj("..\\Simulator\\TrajectoryTestFiles\\output_satTrajectory.txt", std::ios::out);
+	ofstream ostrm(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\output_RaimSolution_test.txt", std::ios::out);	//Output file
+	ofstream ostrm_sattraj(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\output_satTrajectory.txt", std::ios::out);
 
 	PseudoRangeCalculator psdRangeCalc;
 	psdRangeCalc.ProcessTrajectoryFile(trajFileNamewPath.c_str());
@@ -290,7 +293,7 @@ int PseudoRangeCalculator_test6(void) {
 
 
 
-	TrajectoryStream trajFileIn(trajFileNamewPath.c_str()); //("..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
+	TrajectoryStream trajFileIn(trajFileNamewPath.c_str()); //(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
 	TrajectoryHeader trajHeader;
 	TrajectoryData trajData;
 	TrajectoryStore test_trajStore;
@@ -393,20 +396,20 @@ int PseudoRangeCalculator_test7(void) {
 
 	gnsssim_utils gnsssimUtils;
 
-	string trajFileNamewPath = "C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\50_GNSSSimulator\\results\\new_traj.gina";
-	string referenceObsFilewPath = "C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\50_GNSSSimulator\\results\\new.18o";
+	string trajFileNamewPath = ROOT "\\50_GNSSSimulator\\results\\new_traj.gina";
+	string referenceObsFilewPath = ROOT "\\50_GNSSSimulator\\results\\new.18o";
 	
-	string navFileNamewPath("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\50_GNSSSimulator\\RinexFiles\\brdc0740.18n");//CSsim traj
+	string navFileNamewPath(ROOT "\\50_GNSSSimulator\\RinexFiles\\brdc0740.18n");//CSsim traj
 
-	ofstream ostrm("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\50_GNSSSimulator\\results\\new_Solution.txt", std::ios::out);	//Output file
-	ofstream ostrm_sattraj("C:\\Users\\LUS2BP\\Source\\Repos\\GINA\\50_GNSSSimulator\\results\\new_satTrajectory.txt", std::ios::out);
+	ofstream ostrm(ROOT "\\50_GNSSSimulator\\results\\new_Solution.txt", std::ios::out);	//Output file
+	ofstream ostrm_sattraj(ROOT "\\50_GNSSSimulator\\results\\new_satTrajectory.txt", std::ios::out);
 
 	PseudoRangeCalculator psdRangeCalc;
 	psdRangeCalc.ProcessTrajectoryFile(trajFileNamewPath.c_str());
 	psdRangeCalc.ProcessEphemerisFile(navFileNamewPath.c_str());
 
 
-	GINAParser::TrajectoryStream trajFileInGINA(trajFileNamewPath.c_str(), std::ios::in); //("..\\Simulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
+	GINAParser::TrajectoryStream trajFileInGINA(trajFileNamewPath.c_str(), std::ios::in); //(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
 	TrajectoryStream trajFileInTest;
 	TrajectoryStream trajFileIn(trajFileNamewPath.c_str());
 	GINAParser::TrajectoryHeader trajHeader;
