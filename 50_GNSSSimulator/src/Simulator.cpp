@@ -50,7 +50,7 @@ int GNSSSimulator_Process(void) {
 	string trajFileNamewPath = ROOT "\\50_GNSSSimulator\\results\\new_traj.gina";
 	string referenceObsFilewPath = ROOT "\\50_GNSSSimulator\\results\\new.18o";
 
-	string navFileNamewPath(ROOT "\\50_GNSSSimulator\\RinexFiles\\brdc0740.18n");//CSsim traj
+	string navFileNamewPath(ROOT "\\50_GNSSSimulator\\RinexFiles\\brdc0740.18n");
 
 	ofstream ostrm(ROOT "\\50_GNSSSimulator\\results\\new_Solution.txt", std::ios::out);	//Output file
 	ofstream ostrm_sattraj(ROOT "\\50_GNSSSimulator\\results\\new_satTrajectory.txt", std::ios::out);
