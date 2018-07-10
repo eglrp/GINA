@@ -62,16 +62,3 @@
 #include "GPSEphemerisStore.hpp"
 #include "GPSEphemeris.hpp"
 #include "PRSolution2.hpp"
-
-
-class Simulator
-{
-public:
-
-protected:
-
-	
-private:
-	//bool Test_ReProcess_Solution_Rinex(void);
-	
-};
