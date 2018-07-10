@@ -8,7 +8,6 @@
 #include <ctime>
 
 //Own includes
-#include "trajectoryReader.h"
 #include "TrajectoryBase.hpp"
 #include "TrajectoryData.hpp"
 #include "TrajectoryHeader.hpp"

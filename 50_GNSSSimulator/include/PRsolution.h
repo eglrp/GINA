@@ -1,12 +1,8 @@
 #pragma once
 
-#include "trajectoryReader.h"
 #include "CoordinateFrameHandler.h"
 
 #include "TrajectoryStore.hpp"
-
-#include "trajectoryReader.h"
-#include "CoordinateFrameHandler.h"
 
 #include <stdio.h>
 #include <iostream>
