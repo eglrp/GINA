@@ -61,8 +61,6 @@ int GNSSSimulator_Process(void) {
 
 
 	GINAParser::TrajectoryStream trajFileInGINA(trajFileNamewPath.c_str(), std::ios::in); //(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\TrajectoryFileExample_RinexMatch_rinexcoord_only1.txt");
-	TrajectoryStream trajFileInTest;
-	TrajectoryStream trajFileIn(trajFileNamewPath.c_str());
 	GINAParser::TrajectoryHeader trajHeader;
 	GINAParser::TrajectoryData trajDataGINA;
 	TrajectoryData trajData;

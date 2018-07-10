@@ -1,6 +1,6 @@
-#include "TrajectoryHeader.hpp"
+
 #include "TrajectoryData.hpp"
-#include "TrajectoryStream.hpp"
+
 #include "RinexNavData.hpp"
 #include "TrajectoryStore.hpp"
 
@@ -9,60 +9,6 @@
 using namespace gpstk::StringUtils;
 using namespace std;
 
-void Test_Trajectory_1(void) {
-
-	gnsssimulator::TrajectoryStream trajFileIn(ROOT"\\50_GNSSSimulator\\Simulator\\TrajectoryTestFiles\\Test1_TrajectoryFileExample.txt");
-	gnsssimulator::TrajectoryStream trajFileOut(ROOT "\\50_GNSSSimulator\\Simulator\\TrajectoryTestFiles\\Test1_TrajectoryFileExample_Out.txt", std::ios::out);
-	gnsssimulator::TrajectoryHeader trajHeader;
-	
-	trajFileIn >> trajHeader;
-	trajFileOut << trajHeader;
-
-	trajFileIn.close();
-	trajFileOut.close();
-}
-
-void Test_Trajectory_2(void) {
-
-	gnsssimulator::TrajectoryStream trajFileIn(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\Test2_TrajectoryFileExample.txt");
-	gnsssimulator::TrajectoryStream trajFileOut(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\Test2_TrajectoryFileExample_Out.txt", std::ios::out);
-	gnsssimulator::TrajectoryHeader trajHeader;
-	gnsssimulator::TrajectoryData trajData;
-
-	trajFileIn >> trajHeader;
-	trajFileOut << trajHeader;
-
-	cout << "Next epoch" << endl;
-	while (trajFileIn >> trajData) {
-		cout << endl << "Next epoch" << endl;
-		trajFileOut << trajData;
-	}
-}
-
-	void Test_Trajectory_3(void) {
-
-		gnsssimulator::TrajectoryStream trajFileIn(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\Test3_TrajectoryFileExample.txt");
-		gnsssimulator::TrajectoryStream trajFileOut(ROOT "\\50_GNSSSimulator\\TrajectoryTestFiles\\Test3_TrajectoryFileExample_Out.txt", std::ios::out);
-		gnsssimulator::TrajectoryHeader trajHeader;
-		gnsssimulator::TrajectoryData trajData;
-		gnsssimulator::TrajectoryData testPos;
-		trajFileIn >> trajHeader;
-		trajFileOut << trajHeader;
-
-		gnsssimulator::TrajectoryStore TrajStore;
-		cout << "Next epoch" << endl;
-		while (trajFileIn >> trajData) {
-			TrajStore.addPosition(trajData);
-			testPos = TrajStore.findPosition(trajData.gpsTime);
-			
-			cout << endl << "Next epoch" << endl;
-			trajFileOut << trajData;
-			cout << testPos;
-	}
-
-	trajFileIn.close();
-	trajFileOut.close();
-}
 
 	void Test_Trajectory_4(void) {
 	
