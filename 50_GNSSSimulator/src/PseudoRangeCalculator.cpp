@@ -266,15 +266,11 @@ bool PseudoRangeCalculator::calcPseudoRangeTrop(const CommonTime Tr, const SatID
 			return false;
 
 		psdrange += CalculateTropModelDelays(roverPos, tx, PVT, tropptr);
-		//psdrange += 200000.0;	//Pseudorange Bias
-
-		//cout << std::setprecision(20) << "travel time: " << (psdrange) / this->C_MPS << endl;
+		
 	}
-
 
 	psdrange = psdrange - C_MPS * (PVT.clkbias + PVT.relcorr);
 
-	//cout << endl << "next sat " << endl << endl;
 	return true;
 }
 
@@ -300,7 +296,6 @@ bool PseudoRangeCalculator::calcPseudoRangeTropIono(const CommonTime Tr, const S
 		psdrange = -1;
 		return false;
 	}
-
 
 	tx = Tr;
 	PVT = this->getSatXvt(roverPos, tx, satId);
