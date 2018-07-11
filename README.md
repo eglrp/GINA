@@ -1,3 +1,3 @@
-Global Integrated Navigation Algorithm
-GINA Project
+# Global Integrated Navigation Algorithm
+##GINA Project
 
